@@ -1,0 +1,73 @@
+{
+  "resources": {
+    "networks": [
+      {
+        "name": "internet"
+      },
+      {
+        "name": "private_lan"
+      },
+      {
+        "name": "eks_cluster"
+      }
+    ],
+    "users": [
+      {
+        "name": "tim",
+        "network": "private_lan",
+        "description": "Example internal user description"
+      },
+      {
+        "name": "user1",
+        "network": "internet",
+        "description": "Example user description"
+      }
+    ],
+    "databases": [
+      {
+        "name": "production",
+        "network": "private_lan",
+        "description": "Database that does a thing"
+      }
+    ],
+    "systems": [
+      {
+        "name":  "/",
+        "network": "eks_cluster",
+        "description": "Public facing endpoint for API"
+      },
+      {
+        "name":  "/api/users/get",
+        "network": "eks_cluster",
+        "description": "Endpoint to list all available users"
+      },
+      {
+        "name":  "/api/users/add",
+        "network": "eks_cluster",
+        "description": "Endpoint to add a user"
+      }
+    ],
+    "res_links": [
+      {
+        "source": "user1",
+        "destination": "/",
+        "description": "Managing team via UI"
+      },
+      {
+        "source": "tim",
+        "destination": "/api/users/add",
+        "description": "Posts adding users"
+      },
+      {
+        "source": "/api/users/add",
+        "destination": "production",
+        "description": "Adds user to database"
+      },
+      {
+        "source": "/",
+        "destination": "/api/users/add",
+        "description": "Adds user to database"
+      }
+    ]
+  }
+}
