@@ -1,0 +1,8 @@
+{
+  "user_owned_device": {
+    "name": "Non company device used",
+    "description": "Checks for users with company_user true and company_device false.",
+    "remediation": "Understand and remediate or document known exception.",
+    "severity": 3
+  }
+}
