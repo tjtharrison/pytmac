@@ -105,7 +105,7 @@ with open(
                             logging.info(
                                 "Setting " + config_setting + " on " + user["name"]
                             )
-                            output_json_report["databases"][user["name"]][
+                            output_json_report["users"][user["name"]][
                                 config_setting
                             ] = user["config"][config_setting]
                     except KeyError:
@@ -252,8 +252,16 @@ with open(
         output_file.write(
             'UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="3")' + "\n"
         )
-        output_file.write("```")
+        output_file.write("```\n")
 
         # Print final json
         final_report = json.dumps(output_json_report)
+
         output_json.write(final_report)
+
+        # Writing some auto threat modelling
+        output_file.write("| Resources | Finding |\n|-----|---------|\n")
+
+        for user in output_json_report["users"]:
+            if output_json_report["users"][user]["company_user"] and not output_json_report["users"][user]["company_device"]:
+                output_file.write("| " + user + " | Employee without a company device|\n")

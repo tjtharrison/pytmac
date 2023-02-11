@@ -18,8 +18,8 @@
     "authentication_required": true
   },
   "users": {
-    "company_user": false,
-    "company_device": false
+    "company_user": true,
+    "company_device": true
   },
   "systems": {},
   "containers": {}

@@ -30,17 +30,29 @@
       {
         "name": "dba",
         "network": "office_network",
-        "description": "Database Administrator"
+        "description": "Database Administrator",
+        "config": {
+          "company_user": true,
+          "company_device": false
+        }
       },
       {
         "name": "user1",
         "network": "internet",
-        "description": "Client 1"
+        "description": "Client 1",
+        "config": {
+          "company_user": false,
+          "company_device": false
+        }
       },
       {
         "name": "user2",
         "network": "internet",
-        "description": "Client 2"
+        "description": "Client 2",
+        "config": {
+          "company_user": false,
+          "company_device": false
+        }
       },
       {
         "name": "automation_user",
