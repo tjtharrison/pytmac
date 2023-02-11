@@ -164,6 +164,27 @@ with open(
             # Look for systems in network
             for system in resources["systems"]:
                 if system["network"] == network["name"]:
+
+
+                    output_json_report["systems"][system["name"]] = deepcopy(
+                        defaults_json["systems"]
+                    )
+                    # Look for override config for system
+                    try:
+                        override_system_config = system["config"]
+                        logging.info("Overrides set for " + system["name"])
+                        for config_setting in system["config"]:
+                            logging.info(
+                                "Setting " + config_setting + " on " + system["name"]
+                            )
+                            output_json_report["databases"][system["name"]][
+                                config_setting
+                            ] = system["config"][config_setting]
+                    except KeyError:
+                        # No overrides set, nothing to do
+                        logging.info("No overrides for " + system["name"])
+                        pass
+
                     output_file.write(
                         "\t\t"
                         + "System("
@@ -180,6 +201,26 @@ with open(
             # Look for containers in network
             for container in resources["containers"]:
                 if container["network"] == network["name"]:
+
+                    output_json_report["systems"][system["name"]] = deepcopy(
+                        defaults_json["systems"]
+                    )
+                    # Look for override config for system
+                    try:
+                        override_system_config = container["config"]
+                        logging.info("Overrides set for " + container["name"])
+                        for config_setting in container["config"]:
+                            logging.info(
+                                "Setting " + config_setting + " on " + container["name"]
+                            )
+                            output_json_report["containers"][container["name"]][
+                                config_setting
+                            ] = container["config"][config_setting]
+                    except KeyError:
+                        # No overrides set, nothing to do
+                        logging.info("No overrides for " + container["name"])
+                        pass
+
                     output_file.write(
                         "\t\t"
                         + "Container("
@@ -209,7 +250,7 @@ with open(
             )
             output_file.write("\n")
         output_file.write(
-            'UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="3")' + "\n"
+            'UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="3")' + "\n"
         )
         output_file.write("```")
 

@@ -17,6 +17,12 @@
         }
       },
       {
+        "name": "aws_db_subnet",
+        "config": {
+          "is_cloud": true
+        }
+      },
+      {
         "name": "office_network"
       }
     ],
@@ -45,8 +51,13 @@
     "databases": [
       {
         "name": "production",
-        "network": "aws_private_subnet",
+        "network": "aws_db_subnet",
         "description": "Production database"
+      },
+      {
+        "name": "production_replica",
+        "network": "aws_db_subnet",
+        "description": "Production database Rpl"
       }
     ],
     "systems": [
@@ -143,6 +154,11 @@
         "source": "/",
         "destination": "/api/users/delete",
         "description": "Deletes user from database"
+      },
+      {
+        "source": "production",
+        "destination": "production_replica",
+        "description": "Database replication"
       }
     ]
   }

@@ -20,5 +20,7 @@
   "users": {
     "company_user": false,
     "company_device": false
-  }
+  },
+  "systems": {},
+  "containers": {}
 }
