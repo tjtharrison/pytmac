@@ -1,0 +1,7 @@
+{
+  "networks": {
+    "has_wifi": false,
+    "is_cloud": false,
+    "is_public": false
+  }
+}

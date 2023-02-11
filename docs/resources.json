@@ -5,16 +5,19 @@
         "name": "internet"
       },
       {
-        "name": "private_lan"
+        "name": "office_network"
       },
       {
-        "name": "eks_cluster"
+        "name": "aws",
+        "config": {
+          "is_cloud": true
+        }
       }
     ],
     "users": [
       {
         "name": "tim",
-        "network": "private_lan",
+        "network": "office_network",
         "description": "Example internal user description"
       },
       {
@@ -26,24 +29,24 @@
     "databases": [
       {
         "name": "production",
-        "network": "private_lan",
+        "network": "office_network",
         "description": "Database that does a thing"
       }
     ],
     "systems": [
       {
         "name":  "/",
-        "network": "eks_cluster",
+        "network": "aws",
         "description": "Public facing endpoint for API"
       },
       {
         "name":  "/api/users/get",
-        "network": "eks_cluster",
+        "network": "aws",
         "description": "Endpoint to list all available users"
       },
       {
         "name":  "/api/users/add",
-        "network": "eks_cluster",
+        "network": "aws",
         "description": "Endpoint to add a user"
       }
     ],
