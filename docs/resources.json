@@ -5,61 +5,124 @@
         "name": "internet"
       },
       {
-        "name": "office_network"
-      },
-      {
-        "name": "aws",
+        "name": "aws_public_subnet",
         "config": {
           "is_cloud": true
         }
+      },
+      {
+        "name": "aws_private_subnet",
+        "config": {
+          "is_cloud": true
+        }
+      },
+      {
+        "name": "office_network"
       }
     ],
     "users": [
       {
-        "name": "tim",
+        "name": "dba",
         "network": "office_network",
-        "description": "Example internal user description"
+        "description": "Database Administrator"
       },
       {
         "name": "user1",
         "network": "internet",
-        "description": "Example user description"
+        "description": "Client 1"
+      },
+      {
+        "name": "user2",
+        "network": "internet",
+        "description": "Client 2"
+      },
+      {
+        "name": "automation_user",
+        "network": "internet",
+        "description": "Example automation user"
       }
     ],
     "databases": [
       {
         "name": "production",
-        "network": "office_network",
-        "description": "Database that does a thing"
+        "network": "aws_private_subnet",
+        "description": "Production database"
       }
     ],
     "systems": [
       {
-        "name":  "/",
-        "network": "aws",
+        "name": "vpn_server",
+        "network": "aws_private_subnet",
+        "description": "VPN Server"
+      }
+    ],
+    "containers": [
+      {
+        "name": "crm",
+        "network": "aws_public_subnet",
+        "description": "Public facing CRM for UI access"
+      },
+      {
+        "name": "/",
+        "network": "aws_public_subnet",
         "description": "Public facing endpoint for API"
       },
       {
-        "name":  "/api/users/get",
-        "network": "aws",
+        "name": "/api/users/get",
+        "network": "aws_private_subnet",
         "description": "Endpoint to list all available users"
       },
       {
-        "name":  "/api/users/add",
-        "network": "aws",
+        "name": "/api/users/add",
+        "network": "aws_private_subnet",
         "description": "Endpoint to add a user"
+      },
+      {
+        "name": "/api/users/delete",
+        "network": "aws_private_subnet",
+        "description": "Endpoint to delete a user"
       }
     ],
     "res_links": [
       {
         "source": "user1",
         "destination": "/",
+        "description": "API calls to manage team"
+      },
+      {
+        "source": "automation_user",
+        "destination": "/",
+        "description": "API calls to manage team"
+      },
+      {
+        "source": "user2",
+        "destination": "/",
+        "description": "API calls to manage team"
+      },
+      {
+        "source": "user1",
+        "destination": "crm",
         "description": "Managing team via UI"
       },
       {
-        "source": "tim",
-        "destination": "/api/users/add",
-        "description": "Posts adding users"
+        "source": "user2",
+        "destination": "crm",
+        "description": "Managing team via UI"
+      },
+      {
+        "source": "dba",
+        "destination": "vpn_server",
+        "description": "Connects to VPN to manage private resources"
+      },
+      {
+        "source": "vpn_server",
+        "destination": "production",
+        "description": "Database access over VPN"
+      },
+      {
+        "source": "user2",
+        "destination": "/",
+        "description": "Managing team via UI"
       },
       {
         "source": "/api/users/add",
@@ -67,9 +130,19 @@
         "description": "Adds user to database"
       },
       {
+        "source": "/api/users/delete",
+        "destination": "production",
+        "description": "Deletes user from"
+      },
+      {
         "source": "/",
         "destination": "/api/users/add",
         "description": "Adds user to database"
+      },
+      {
+        "source": "/",
+        "destination": "/api/users/delete",
+        "description": "Deletes user from database"
       }
     ]
   }
