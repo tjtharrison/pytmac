@@ -1,11 +1,17 @@
+"""
+Module used to initiate and collate security findings from the json report generated in the main
+document function.
+"""
 import json
 
 
 def main(output_json_report):
     """
-    Function to collect responses from required security scans and return to be written to the final report.
+    Function to collect responses from required security scans and return to be written to the final
+    report.
 
-    :param output_json_report: A json document containing all resources and configuration settings included in the final
+    :param output_json_report: A json document containing all resources and configuration settings
+    included in the final
     report.
     :return: List of insecure resources.
     """
@@ -24,7 +30,8 @@ def main(output_json_report):
 
 def do_check(output_json_report, check_details):
     """
-    Function that looks up a check type in security_checks.json and checks resources using a given function.
+    Function that looks up a check type in security_checks.json and checks resources using a given
+    function.
 
     Insecure resources are returned in the format:
 
@@ -45,7 +52,7 @@ def do_check(output_json_report, check_details):
     insecure_resources = []
 
     for resource in resources:
-        if eval(check_details["check_query"]):
+        if eval(check_details["check_query"]):  # pylint: disable=eval-used
             example_resource = {
                 "name": check_details["name"],
                 "resource": resource,

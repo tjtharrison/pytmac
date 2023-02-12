@@ -1,11 +1,12 @@
+"""
+Python based programatic threat modelling tool tmacs
+"""
 import json
 import logging
 from copy import deepcopy
 from datetime import date
 
 from bin import resource_validator
-
-date_today = str(date.today())
 
 # Configure logging
 # Setup json logging
@@ -23,30 +24,35 @@ logging.basicConfig(
 )
 
 # Load resources
-with open("docs/resources.json", "r") as resources_file:
+with open("docs/resources.json", "r", encoding="UTF-8") as resources_file:
     resources_json = json.loads(resources_file.read())
 
 # Load config
-with open("docs/config.json", "r") as config_file:
+with open("docs/config.json", "r", encoding="UTF-8") as config_file:
     config_json = json.loads(config_file.read())
 
 # Load defaults
-with open("docs/defaults.json", "r") as defaults_file:
+with open("docs/defaults.json", "r", encoding="UTF-8") as defaults_file:
     defaults_json = json.loads(defaults_file.read())
 
 resources = resources_json["resources"]
 
-output_file_dir = "reports"
-output_file_name = "report-" + str(date_today)
+OUTPUT_FILE_DIR = "reports"
+OUTPUT_FILE_NAME = "report-" + str(date.today())
 
 
 def main():
+    """
+    Main function used to open up provided config and resource files, generating DFD and output
+    report
+    :return: True
+    """
     with open(
-        output_file_dir + "/" + output_file_name + ".md", "w", encoding="UTF-8"
+        OUTPUT_FILE_DIR + "/" + OUTPUT_FILE_NAME + ".md", "w", encoding="UTF-8"
     ) as output_file:
         # Build out json report
         with open(
-            output_file_dir + "/" + output_file_name + ".json", "w", encoding="UTF-8"
+            OUTPUT_FILE_DIR + "/" + OUTPUT_FILE_NAME + ".json", "w", encoding="UTF-8"
         ) as output_json:
             # Start empty json for output report
             output_json_report = {}
@@ -77,8 +83,7 @@ def main():
 
                 # Look for override config for network
                 try:
-                    override_network_config = network["config"]
-                    logging.info("Overrides set for " + network["name"])
+                    logging.info("Overrides set for %s", network["name"])
                     for config_setting in network["config"]:
                         logging.info(
                             "Setting " + config_setting + " on " + network["name"]
@@ -87,9 +92,7 @@ def main():
                             config_setting
                         ] = network["config"][config_setting]
                 except KeyError:
-                    # No overrides set, nothing to do
-                    pass
-
+                    logging.info("No overrides set, nothing to do")
                 # Write network to mermaid
                 output_file.write(
                     "\t"
@@ -109,8 +112,7 @@ def main():
                         )
                         # Look for override config
                         try:
-                            override_user_config = user["config"]
-                            logging.info("Overrides set for " + user["name"])
+                            logging.info("Overrides set for %s", user["name"])
                             for config_setting in user["config"]:
                                 logging.info(
                                     "Setting " + config_setting + " on " + user["name"]
@@ -120,8 +122,7 @@ def main():
                                 ] = user["config"][config_setting]
                         except KeyError:
                             # No overrides set, nothing to do
-                            logging.info("No overrides for " + user["name"])
-                            pass
+                            logging.info("No overrides for %s", user["name"])
 
                         output_file.write(
                             "\t\t"
@@ -143,8 +144,7 @@ def main():
                         )
                         # Look for override config for database
                         try:
-                            override_database_config = database["config"]
-                            logging.info("Overrides set for " + database["name"])
+                            logging.info("Overrides set for %s", database["name"])
                             for config_setting in database["config"]:
                                 logging.info(
                                     "Setting "
@@ -157,8 +157,7 @@ def main():
                                 ] = database["config"][config_setting]
                         except KeyError:
                             # No overrides set, nothing to do
-                            logging.info("No overrides for " + database["name"])
-                            pass
+                            logging.info("No overrides for %s", database["name"])
 
                         output_file.write(
                             "\t\t"
@@ -181,8 +180,7 @@ def main():
                         )
                         # Look for override config for system
                         try:
-                            override_system_config = system["config"]
-                            logging.info("Overrides set for " + system["name"])
+                            logging.info("Overrides set for %s", system["name"])
                             for config_setting in system["config"]:
                                 logging.info(
                                     "Setting "
@@ -195,8 +193,7 @@ def main():
                                 ] = system["config"][config_setting]
                         except KeyError:
                             # No overrides set, nothing to do
-                            logging.info("No overrides for " + system["name"])
-                            pass
+                            logging.info("No overrides for %s", system["name"])
 
                         output_file.write(
                             "\t\t"
@@ -214,13 +211,12 @@ def main():
                 # Look for containers in network
                 for container in resources["containers"]:
                     if container["network"] == network["name"]:
-                        output_json_report["systems"][system["name"]] = deepcopy(
+                        output_json_report["systems"][container["name"]] = deepcopy(
                             defaults_json["systems"]
                         )
                         # Look for override config for system
                         try:
-                            override_system_config = container["config"]
-                            logging.info("Overrides set for " + container["name"])
+                            logging.info("Overrides set for %s", container["name"])
                             for config_setting in container["config"]:
                                 logging.info(
                                     "Setting "
@@ -233,8 +229,7 @@ def main():
                                 ] = container["config"][config_setting]
                         except KeyError:
                             # No overrides set, nothing to do
-                            logging.info("No overrides for " + container["name"])
-                            pass
+                            logging.info("No overrides for %s", container["name"])
 
                         output_file.write(
                             "\t\t"
@@ -279,7 +274,8 @@ def main():
             if len(insecure_resources) > 0:
                 # Writing some auto threat modelling
                 output_file.write(
-                    "| Name | Resources | Finding | Remediation | Severity |\n|-----|-----|-----|-----|-----|\n"
+                    "| Name | Resources | Finding | Remediation | Severity |"
+                    "\n|-----|-----|-----|-----|-----|\n"
                 )
                 for response in resource_validator.main(output_json_report):
                     check_name = response["name"]
@@ -301,6 +297,7 @@ def main():
                         + str(check_severity)
                         + " | "
                     )
+    return True
 
 
 if __name__ == "__main__":
