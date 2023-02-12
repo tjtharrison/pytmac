@@ -1,7 +1,7 @@
 import json
-from datetime import date
-from copy import deepcopy
 import logging
+from copy import deepcopy
+from datetime import date
 
 from bin import resource_validator
 
@@ -44,12 +44,10 @@ def main():
     with open(
         output_file_dir + "/" + output_file_name + ".md", "w", encoding="UTF-8"
     ) as output_file:
-
         # Build out json report
         with open(
             output_file_dir + "/" + output_file_name + ".json", "w", encoding="UTF-8"
         ) as output_json:
-
             # Start empty json for output report
             output_json_report = {}
             # Write intro into markdown
@@ -72,7 +70,6 @@ def main():
             output_json_report["containers"] = {}
             # Process network resources as top wrapper
             for network in resources["networks"]:
-
                 # Build out network config in output
                 output_json_report["networks"][network["name"]] = deepcopy(
                     defaults_json["networks"]
@@ -107,7 +104,6 @@ def main():
                 # Look for users in network
                 for user in resources["users"]:
                     if user["network"] == network["name"]:
-
                         output_json_report["users"][user["name"]] = deepcopy(
                             defaults_json["users"]
                         )
@@ -142,7 +138,6 @@ def main():
                 # Look for databases in network
                 for database in resources["databases"]:
                     if database["network"] == network["name"]:
-
                         output_json_report["databases"][database["name"]] = deepcopy(
                             defaults_json["databases"]
                         )
@@ -181,7 +176,6 @@ def main():
                 # Look for systems in network
                 for system in resources["systems"]:
                     if system["network"] == network["name"]:
-
                         output_json_report["systems"][system["name"]] = deepcopy(
                             defaults_json["systems"]
                         )
@@ -220,7 +214,6 @@ def main():
                 # Look for containers in network
                 for container in resources["containers"]:
                     if container["network"] == network["name"]:
-
                         output_json_report["systems"][system["name"]] = deepcopy(
                             defaults_json["systems"]
                         )
