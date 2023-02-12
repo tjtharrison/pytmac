@@ -1,0 +1,177 @@
+{
+  "resources": {
+    "networks": [
+      {
+        "name": "internet"
+      },
+      {
+        "name": "aws_public_subnet",
+        "config": {
+          "is_cloud": true
+        }
+      },
+      {
+        "name": "aws_private_subnet",
+        "config": {
+          "is_cloud": true
+        }
+      },
+      {
+        "name": "aws_db_subnet",
+        "config": {
+          "is_cloud": true
+        }
+      },
+      {
+        "name": "office_network"
+      }
+    ],
+    "users": [
+      {
+        "name": "dba",
+        "network": "office_network",
+        "description": "Database Administrator",
+        "config": {
+          "company_user": true,
+          "company_device": false
+        }
+      },
+      {
+        "name": "user1",
+        "network": "internet",
+        "description": "Client 1",
+        "config": {
+          "company_user": false,
+          "company_device": false
+        }
+      },
+      {
+        "name": "user2",
+        "network": "internet",
+        "description": "Client 2",
+        "config": {
+          "company_user": false,
+          "company_device": false
+        }
+      },
+      {
+        "name": "automation_user",
+        "network": "internet",
+        "description": "Example automation user"
+      }
+    ],
+    "databases": [
+      {
+        "name": "production",
+        "network": "aws_db_subnet",
+        "description": "Production database"
+      },
+      {
+        "name": "production_replica",
+        "network": "aws_db_subnet",
+        "description": "Production database Rpl"
+      }
+    ],
+    "systems": [
+      {
+        "name": "vpn_server",
+        "network": "aws_private_subnet",
+        "description": "VPN Server"
+      }
+    ],
+    "containers": [
+      {
+        "name": "crm",
+        "network": "aws_public_subnet",
+        "description": "Public facing CRM for UI access"
+      },
+      {
+        "name": "/",
+        "network": "aws_public_subnet",
+        "description": "Public facing endpoint for API"
+      },
+      {
+        "name": "/api/users/get",
+        "network": "aws_private_subnet",
+        "description": "Endpoint to list all available users"
+      },
+      {
+        "name": "/api/users/add",
+        "network": "aws_private_subnet",
+        "description": "Endpoint to add a user"
+      },
+      {
+        "name": "/api/users/delete",
+        "network": "aws_private_subnet",
+        "description": "Endpoint to delete a user"
+      }
+    ],
+    "res_links": [
+      {
+        "source": "user1",
+        "destination": "/",
+        "description": "API calls to manage team"
+      },
+      {
+        "source": "automation_user",
+        "destination": "/",
+        "description": "API calls to manage team"
+      },
+      {
+        "source": "user2",
+        "destination": "/",
+        "description": "API calls to manage team"
+      },
+      {
+        "source": "user1",
+        "destination": "crm",
+        "description": "Managing team via UI"
+      },
+      {
+        "source": "user2",
+        "destination": "crm",
+        "description": "Managing team via UI"
+      },
+      {
+        "source": "dba",
+        "destination": "vpn_server",
+        "description": "Connects to VPN to manage private resources"
+      },
+      {
+        "source": "vpn_server",
+        "destination": "production",
+        "description": "Database access over VPN"
+      },
+      {
+        "source": "user2",
+        "destination": "/",
+        "description": "Managing team via UI"
+      },
+      {
+        "source": "/api/users/add",
+        "destination": "production",
+        "description": "Adds user to database"
+      },
+      {
+        "source": "/api/users/delete",
+        "destination": "production",
+        "description": "Deletes user from"
+      },
+      {
+        "source": "/",
+        "destination": "/api/users/add",
+        "description": "Adds user to database"
+      },
+      {
+        "source": "/",
+        "destination": "/api/users/delete",
+        "description": "Deletes user from database"
+      },
+      {
+        "source": "production",
+        "destination": "production_replica",
+        "description": "Database replication"
+      }
+    ]
+  }
+}
