@@ -3,7 +3,7 @@ from datetime import date
 from copy import deepcopy
 import logging
 
-from bin import resource_validator, checks
+from bin import resource_validator
 
 date_today = str(date.today())
 
@@ -38,6 +38,7 @@ resources = resources_json["resources"]
 
 output_file_dir = "reports"
 output_file_name = "report-" + str(date_today)
+
 
 def main():
     with open(
@@ -82,7 +83,9 @@ def main():
                     override_network_config = network["config"]
                     logging.info("Overrides set for " + network["name"])
                     for config_setting in network["config"]:
-                        logging.info("Setting " + config_setting + " on " + network["name"])
+                        logging.info(
+                            "Setting " + config_setting + " on " + network["name"]
+                        )
                         output_json_report["networks"][network["name"]][
                             config_setting
                         ] = network["config"][config_setting]
@@ -149,7 +152,10 @@ def main():
                             logging.info("Overrides set for " + database["name"])
                             for config_setting in database["config"]:
                                 logging.info(
-                                    "Setting " + config_setting + " on " + database["name"]
+                                    "Setting "
+                                    + config_setting
+                                    + " on "
+                                    + database["name"]
                                 )
                                 output_json_report["databases"][database["name"]][
                                     config_setting
@@ -176,7 +182,6 @@ def main():
                 for system in resources["systems"]:
                     if system["network"] == network["name"]:
 
-
                         output_json_report["systems"][system["name"]] = deepcopy(
                             defaults_json["systems"]
                         )
@@ -186,7 +191,10 @@ def main():
                             logging.info("Overrides set for " + system["name"])
                             for config_setting in system["config"]:
                                 logging.info(
-                                    "Setting " + config_setting + " on " + system["name"]
+                                    "Setting "
+                                    + config_setting
+                                    + " on "
+                                    + system["name"]
                                 )
                                 output_json_report["databases"][system["name"]][
                                     config_setting
@@ -222,7 +230,10 @@ def main():
                             logging.info("Overrides set for " + container["name"])
                             for config_setting in container["config"]:
                                 logging.info(
-                                    "Setting " + config_setting + " on " + container["name"]
+                                    "Setting "
+                                    + config_setting
+                                    + " on "
+                                    + container["name"]
                                 )
                                 output_json_report["containers"][container["name"]][
                                     config_setting
@@ -270,11 +281,34 @@ def main():
 
             output_json.write(final_report)
 
-            # Writing some auto threat modelling
-            output_file.write("| Name | Resources | Finding | Remediation | Severity |\n|-----|-----|-----|-----|-----|\n")
+            # Insecure resources
+            insecure_resources = resource_validator.main(output_json_report)
+            if len(insecure_resources) > 0:
+                # Writing some auto threat modelling
+                output_file.write(
+                    "| Name | Resources | Finding | Remediation | Severity |\n|-----|-----|-----|-----|-----|\n"
+                )
+                for response in resource_validator.main(output_json_report):
+                    check_name = response["name"]
+                    check_description = response["description"]
+                    check_resource = response["resource"]
+                    check_remediation = response["remediation"]
+                    check_severity = response["severity"]
 
-            for response in resource_validator.main(output_json_report):
-                output_file.write(str(response))
+                    output_file.write(
+                        "| "
+                        + check_name
+                        + " | "
+                        + check_resource
+                        + " | "
+                        + check_description
+                        + " | "
+                        + check_remediation
+                        + " | "
+                        + str(check_severity)
+                        + " | "
+                    )
+
 
 if __name__ == "__main__":
     main()
