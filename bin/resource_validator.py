@@ -1,15 +1,5 @@
 import json
 
-# Load config
-with open("docs/config.json", "r", encoding="UTF-8") as config_file:
-    config_json = json.loads(config_file.read())
-
-with open("docs/security_checks.json", "r", encoding="UTF-8") as check_details_file:
-    check_details = json.loads(check_details_file.read())
-
-with open("docs/security_checks.json", "r", encoding="UTF-8") as check_details_file:
-    check_details = json.loads(check_details_file.read())
-
 
 def main(output_json_report):
     """
@@ -19,10 +9,12 @@ def main(output_json_report):
     report.
     :return: List of insecure resources.
     """
+    with open("docs/security_checks.json", "r", encoding="UTF-8") as check_details_file:
+        check_details = json.loads(check_details_file.read())
     insecure_resources = []
 
     for security_check in check_details:
-        results = do_check(security_check, output_json_report)
+        results = do_check(output_json_report, check_details[security_check])
         if len(results) > 0:
             for result in results:
                 insecure_resources.append(result)
@@ -30,7 +22,7 @@ def main(output_json_report):
     return insecure_resources
 
 
-def do_check(check_type, output_json_report):
+def do_check(output_json_report, check_details):
     """
     Function that looks up a check type in security_checks.json and checks resources using a given function.
 
@@ -44,23 +36,22 @@ def do_check(check_type, output_json_report):
         "severity": [1-4 score on the impact of the insecurity]
     }]
 
-    :param check_type: The name of the check to look up
     :param output_json_report: The json report of resources and configuration
+    :param check_details: A json containing the details for the check to run.
     :return: list(dict)
     """
 
-    this_check = check_details[check_type]
-    resources = output_json_report[this_check["resource_scope"]]
+    resources = output_json_report[check_details["resource_scope"]]
     insecure_resources = []
 
     for resource in resources:
-        if eval(this_check["check_query"]):
+        if eval(check_details["check_query"]):
             example_resource = {
-                "name": this_check["name"],
+                "name": check_details["name"],
                 "resource": resource,
-                "description": this_check["description"],
-                "remediation": this_check["remediation"],
-                "severity": this_check["severity"],
+                "description": check_details["description"],
+                "remediation": check_details["remediation"],
+                "severity": check_details["severity"],
             }
 
             insecure_resources.append(example_resource)
