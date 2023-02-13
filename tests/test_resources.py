@@ -335,7 +335,7 @@ def test_default_setting_containers():
         assert False
 
 
-def test_override_setting_system():
+def test_override_setting_containers():
     """
     Test modifying a single settings for one system, verify that the generated configuration
     contains the change for only one system after creating two.
