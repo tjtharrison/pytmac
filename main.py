@@ -193,7 +193,7 @@ def main():
                                     + " on "
                                     + system["name"]
                                 )
-                                output_json_report["databases"][system["name"]][
+                                output_json_report["systems"][system["name"]][
                                     config_setting
                                 ] = system["config"][config_setting]
                         except KeyError:
@@ -216,8 +216,8 @@ def main():
                 # Look for containers in network
                 for container in resources["containers"]:
                     if container["network"] == network["name"]:
-                        output_json_report["systems"][container["name"]] = deepcopy(
-                            defaults_json["systems"]
+                        output_json_report["containers"][container["name"]] = deepcopy(
+                            defaults_json["containers"]
                         )
                         # Look for override config for system
                         try:
