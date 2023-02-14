@@ -7,7 +7,6 @@ import os
 from copy import deepcopy
 from datetime import date
 
-
 try:
     print(len(os.environ.get("GITHUB_WORKSPACE")))
 except TypeError:
