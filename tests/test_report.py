@@ -83,7 +83,7 @@ def test_report_contents():
         if line["name"] == "Container(test_container,\"test_container \", \"Testing Container\")" and line["level"] == 2:
             container_correct = True
 
-        if line["name"] == "BiRel(testing_user,testing_system, \"Test connection from user to system\")" and line["level"] == 1:
+        if line["name"] == "BiRel(test_user,test_system, \"Test connection from user to system\")" and line["level"] == 1:
             relationship_correct = True
 
         if line["name"] ==  "UpdateLayoutConfig($c4ShapeInRow=\"2\", $c4BoundaryInRow=\"3\")" and line["level"] == 0:
