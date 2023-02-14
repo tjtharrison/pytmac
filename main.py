@@ -13,6 +13,7 @@ except TypeError:
     # Not GITHUB, load dotenv
     import dotenv
     from dotenv import load_dotenv
+
     load_dotenv()
 
 from bin import resource_validator
