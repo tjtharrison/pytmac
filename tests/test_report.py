@@ -68,25 +68,50 @@ def test_report_contents():
         if line["name"] == "C4Context" and line["level"] == 0:
             mermaid_type_correct = True
 
-        if line["name"] == "Boundary(btest_network, \"test_network\") {" and line["level"] == 1:
+        if (
+            line["name"] == 'Boundary(btest_network, "test_network") {'
+            and line["level"] == 1
+        ):
             boundary_correct = True
 
-        if line["name"] == "Person(test_user, \"test_user\", \"Testing user\")" and line["level"] == 2:
+        if (
+            line["name"] == 'Person(test_user, "test_user", "Testing user")'
+            and line["level"] == 2
+        ):
             person_correct = True
 
-        if line["name"] == "SystemDb(test_database,\"test_database \", \"Testing database\")" and line["level"] == 2:
+        if (
+            line["name"]
+            == 'SystemDb(test_database,"test_database ", "Testing database")'
+            and line["level"] == 2
+        ):
             db_correct = True
 
-        if line["name"] == "System(test_system,\"test_system \", \"Test System\")" and line["level"] == 2:
+        if (
+            line["name"] == 'System(test_system,"test_system ", "Test System")'
+            and line["level"] == 2
+        ):
             system_correct = True
 
-        if line["name"] == "Container(test_container,\"test_container \", \"Testing Container\")" and line["level"] == 2:
+        if (
+            line["name"]
+            == 'Container(test_container,"test_container ", "Testing Container")'
+            and line["level"] == 2
+        ):
             container_correct = True
 
-        if line["name"] == "BiRel(test_user,test_system, \"Test connection from user to system\")" and line["level"] == 1:
+        if (
+            line["name"]
+            == 'BiRel(test_user,test_system, "Test connection from user to system")'
+            and line["level"] == 1
+        ):
             relationship_correct = True
 
-        if line["name"] ==  "UpdateLayoutConfig($c4ShapeInRow=\"2\", $c4BoundaryInRow=\"3\")" and line["level"] == 0:
+        if (
+            line["name"]
+            == 'UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="3")'
+            and line["level"] == 0
+        ):
             layout_correct = True
 
     for check in [
@@ -101,7 +126,7 @@ def test_report_contents():
         system_correct,
         container_correct,
         relationship_correct,
-        layout_correct
+        layout_correct,
     ]:
         if check == False:
             assert False
