@@ -3,8 +3,18 @@ Python based programatic threat modelling tool tmacs
 """
 import json
 import logging
+import os
 from copy import deepcopy
 from datetime import date
+
+try:
+    print(len(os.environ.get("GITHUB_WORKSPACE")))
+except TypeError:
+    # Not GITHUB, load dotenv
+    import dotenv
+    from dotenv import load_dotenv
+
+    load_dotenv()
 
 from bin import resource_validator
 
@@ -23,23 +33,6 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 
-# Load resources
-with open("docs/resources.json", "r", encoding="UTF-8") as resources_file:
-    resources_json = json.loads(resources_file.read())
-
-# Load config
-with open("docs/config.json", "r", encoding="UTF-8") as config_file:
-    config_json = json.loads(config_file.read())
-
-# Load defaults
-with open("docs/defaults.json", "r", encoding="UTF-8") as defaults_file:
-    defaults_json = json.loads(defaults_file.read())
-
-resources = resources_json["resources"]
-
-OUTPUT_FILE_DIR = "reports"
-OUTPUT_FILE_NAME = "report-" + str(date.today())
-
 
 def main():
     """
@@ -47,12 +40,31 @@ def main():
     report
     :return: True
     """
+    # Load resources
     with open(
-        OUTPUT_FILE_DIR + "/" + OUTPUT_FILE_NAME + ".md", "w", encoding="UTF-8"
+        os.environ.get("RESOURCES_FILE"), "r", encoding="UTF-8"
+    ) as resources_file:
+        resources_json = json.loads(resources_file.read())
+
+    # Load config
+    with open(os.environ.get("CONFIG_FILE"), "r", encoding="UTF-8") as config_file:
+        config_json = json.loads(config_file.read())
+
+    # Load defaults
+    with open(os.environ.get("DEFAULTS_FILE"), "r", encoding="UTF-8") as defaults_file:
+        defaults_json = json.loads(defaults_file.read())
+
+    resources = resources_json["resources"]
+
+    output_file_dir = os.environ.get("OUTPUT_DIR")
+    output_file_name = "report-" + str(date.today())
+
+    with open(
+        output_file_dir + "/" + output_file_name + ".md", "w", encoding="UTF-8"
     ) as output_file:
         # Build out json report
         with open(
-            OUTPUT_FILE_DIR + "/" + OUTPUT_FILE_NAME + ".json", "w", encoding="UTF-8"
+            output_file_dir + "/" + output_file_name + ".json", "w", encoding="UTF-8"
         ) as output_json:
             # Start empty json for output report
             output_json_report = {}
@@ -188,7 +200,7 @@ def main():
                                     + " on "
                                     + system["name"]
                                 )
-                                output_json_report["databases"][system["name"]][
+                                output_json_report["systems"][system["name"]][
                                     config_setting
                                 ] = system["config"][config_setting]
                         except KeyError:
@@ -211,8 +223,8 @@ def main():
                 # Look for containers in network
                 for container in resources["containers"]:
                     if container["network"] == network["name"]:
-                        output_json_report["systems"][container["name"]] = deepcopy(
-                            defaults_json["systems"]
+                        output_json_report["containers"][container["name"]] = deepcopy(
+                            defaults_json["containers"]
                         )
                         # Look for override config for system
                         try:
