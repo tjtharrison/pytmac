@@ -6,9 +6,10 @@ import logging
 import os
 from copy import deepcopy
 from datetime import date
-import dotenv
 
+import dotenv
 from dotenv import load_dotenv
+
 load_dotenv()
 
 from bin import resource_validator
@@ -36,7 +37,9 @@ def main():
     :return: True
     """
     # Load resources
-    with open(os.environ.get("RESOURCES_FILE"), "r", encoding="UTF-8") as resources_file:
+    with open(
+        os.environ.get("RESOURCES_FILE"), "r", encoding="UTF-8"
+    ) as resources_file:
         resources_json = json.loads(resources_file.read())
 
     # Load config
