@@ -7,13 +7,13 @@ import os
 from copy import deepcopy
 from datetime import date
 
-
 try:
     print(len(os.environ.get("GITHUB_WORKSPACE")))
 except TypeError:
     # Not GITHUB, load dotenv
     import dotenv
     from dotenv import load_dotenv
+
     load_dotenv()
 
 from bin import resource_validator
