@@ -134,3 +134,53 @@ def test_user_owned_device():
         assert True
     else:
         assert False
+
+def test_broken_access_control():
+    """
+    Create insecure user and validate security check "broken_access_control"
+    :return: True/False
+    """
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resource_file_update:
+        resource_file_update_data = json.load(resource_file_update)
+        resource_file_update_data["resources"]["systems"].append(
+            {
+                "name": "test_system",
+                "network": "test_network",
+                "description": "Testing system with no authentication",
+                "config": {
+                    "requires_authentication": False,
+                },
+            }
+        )
+        resource_file_update.seek(0)
+        resource_file_update.write(json.dumps(resource_file_update_data))
+        resource_file_update.truncate()
+
+    main.main()
+
+    with open(OUTPUT_REPORT_FILE) as output_report_file:
+        output_report = json.loads(output_report_file.read())
+
+    insecure_resources = resource_validator.do_check(
+        output_report, security_checks_file_contents["broken_access_control"]
+    )
+
+    insecure_resource_found = False
+    for resource in insecure_resources:
+        if (
+                resource["name"]
+                == security_checks_file_contents["broken_access_control"]["name"]
+                and resource["resource"] == "test_system"
+                and resource["description"]
+                == security_checks_file_contents["broken_access_control"]["description"]
+                and resource["remediation"]
+                == security_checks_file_contents["broken_access_control"]["remediation"]
+                and resource["severity"]
+                == security_checks_file_contents["broken_access_control"]["severity"]
+        ):
+            insecure_resource_found = True
+    if insecure_resource_found:
+        assert True
+    else:
+        assert False

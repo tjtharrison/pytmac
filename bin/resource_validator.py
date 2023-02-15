@@ -47,12 +47,14 @@ def do_check(output_json_report, check_details):
     :param check_details: A json containing the details for the check to run.
     :return: list(dict)
     """
+    resources = {}
+    for resource_scope in check_details["resource_scope"]:
+        resources = resources | output_json_report[resource_scope]
 
-    resources = output_json_report[check_details["resource_scope"]]
     insecure_resources = []
 
     for resource in resources:
-        if eval(check_details["check_query"]):  # pylint: disable=eval-used
+        if eval("".join(check_details["check_query"])):  # pylint: disable=eval-used
             example_resource = {
                 "name": check_details["name"],
                 "resource": resource,

@@ -4,7 +4,24 @@
     "description": "Checks for users with company_user true and company_device false.",
     "remediation": "Understand and remediate or document known exception.",
     "severity": 3,
-    "resource_scope": "users",
-    "check_query": "resources[resource][\"company_user\"] and not resources[resource][\"company_device\"]"
+    "resource_scope": ["users"],
+    "check_query": [
+      "resources[resource][\"company_user\"] and not resources[resource][\"company_device\"]"
+    ]
+  },
+  "broken_access_control": {
+    "name": "A01:2021-Broken Access Control",
+    "description": "OWASP top 10 #1: Checks for combination of controls that indicate lack of mitigation against this type of attack",
+    "remediation": "Review non-compliant controls and remediate",
+    "severity": 1,
+    "likelihood": 1,
+    "resource_scope": [
+      "systems",
+      "containers"
+    ],
+    "check_query": [
+      "not resources[resource][\"requires_authentication\"] or not ",
+      "resources[resource][\"least_privileged_access\"]"
+    ]
   }
 }

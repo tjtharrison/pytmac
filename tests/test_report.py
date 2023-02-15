@@ -134,3 +134,15 @@ def test_report_contents():
             print("PASS")
 
     assert True
+
+#### Need to test insecure resource
+# def test_insecure_resource_table():
+
+#### Need to test multiple insecure resource sorting (by severity)
+# def test_multiple_insecure_order():
+
+### Need to validate defaults input (min required)
+
+### Need to validate config input (min required)
+
+### Need to validate resources input (min required)
