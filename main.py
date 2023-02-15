@@ -289,26 +289,27 @@ def main():
                     "| Name | Resources | Finding | Remediation | Severity |"
                     "\n|-----|-----|-----|-----|-----|\n"
                 )
-                for response in resource_validator.main(output_json_report):
+                for response in insecure_resources:
                     check_name = response["name"]
                     check_description = response["description"]
                     check_resource = response["resource"]
                     check_remediation = response["remediation"]
                     check_severity = response["severity"]
-
-                    output_file.write(
-                        "| "
-                        + check_name
-                        + " | "
-                        + check_resource
-                        + " | "
-                        + check_description
-                        + " | "
-                        + check_remediation
-                        + " | "
-                        + str(check_severity)
-                        + " | "
+                    response_detail = (
+                            "| "
+                            + check_name
+                            + " | "
+                            + check_resource
+                            + " | "
+                            + check_description
+                            + " | "
+                            + check_remediation
+                            + " | "
+                            + str(check_severity)
+                            + " | "
+                            + "\n"
                     )
+                    output_file.write(response_detail)
     return True
 
 

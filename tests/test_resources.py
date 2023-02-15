@@ -201,7 +201,7 @@ def test_default_setting_databases():
 
     with open(DEFAULTS_FILE, "r+", encoding="UTF-8") as default_file_update:
         default_file_update_data = json.load(default_file_update)
-        default_file_update_data["databases"]["is_encrypted"] = False
+        default_file_update_data["databases"]["is_encrypted"] = True
         default_file_update.seek(0)
         default_file_update.write(json.dumps(default_file_update_data))
         default_file_update.truncate()
@@ -211,7 +211,7 @@ def test_default_setting_databases():
     with open(OUTPUT_REPORT_FILE) as output_report_file:
         output_report = json.loads(output_report_file.read())
 
-    if not output_report["databases"]["test_database"]["is_encrypted"]:
+    if output_report["databases"]["test_database"]["is_encrypted"]:
         assert True
     else:
         assert False
@@ -230,7 +230,7 @@ def test_override_setting_database():
                 "name": "test_database2",
                 "network": "test_network",
                 "description": "Testing database2",
-                "config": {"is_encrypted": False},
+                "config": {"is_encrypted": True},
             }
         )
         resource_file_update.seek(0)
@@ -243,8 +243,8 @@ def test_override_setting_database():
         output_report = json.loads(output_report_file.read())
 
     if (
-        output_report["databases"]["test_database"]["is_encrypted"]
-        and not output_report["databases"]["test_database2"]["is_encrypted"]
+        not output_report["databases"]["test_database"]["is_encrypted"]
+        and output_report["databases"]["test_database2"]["is_encrypted"]
     ):
         assert True
     else:

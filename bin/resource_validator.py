@@ -3,7 +3,7 @@ Module used to initiate and collate security findings from the json report gener
 document function.
 """
 import json
-
+import logging
 
 def main(output_json_report):
     """
@@ -20,11 +20,15 @@ def main(output_json_report):
     insecure_resources = []
 
     for security_check in check_details:
+        logging.info("Starting security check " + security_check)
         results = do_check(output_json_report, check_details[security_check])
         if len(results) > 0:
+            logging.info("Results found! Appending to insecure_resources")
             for result in results:
                 insecure_resources.append(result)
+        logging.info("Finished security check " + security_check)
 
+    logging.info("Insecure resources: " + str(insecure_resources))
     return insecure_resources
 
 

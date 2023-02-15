@@ -1,1 +1,40 @@
-{"networks": {"has_wifi": false, "is_cloud": false, "is_public": false}, "databases": {"database_os": "MySQL", "is_encrypted": true, "contains_pii": true, "has_scheduled_backup": true, "is_replica": true, "least_privileged_users": true, "automatic_updates": true, "firewall_restricted": true, "requires_encrypted_connections": true, "authentication_required": true, "cleanup_tasks_configured": false, "passwords_hashed": false}, "users": {"company_user": true, "company_device": true}, "systems": {"public_facing": true, "has_waf": true, "requires_encryption": false, "requires_authentication": false, "has_secure_password_policy": false, "is_hardened": true, "least_privileged_access": false, "cors_minimal_required_usage": false, "access_logging_enabled": false, "stateful_sessions_invalidated": false, "input_validation": false, "input_sanitization": false}}
+{
+  "networks": {
+    "has_wifi": false,
+    "is_cloud": false,
+    "is_public": false
+  },
+  "databases": {
+    "database_os": "MySQL",
+    "is_encrypted": false,
+    "contains_pii": true,
+    "has_scheduled_backup": true,
+    "is_replica": true,
+    "least_privileged_users": true,
+    "automatic_updates": true,
+    "firewall_restricted": true,
+    "requires_encrypted_connections": true,
+    "authentication_required": true,
+    "cleanup_tasks_configured": false,
+    "passwords_hashed": false
+  },
+  "users": {
+    "company_user": true,
+    "company_device": true
+  },
+  "systems": {
+    "public_facing": true,
+    "has_waf": true,
+    "requires_encryption": false,
+    "requires_authentication": false,
+    "has_secure_password_policy": false,
+    "is_hardened": true,
+    "least_privileged_access": false,
+    "cors_minimal_required_usage": false,
+    "access_logging_enabled": false,
+    "stateful_sessions_invalidated": false,
+    "input_validation": false,
+    "input_sanitization": false,
+    "ip_restrictions": false
+  }
+}
