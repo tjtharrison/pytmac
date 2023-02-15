@@ -11,15 +11,14 @@ try:
     print(len(os.environ.get("GITHUB_WORKSPACE")))
 except TypeError:
     # Not GITHUB, load dotenv
-    import dotenv
-    from dotenv import load_dotenv
+    import dotenv # pylint: disable=unused-import
+    from dotenv import load_dotenv # pylint: disable=unused-import
 
     load_dotenv()
 
 from bin import resource_validator
 
 # Configure logging
-# Setup json logging
 logging.basicConfig(
     format=(
         "{"
