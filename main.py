@@ -11,15 +11,14 @@ try:
     print(len(os.environ.get("GITHUB_WORKSPACE")))
 except TypeError:
     # Not GITHUB, load dotenv
-    import dotenv
-    from dotenv import load_dotenv
+    import dotenv  # pylint: disable=unused-import
+    from dotenv import load_dotenv  # pylint: disable=unused-import
 
     load_dotenv()
 
 from bin import resource_validator
 
 # Configure logging
-# Setup json logging
 logging.basicConfig(
     format=(
         "{"
@@ -224,7 +223,7 @@ def main():
                 for container in resources["containers"]:
                     if container["network"] == network["name"]:
                         output_json_report["containers"][container["name"]] = deepcopy(
-                            defaults_json["containers"]
+                            defaults_json["systems"]
                         )
                         # Look for override config for system
                         try:
@@ -289,14 +288,13 @@ def main():
                     "| Name | Resources | Finding | Remediation | Severity |"
                     "\n|-----|-----|-----|-----|-----|\n"
                 )
-                for response in resource_validator.main(output_json_report):
+                for response in insecure_resources:
                     check_name = response["name"]
                     check_description = response["description"]
                     check_resource = response["resource"]
                     check_remediation = response["remediation"]
                     check_severity = response["severity"]
-
-                    output_file.write(
+                    response_detail = (
                         "| "
                         + check_name
                         + " | "
@@ -308,7 +306,9 @@ def main():
                         + " | "
                         + str(check_severity)
                         + " | "
+                        + "\n"
                     )
+                    output_file.write(response_detail)
     return True
 
 

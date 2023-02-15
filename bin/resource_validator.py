@@ -3,6 +3,7 @@ Module used to initiate and collate security findings from the json report gener
 document function.
 """
 import json
+import logging
 
 
 def main(output_json_report):
@@ -20,11 +21,15 @@ def main(output_json_report):
     insecure_resources = []
 
     for security_check in check_details:
+        logging.info("Starting security check %s", security_check)
         results = do_check(output_json_report, check_details[security_check])
         if len(results) > 0:
+            logging.info("Results found! Appending to insecure_resources")
             for result in results:
                 insecure_resources.append(result)
+        logging.info("Finished security check %s", security_check)
 
+    logging.info("Insecure resources: %s", +str(insecure_resources))
     return insecure_resources
 
 
@@ -47,12 +52,14 @@ def do_check(output_json_report, check_details):
     :param check_details: A json containing the details for the check to run.
     :return: list(dict)
     """
+    resources = {}
+    for resource_scope in check_details["resource_scope"]:
+        resources = resources | output_json_report[resource_scope]
 
-    resources = output_json_report[check_details["resource_scope"]]
     insecure_resources = []
 
     for resource in resources:
-        if eval(check_details["check_query"]):  # pylint: disable=eval-used
+        if eval("".join(check_details["check_query"])):  # pylint: disable=eval-used
             example_resource = {
                 "name": check_details["name"],
                 "resource": resource,
