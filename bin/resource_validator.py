@@ -5,6 +5,7 @@ document function.
 import json
 import logging
 
+
 def main(output_json_report):
     """
     Function to collect responses from required security scans and return to be written to the final

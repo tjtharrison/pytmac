@@ -296,18 +296,18 @@ def main():
                     check_remediation = response["remediation"]
                     check_severity = response["severity"]
                     response_detail = (
-                            "| "
-                            + check_name
-                            + " | "
-                            + check_resource
-                            + " | "
-                            + check_description
-                            + " | "
-                            + check_remediation
-                            + " | "
-                            + str(check_severity)
-                            + " | "
-                            + "\n"
+                        "| "
+                        + check_name
+                        + " | "
+                        + check_resource
+                        + " | "
+                        + check_description
+                        + " | "
+                        + check_remediation
+                        + " | "
+                        + str(check_severity)
+                        + " | "
+                        + "\n"
                     )
                     output_file.write(response_detail)
     return True
