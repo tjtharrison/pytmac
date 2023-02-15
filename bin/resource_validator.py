@@ -29,7 +29,7 @@ def main(output_json_report):
                 insecure_resources.append(result)
         logging.info("Finished security check %s", security_check)
 
-    logging.info("Insecure resources: %s", + str(insecure_resources))
+    logging.info("Insecure resources: %s", +str(insecure_resources))
     return insecure_resources
 
 

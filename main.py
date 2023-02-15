@@ -11,8 +11,8 @@ try:
     print(len(os.environ.get("GITHUB_WORKSPACE")))
 except TypeError:
     # Not GITHUB, load dotenv
-    import dotenv # pylint: disable=unused-import
-    from dotenv import load_dotenv # pylint: disable=unused-import
+    import dotenv  # pylint: disable=unused-import
+    from dotenv import load_dotenv  # pylint: disable=unused-import
 
     load_dotenv()
 
