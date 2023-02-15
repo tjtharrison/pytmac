@@ -319,7 +319,7 @@ def test_default_setting_containers():
 
     with open(DEFAULTS_FILE, "r+", encoding="UTF-8") as default_file_update:
         default_file_update_data = json.load(default_file_update)
-        default_file_update_data["containers"]["is_hardened"] = False
+        default_file_update_data["systems"]["is_hardened"] = False
         default_file_update.seek(0)
         default_file_update.write(json.dumps(default_file_update_data))
         default_file_update.truncate()

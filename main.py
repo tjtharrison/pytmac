@@ -224,7 +224,7 @@ def main():
                 for container in resources["containers"]:
                     if container["network"] == network["name"]:
                         output_json_report["containers"][container["name"]] = deepcopy(
-                            defaults_json["containers"]
+                            defaults_json["systems"]
                         )
                         # Look for override config for system
                         try:

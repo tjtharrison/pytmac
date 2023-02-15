@@ -20,8 +20,42 @@
       "containers"
     ],
     "check_query": [
-      "not resources[resource][\"requires_authentication\"] or not ",
-      "resources[resource][\"least_privileged_access\"]"
+      "not resources[resource][\"requires_authentication\"] ",
+      "or not resources[resource][\"least_privileged_access\"] ",
+      "or not resources[resource][\"access_logging_enabled\"] ",
+      "or not resources[resource][\"cors_minimal_required_usage\"] ",
+      "or not resources[resource][\"stateful_sessions_invalidated\"] "
+    ]
+  },
+  "cryptographic_failures": {
+    "name": "A02:2021-Cryptographic_Failures",
+    "description": "OWASP top 10 #2: Checks for various items related to encryption",
+    "remediation": "Review non-compliant controls and remediate",
+    "severity": 1,
+    "likelihood": 1,
+    "resource_scope": [
+      "databases"
+    ],
+    "check_query": [
+      "not resources[resource][\"is_encrypted\"] ",
+      "or not resources[resource][\"cleanup_tasks_configured\"] ",
+      "or not resources[resource][\"requires_encrypted_connections\"] ",
+      "or not resources[resource][\"authentication_required\"] ",
+      "or not resources[resource][\"passwords_hashed\"] "
+    ]
+  },
+  "sql_injection": {
+    "name": "A03:2021 – Injection",
+    "description": "OWASP top 10 #3: Checks for mitigations against SQL injection",
+    "remediation": "Review non-compliant controls and remediate",
+    "severity": 1,
+    "likelihood": 1,
+    "resource_scope": [
+      "systems",
+      "containers"
+    ],
+    "check_query": [
+      "not resources[resource][\"input_sanitization\"] "
     ]
   }
 }
