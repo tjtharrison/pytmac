@@ -55,6 +55,27 @@ def main():
 
     resources = resources_json["resources"]
 
+    # Load swagger if enabled
+    if os.environ.get("ENABLE_SWAGGER").lower() == "true":
+        # Load specified swagger file
+        with open(
+            os.environ.get("SWAGGER_FILE"), "r", encoding="UTF-8"
+        ) as swagger_file:
+            swagger_json = json.loads(swagger_file.read())
+
+        swagger_paths = list(swagger_json["paths"].keys())
+        for swagger_path in swagger_paths:
+            swagger_path_detail = {
+                "name": swagger_path,
+                "network": config_json["swagger_default_network"],
+                "description": swagger_json["paths"][swagger_path][
+                    str(list(swagger_json["paths"][swagger_path].keys())[0])
+                ]["description"],
+            }
+            # Append swagger endpoint to default swagger_resource_type resources
+            resources_json["resources"][config_json["swagger_resource_type"]].append(
+                swagger_path_detail
+            )
     output_file_dir = os.environ.get("OUTPUT_DIR")
     output_file_name = "report-" + str(date.today())
 

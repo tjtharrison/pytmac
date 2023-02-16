@@ -1,29 +1,6 @@
 {
   "tags": [],
   "paths": {
-    "/api/echo": {
-      "get": {
-        "description": "Echo endpoint to establish basic app connectivity",
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ],
-        "tags": [
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Response"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/user/add": {
       "post": {
         "description": "Receive requests from client to write users to database.",

@@ -1,1 +1,1 @@
-{"title": "test_doc", "description": ["Threat modelling for test"]}
+{"title": "test_doc", "description": ["Threat modelling for test"], "swagger_resource_type": "containers", "swagger_default_network": "test_network"}
