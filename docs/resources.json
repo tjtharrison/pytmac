@@ -30,11 +30,6 @@
       }
     ],
     "containers": [
-      {
-        "name": "crm",
-        "network": "office_network",
-        "description": "CRM for staging system"
-      }
     ],
     "res_links": [
       {
@@ -44,13 +39,23 @@
       },
       {
         "source": "vpn_server",
-        "destination": "crm",
-        "description": "CRM accessed from the VPN server"
+        "destination": "/api/user/add",
+        "description": "/api/user/add accessed from the VPN server"
       },
       {
-        "source": "crm",
+        "source": "vpn_server",
+        "destination": "/api/user",
+        "description": "/api/user accessed from the VPN server"
+      },
+      {
+        "source": "/api/user/add",
         "destination": "staging",
-        "description": "CRM gets/puts data in the staging database"
+        "description": "/api/user/add and adds data in the staging database"
+      },
+      {
+        "source": "/api/user",
+        "destination": "staging",
+        "description": "/api/user gets data from the staging database"
       }
     ]
   }
