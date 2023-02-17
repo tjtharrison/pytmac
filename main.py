@@ -6,6 +6,7 @@ import logging
 import os
 from copy import deepcopy
 from datetime import date
+import sys
 
 try:
     print(len(os.environ.get("GITHUB_WORKSPACE")))
@@ -16,7 +17,7 @@ except TypeError:
 
     load_dotenv()
 
-from bin import resource_validator
+from bin import resource_validator, input_validator
 
 # Configure logging
 logging.basicConfig(
@@ -53,6 +54,19 @@ def main():
     with open(os.environ.get("DEFAULTS_FILE"), "r", encoding="UTF-8") as defaults_file:
         defaults_json = json.loads(defaults_file.read())
 
+    # Lets do some config validation
+    if not input_validator.config(config_json):
+        logging.error("Config validation failed!")
+        sys.exit()
+    if not input_validator.resources(resources_json):
+        logging.error("Resources validation failed!")
+        sys.exit()
+    if not input_validator.defaults(defaults_json):
+        logging.error("Defaults validation failed!")
+        sys.exit()
+    else:
+        logging.info("All files validated successfully")
+
     resources = resources_json["resources"]
 
     # Load swagger if enabled
@@ -62,6 +76,10 @@ def main():
             os.environ.get("SWAGGER_FILE"), "r", encoding="UTF-8"
         ) as swagger_file:
             swagger_json = json.loads(swagger_file.read())
+
+        if not input_validator.swagger(swagger_json):
+            logging.error("Swagger validation failed!")
+            sys.exit(1)
 
         swagger_paths = list(swagger_json["paths"].keys())
         for swagger_path in swagger_paths:
