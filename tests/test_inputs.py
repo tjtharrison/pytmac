@@ -181,7 +181,530 @@ def test_config_no_swagger_default_network(caplog):
     for record in caplog.records:
         print("Config validation failed!")
         if "Config validation failed!" in record.msg:
-            print("Got here")
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+def test_resources_top_level_networks_missing(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
+        resources_file_update_data = json.load(resources_file_update)
+        del resources_file_update_data["resources"]["networks"]
+        resources_file_update.seek(0)
+        resources_file_update.write(json.dumps(resources_file_update_data))
+        resources_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "networks not found in resources" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+def test_resources_top_level_users_missing(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
+        resources_file_update_data = json.load(resources_file_update)
+        del resources_file_update_data["resources"]["users"]
+        resources_file_update.seek(0)
+        resources_file_update.write(json.dumps(resources_file_update_data))
+        resources_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "users not found in resources" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_resources_top_level_databases_missing(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
+        resources_file_update_data = json.load(resources_file_update)
+        del resources_file_update_data["resources"]["databases"]
+        resources_file_update.seek(0)
+        resources_file_update.write(json.dumps(resources_file_update_data))
+        resources_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "databases not found in resources" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_resources_top_level_systems_missing(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
+        resources_file_update_data = json.load(resources_file_update)
+        del resources_file_update_data["resources"]["systems"]
+        resources_file_update.seek(0)
+        resources_file_update.write(json.dumps(resources_file_update_data))
+        resources_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "systems not found in resources" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_resources_networks_fields(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
+        resources_file_update_data = json.load(resources_file_update)
+        del resources_file_update_data["resources"]["networks"][0]["name"]
+        resources_file_update.seek(0)
+        resources_file_update.write(json.dumps(resources_file_update_data))
+        resources_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "name not set for network" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_resources_user_name(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
+        resources_file_update_data = json.load(resources_file_update)
+        del resources_file_update_data["resources"]["users"][0]["name"]
+        resources_file_update.seek(0)
+        resources_file_update.write(json.dumps(resources_file_update_data))
+        resources_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "Required field not set for user" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_resources_user_network(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
+        resources_file_update_data = json.load(resources_file_update)
+        del resources_file_update_data["resources"]["users"][0]["network"]
+        resources_file_update.seek(0)
+        resources_file_update.write(json.dumps(resources_file_update_data))
+        resources_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "Required field not set for user" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_resources_user_description(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
+        resources_file_update_data = json.load(resources_file_update)
+        del resources_file_update_data["resources"]["users"][0]["description"]
+        resources_file_update.seek(0)
+        resources_file_update.write(json.dumps(resources_file_update_data))
+        resources_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "Required field not set for user" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+def test_resources_database_description(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
+        resources_file_update_data = json.load(resources_file_update)
+        del resources_file_update_data["resources"]["databases"][0]["description"]
+        resources_file_update.seek(0)
+        resources_file_update.write(json.dumps(resources_file_update_data))
+        resources_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "Required field not set for database" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_resources_database_name(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
+        resources_file_update_data = json.load(resources_file_update)
+        del resources_file_update_data["resources"]["databases"][0]["name"]
+        resources_file_update.seek(0)
+        resources_file_update.write(json.dumps(resources_file_update_data))
+        resources_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "Required field not set for database" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+def test_resources_database_network(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
+        resources_file_update_data = json.load(resources_file_update)
+        del resources_file_update_data["resources"]["databases"][0]["network"]
+        resources_file_update.seek(0)
+        resources_file_update.write(json.dumps(resources_file_update_data))
+        resources_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "Required field not set for database" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_resources_system_name(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
+        resources_file_update_data = json.load(resources_file_update)
+        del resources_file_update_data["resources"]["systems"][0]["name"]
+        resources_file_update.seek(0)
+        resources_file_update.write(json.dumps(resources_file_update_data))
+        resources_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "Required field not set for system" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_resources_system_network(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
+        resources_file_update_data = json.load(resources_file_update)
+        del resources_file_update_data["resources"]["systems"][0]["network"]
+        resources_file_update.seek(0)
+        resources_file_update.write(json.dumps(resources_file_update_data))
+        resources_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "Required field not set for system" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_resources_system_description(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
+        resources_file_update_data = json.load(resources_file_update)
+        del resources_file_update_data["resources"]["systems"][0]["description"]
+        resources_file_update.seek(0)
+        resources_file_update.write(json.dumps(resources_file_update_data))
+        resources_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "Required field not set for system" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_resources_res_link_description(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
+        resources_file_update_data = json.load(resources_file_update)
+        del resources_file_update_data["resources"]["res_links"][0]["description"]
+        resources_file_update.seek(0)
+        resources_file_update.write(json.dumps(resources_file_update_data))
+        resources_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "Required field not set for res_link" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_resources_res_link_source(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
+        resources_file_update_data = json.load(resources_file_update)
+        del resources_file_update_data["resources"]["res_links"][0]["source"]
+        resources_file_update.seek(0)
+        resources_file_update.write(json.dumps(resources_file_update_data))
+        resources_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "Required field not set for res_link" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_resources_res_link_destination(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
+        resources_file_update_data = json.load(resources_file_update)
+        del resources_file_update_data["resources"]["res_links"][0]["destination"]
+        resources_file_update.seek(0)
+        resources_file_update.write(json.dumps(resources_file_update_data))
+        resources_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "Required field not set for res_link" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_defaults_top_level_systems_missing(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(DEFAULTS_FILE, "r+", encoding="UTF-8") as defaults_file_update:
+        defaults_file_update_data = json.load(defaults_file_update)
+        del defaults_file_update_data["systems"]
+        defaults_file_update.seek(0)
+        defaults_file_update.write(json.dumps(defaults_file_update_data))
+        defaults_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "systems not found in defaults" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_defaults_top_level_systems_missing(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(DEFAULTS_FILE, "r+", encoding="UTF-8") as defaults_file_update:
+        defaults_file_update_data = json.load(defaults_file_update)
+        del defaults_file_update_data["systems"]
+        defaults_file_update.seek(0)
+        defaults_file_update.write(json.dumps(defaults_file_update_data))
+        defaults_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "systems not found in defaults" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_defaults_top_level_users_missing(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(DEFAULTS_FILE, "r+", encoding="UTF-8") as defaults_file_update:
+        defaults_file_update_data = json.load(defaults_file_update)
+        del defaults_file_update_data["users"]
+        defaults_file_update.seek(0)
+        defaults_file_update.write(json.dumps(defaults_file_update_data))
+        defaults_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "users not found in defaults" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_defaults_top_level_databases_missing(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(DEFAULTS_FILE, "r+", encoding="UTF-8") as defaults_file_update:
+        defaults_file_update_data = json.load(defaults_file_update)
+        del defaults_file_update_data["databases"]
+        defaults_file_update.seek(0)
+        defaults_file_update.write(json.dumps(defaults_file_update_data))
+        defaults_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "databases not found in defaults" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_defaults_top_level_networks_missing(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(DEFAULTS_FILE, "r+", encoding="UTF-8") as defaults_file_update:
+        defaults_file_update_data = json.load(defaults_file_update)
+        del defaults_file_update_data["networks"]
+        defaults_file_update.seek(0)
+        defaults_file_update.write(json.dumps(defaults_file_update_data))
+        defaults_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "networks not found in defaults" in record.msg:
             log_present = True
 
     if log_present:
