@@ -751,6 +751,8 @@ def test_swagger_no_paths(caplog):
     for record in caplog.records:
         if "No paths provided in swagger.json" in record.msg:
             log_present = True
+        else:
+            print(record.msg)
 
     if log_present:
         assert True
