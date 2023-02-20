@@ -1,3 +1,6 @@
+"""
+Functions that validate the input files provided by the tmac user.
+"""
 import json
 import logging
 import os
@@ -13,9 +16,18 @@ def config(config_json):
     try:
         title = config_json["title"]
         description = config_json["description"]
+        logging.debug(json.dumps({"title": title, "description": description}))
         if os.environ.get("ENABLE_SWAGGER"):
             swagger_resource_type = config_json["swagger_resource_type"]
             swagger_default_network = config_json["swagger_default_network"]
+            logging.debug(
+                json.dumps(
+                    {
+                        "swagger_resource_type": swagger_resource_type,
+                        "swagger_default_network": swagger_default_network,
+                    }
+                )
+            )
     except KeyError:
         return False
 
@@ -35,15 +47,16 @@ def resources(resources_json):
     required_network_types = ["networks", "databases", "users", "systems"]
     for required_type in required_network_types:
         if required_type not in resource_types:
-            logging.error(required_type + " not found in resources")
+            logging.error("%s not found in resources", required_type)
             return False
 
     # Validate network fields
     try:
         for network in resources_json["resources"]["networks"]:
             network_name = network["name"]
+            logging.debug(json.dumps({"network_name": network_name}))
     except KeyError:
-        logging.error("name not set for network: " + str(network))
+        logging.error("name not set for network: %s", str(network))
         return False
 
     # Validate user fields
@@ -52,10 +65,15 @@ def resources(resources_json):
             name = user["name"]
             network = user["network"]
             description = user["description"]
+            logging.debug(
+                json.dumps(
+                    {"name": name, "network": network, "description": description}
+                )
+            )
     except KeyError:
         logging.error(
-            "Required field not set for user (Required: name, network, description): "
-            + str(user)
+            "Required field not set for user (Required: name, network, description): %s",
+            str(user),
         )
         return False
 
@@ -65,10 +83,15 @@ def resources(resources_json):
             name = database["name"]
             network = database["network"]
             description = database["description"]
+            logging.debug(
+                json.dumps(
+                    {"name": name, "network": network, "description": description}
+                )
+            )
     except KeyError:
         logging.error(
-            "Required field not set for database (Required: name, network, description): "
-            + str(database)
+            "Required field not set for database (Required: name, network, description): %s",
+            str(database),
         )
         return False
 
@@ -78,10 +101,15 @@ def resources(resources_json):
             name = system["name"]
             network = system["network"]
             description = system["description"]
+            logging.debug(
+                json.dumps(
+                    {"name": name, "network": network, "description": description}
+                )
+            )
     except KeyError:
         logging.error(
-            "Required field not set for system (Required: name, network, description): "
-            + str(system)
+            "Required field not set for system (Required: name, network, description): %s",
+            str(system),
         )
         return False
 
@@ -91,10 +119,15 @@ def resources(resources_json):
             name = container["name"]
             network = container["network"]
             description = container["description"]
+            logging.debug(
+                json.dumps(
+                    {"name": name, "network": network, "description": description}
+                )
+            )
     except KeyError:
         logging.error(
-            "Required field not set for container (Required: name, network, description): "
-            + str(container)
+            "Required field not set for container (Required: name, network, description): %s",
+            str(container),
         )
         return False
 
@@ -104,10 +137,19 @@ def resources(resources_json):
             source = res_link["source"]
             destination = res_link["destination"]
             description = res_link["description"]
+            logging.debug(
+                json.dumps(
+                    {
+                        "source": source,
+                        "destination": destination,
+                        "description": description,
+                    }
+                )
+            )
     except KeyError:
         logging.error(
-            "Required field not set for res_link (Required: source, destination, description): "
-            + str(res_link)
+            "Required field not set for res_link (Required: source, destination, description): %s",
+            str(res_link),
         )
         return False
 
@@ -127,7 +169,7 @@ def defaults(defaults_json):
 
     for required_type in required_network_types:
         if required_type not in resource_types:
-            logging.error(required_type + " not found in defaults")
+            logging.error("%s not found in defaults", required_type)
             return False
     return True
 
@@ -150,7 +192,8 @@ def swagger(swagger_json):
                 path_description = swagger_json["paths"][swagger_path][
                     str(list(swagger_json["paths"][swagger_path].keys())[0])
                 ]["description"]
+                logging.debug(json.dumps({"path_description": path_description}))
             except KeyError:
-                logging.error("description not set on swagger path " + swagger_path)
+                logging.error("description not set on swagger path %s", swagger_path)
                 return False
     return True
