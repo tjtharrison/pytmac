@@ -1,6 +1,6 @@
 import json
-import os
 import logging
+import os
 
 
 def config(config_json):
@@ -53,7 +53,10 @@ def resources(resources_json):
             network = user["network"]
             description = user["description"]
     except KeyError:
-        logging.error("Required field not set for user (Required: name, network, description): " + str(user))
+        logging.error(
+            "Required field not set for user (Required: name, network, description): "
+            + str(user)
+        )
         return False
 
     # Validate database fields
@@ -63,7 +66,10 @@ def resources(resources_json):
             network = database["network"]
             description = database["description"]
     except KeyError:
-        logging.error("Required field not set for database (Required: name, network, description): " + str(database))
+        logging.error(
+            "Required field not set for database (Required: name, network, description): "
+            + str(database)
+        )
         return False
 
     # Validate systems fields
@@ -73,7 +79,10 @@ def resources(resources_json):
             network = system["network"]
             description = system["description"]
     except KeyError:
-        logging.error("Required field not set for system (Required: name, network, description): " + str(system))
+        logging.error(
+            "Required field not set for system (Required: name, network, description): "
+            + str(system)
+        )
         return False
 
     # Validate containers fields
@@ -83,7 +92,10 @@ def resources(resources_json):
             network = container["network"]
             description = container["description"]
     except KeyError:
-        logging.error("Required field not set for container (Required: name, network, description): " + str(container))
+        logging.error(
+            "Required field not set for container (Required: name, network, description): "
+            + str(container)
+        )
         return False
 
     # Validate res_link fields
@@ -93,7 +105,10 @@ def resources(resources_json):
             destination = res_link["destination"]
             description = res_link["description"]
     except KeyError:
-        logging.error("Required field not set for res_link (Required: source, destination, description): " + str(res_link))
+        logging.error(
+            "Required field not set for res_link (Required: source, destination, description): "
+            + str(res_link)
+        )
         return False
 
     return True

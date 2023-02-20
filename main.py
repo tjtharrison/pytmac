@@ -4,9 +4,9 @@ Python based programatic threat modelling tool tmacs
 import json
 import logging
 import os
+import sys
 from copy import deepcopy
 from datetime import date
-import sys
 
 try:
     print(len(os.environ.get("GITHUB_WORKSPACE")))
@@ -17,7 +17,7 @@ except TypeError:
 
     load_dotenv()
 
-from bin import resource_validator, input_validator
+from bin import input_validator, resource_validator
 
 # Configure logging
 logging.basicConfig(
