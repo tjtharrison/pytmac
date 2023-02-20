@@ -12,10 +12,12 @@ OUTPUT_REPORT_FILE = OUTPUT_REPORT_DIRECTORY + "/report-" + str(date.today()) + 
 RESOURCES_FILE = os.environ.get("RESOURCES_FILE")
 CONFIG_FILE = os.environ.get("CONFIG_FILE")
 DEFAULTS_FILE = os.environ.get("DEFAULTS_FILE")
+SWAGGER_FILE = os.environ.get("SWAGGER_FILE")
 
 BACKUP_RESOURCES_FILE = RESOURCES_FILE.replace(".json", ".bak.json")
 BACKUP_CONFIG_FILE = CONFIG_FILE.replace(".json", ".bak.json")
 BACKUP_DEFAULTS_FILE = DEFAULTS_FILE.replace(".json", ".bak.json")
+BACKUP_SWAGGER_FILE = SWAGGER_FILE.replace(".json", ".bak.json")
 
 with open(os.environ.get("CONFIG_FILE"), encoding="UTF-8") as config_file_contents:
     config_json = json.loads(config_file_contents.read())
@@ -27,6 +29,9 @@ with open(
 
 with open(os.environ.get("DEFAULTS_FILE"), encoding="UTF-8") as defaults_file_contents:
     defaults_json = json.loads(defaults_file_contents.read())
+
+with open(os.environ.get("SWAGGER_FILE"), encoding="UTF-8") as swagger_file_contents:
+    swagger_json = json.loads(swagger_file_contents.read())
 
 
 def backup_config():
@@ -42,6 +47,9 @@ def backup_config():
 
     with open(BACKUP_DEFAULTS_FILE, "w+", encoding="UTF-8") as defaults_backup:
         defaults_backup.write(json.dumps(defaults_json))
+
+    with open(BACKUP_SWAGGER_FILE, "w+", encoding="UTF-8") as swagger_backup:
+        swagger_backup.write(json.dumps(swagger_json))
 
     return True
 
@@ -65,6 +73,12 @@ def restore_config():
         backup_defaults_contents = json.loads(defaults_backup.read())
         with open(DEFAULTS_FILE, "w+", encoding="UTF-8") as defaults_restore:
             defaults_restore.write(json.dumps(backup_defaults_contents))
+
+    with open(BACKUP_SWAGGER_FILE, "r", encoding="UTF-8") as swagger_backup:
+        backup_swagger_contents = json.loads(swagger_backup.read())
+        with open(SWAGGER_FILE, "w+", encoding="UTF-8") as swagger_restore:
+            swagger_restore.write(json.dumps(backup_swagger_contents))
+
     return True
 
 
@@ -705,6 +719,56 @@ def test_defaults_top_level_networks_missing(caplog):
     log_present = False
     for record in caplog.records:
         if "networks not found in defaults" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_swagger_no_paths(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(SWAGGER_FILE, "r+", encoding="UTF-8") as swagger_file_update:
+        swagger_file_update_data = json.load(swagger_file_update)
+        swagger_file_update_data["paths"] = {}
+        swagger_file_update.seek(0)
+        swagger_file_update.write(json.dumps(swagger_file_update_data))
+        swagger_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "No paths provided in swagger.json" in record.msg:
+            log_present = True
+
+    if log_present:
+        assert True
+    else:
+        assert False
+
+
+def test_swagger_no_description(caplog):
+    caplog.set_level(logging.ERROR)
+
+    with open(SWAGGER_FILE, "r+", encoding="UTF-8") as swagger_file_update:
+        swagger_file_update_data = json.load(swagger_file_update)
+        del swagger_file_update_data["paths"]["/api/user/add"][
+        str(list(swagger_json["paths"]["/api/user/add"].keys())[0])
+    ]["description"]
+        swagger_file_update.seek(0)
+        swagger_file_update.write(json.dumps(swagger_file_update_data))
+        swagger_file_update.truncate()
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main.main()
+
+    log_present = False
+    for record in caplog.records:
+        if "description not set on swagger path /api/user/add" in record.msg:
             log_present = True
 
     if log_present:
