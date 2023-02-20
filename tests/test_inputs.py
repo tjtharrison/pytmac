@@ -23,7 +23,7 @@ with open(os.environ.get("CONFIG_FILE"), encoding="UTF-8") as config_file_conten
     config_json = json.loads(config_file_contents.read())
 
 with open(
-        os.environ.get("RESOURCES_FILE"), encoding="UTF-8"
+    os.environ.get("RESOURCES_FILE"), encoding="UTF-8"
 ) as resources_file_contents:
     resources_json = json.loads(resources_file_contents.read())
 
@@ -102,6 +102,7 @@ def test_config_good(caplog):
 
     assert True
 
+
 def test_config_no_title(caplog):
     caplog.set_level(logging.ERROR)
 
@@ -127,6 +128,7 @@ def test_config_no_title(caplog):
     else:
         assert False
 
+
 def test_config_no_description(caplog):
     caplog.set_level(logging.ERROR)
 
@@ -151,6 +153,7 @@ def test_config_no_description(caplog):
         assert True
     else:
         assert False
+
 
 def test_config_no_swagger_resource_type(caplog):
     caplog.set_level(logging.ERROR)
@@ -202,6 +205,7 @@ def test_config_no_swagger_default_network(caplog):
     else:
         assert False
 
+
 def test_resources_top_level_networks_missing(caplog):
     caplog.set_level(logging.ERROR)
 
@@ -224,6 +228,7 @@ def test_resources_top_level_networks_missing(caplog):
         assert True
     else:
         assert False
+
 
 def test_resources_top_level_users_missing(caplog):
     caplog.set_level(logging.ERROR)
@@ -392,6 +397,7 @@ def test_resources_user_description(caplog):
     else:
         assert False
 
+
 def test_resources_database_description(caplog):
     caplog.set_level(logging.ERROR)
 
@@ -438,6 +444,7 @@ def test_resources_database_name(caplog):
         assert True
     else:
         assert False
+
 
 def test_resources_database_network(caplog):
     caplog.set_level(logging.ERROR)
@@ -757,8 +764,8 @@ def test_swagger_no_description(caplog):
     with open(SWAGGER_FILE, "r+", encoding="UTF-8") as swagger_file_update:
         swagger_file_update_data = json.load(swagger_file_update)
         del swagger_file_update_data["paths"]["/api/user/add"][
-        str(list(swagger_json["paths"]["/api/user/add"].keys())[0])
-    ]["description"]
+            str(list(swagger_json["paths"]["/api/user/add"].keys())[0])
+        ]["description"]
         swagger_file_update.seek(0)
         swagger_file_update.write(json.dumps(swagger_file_update_data))
         swagger_file_update.truncate()
