@@ -116,17 +116,13 @@ def test_config_no_title(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        print("Config validation failed!")
-        if "Config validation failed!" in record.msg:
-            print("Got here")
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "Config validation failed!",
+        )
+    ]
 
 
 def test_config_no_description(caplog):
@@ -142,18 +138,13 @@ def test_config_no_description(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        print("Config validation failed!")
-        if "Config validation failed!" in record.msg:
-            print("Got here")
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
-
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "Config validation failed!",
+        )
+    ]
 
 def test_config_no_swagger_resource_type(caplog):
     caplog.set_level(logging.ERROR)
@@ -168,17 +159,13 @@ def test_config_no_swagger_resource_type(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        print("Config validation failed!")
-        if "Config validation failed!" in record.msg:
-            print("Got here")
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "Config validation failed!",
+        )
+    ]
 
 
 def test_config_no_swagger_default_network(caplog):
@@ -194,16 +181,13 @@ def test_config_no_swagger_default_network(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        print("Config validation failed!")
-        if "Config validation failed!" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "Config validation failed!",
+        )
+    ]
 
 
 def test_resources_top_level_networks_missing(caplog):
@@ -219,15 +203,15 @@ def test_resources_top_level_networks_missing(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "networks not found in resources" in record.msg:
-            log_present = True
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "networks not found in resources",
+        ),
+        ("root", logging.ERROR, "Resources validation failed!"),
+    ]
 
-    if log_present:
-        assert True
-    else:
-        assert False
 
 
 def test_resources_top_level_users_missing(caplog):
@@ -243,15 +227,15 @@ def test_resources_top_level_users_missing(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "users not found in resources" in record.msg:
-            log_present = True
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "users not found in resources",
+        ),
+        ("root", logging.ERROR, "Resources validation failed!"),
+    ]
 
-    if log_present:
-        assert True
-    else:
-        assert False
 
 
 def test_resources_top_level_databases_missing(caplog):
@@ -267,15 +251,15 @@ def test_resources_top_level_databases_missing(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "databases not found in resources" in record.msg:
-            log_present = True
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "databases not found in resources",
+        ),
+        ("root", logging.ERROR, "Resources validation failed!"),
+    ]
 
-    if log_present:
-        assert True
-    else:
-        assert False
 
 
 def test_resources_top_level_systems_missing(caplog):
@@ -291,15 +275,15 @@ def test_resources_top_level_systems_missing(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "systems not found in resources" in record.msg:
-            log_present = True
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "systems not found in resources",
+        ),
+        ("root", logging.ERROR, "Resources validation failed!"),
+    ]
 
-    if log_present:
-        assert True
-    else:
-        assert False
 
 
 def test_resources_networks_fields(caplog):
@@ -315,15 +299,14 @@ def test_resources_networks_fields(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "name not set for network" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "name not set for network: {}",
+        ),
+        ("root", logging.ERROR, "Resources validation failed!"),
+    ]
 
 
 def test_resources_user_name(caplog):
@@ -339,16 +322,14 @@ def test_resources_user_name(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "Required field not set for user" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
-
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "Required field not set for user (Required: name, network, description): {'network': 'test_network', 'description': 'Testing user'}",
+        ),
+        ("root", logging.ERROR, "Resources validation failed!"),
+    ]
 
 def test_resources_user_network(caplog):
     caplog.set_level(logging.ERROR)
@@ -363,15 +344,14 @@ def test_resources_user_network(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "Required field not set for user" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "Required field not set for user (Required: name, network, description): {'name': 'test_user', 'description': 'Testing user'}",
+        ),
+        ("root", logging.ERROR, "Resources validation failed!"),
+    ]
 
 
 def test_resources_user_description(caplog):
@@ -387,15 +367,14 @@ def test_resources_user_description(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "Required field not set for user" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "Required field not set for user (Required: name, network, description): {'name': 'test_user', 'network': 'test_network'}",
+        ),
+        ("root", logging.ERROR, "Resources validation failed!"),
+    ]
 
 
 def test_resources_database_description(caplog):
@@ -411,15 +390,14 @@ def test_resources_database_description(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "Required field not set for database" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "Required field not set for database (Required: name, network, description): {'name': 'test_database', 'network': 'test_network'}",
+        ),
+        ("root", logging.ERROR, "Resources validation failed!"),
+    ]
 
 
 def test_resources_database_name(caplog):
@@ -435,16 +413,14 @@ def test_resources_database_name(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "Required field not set for database" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
-
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "Required field not set for database (Required: name, network, description): {'network': 'test_network', 'description': 'Testing database'}",
+        ),
+        ("root", logging.ERROR, "Resources validation failed!"),
+    ]
 
 def test_resources_database_network(caplog):
     caplog.set_level(logging.ERROR)
@@ -459,15 +435,14 @@ def test_resources_database_network(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "Required field not set for database" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "Required field not set for database (Required: name, network, description): {'name': 'test_database', 'description': 'Testing database'}",
+        ),
+        ("root", logging.ERROR, "Resources validation failed!"),
+    ]
 
 
 def test_resources_system_name(caplog):
@@ -483,15 +458,14 @@ def test_resources_system_name(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "Required field not set for system" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "Required field not set for system (Required: name, network, description): {'network': 'test_network', 'description': 'Test System'}",
+        ),
+        ("root", logging.ERROR, "Resources validation failed!"),
+    ]
 
 
 def test_resources_system_network(caplog):
@@ -507,15 +481,14 @@ def test_resources_system_network(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "Required field not set for system" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "Required field not set for system (Required: name, network, description): {'name': 'test_system', 'description': 'Test System'}",
+        ),
+        ("root", logging.ERROR, "Resources validation failed!"),
+    ]
 
 
 def test_resources_system_description(caplog):
@@ -531,15 +504,14 @@ def test_resources_system_description(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "Required field not set for system" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "Required field not set for system (Required: name, network, description): {'name': 'test_system', 'network': 'test_network'}",
+        ),
+        ("root", logging.ERROR, "Resources validation failed!"),
+    ]
 
 
 def test_resources_res_link_description(caplog):
@@ -555,16 +527,14 @@ def test_resources_res_link_description(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "Required field not set for res_link" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
-
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "Required field not set for res_link (Required: source, destination, description): {'source': 'test_user', 'destination': 'test_system'}",
+        ),
+        ("root", logging.ERROR, "Resources validation failed!"),
+    ]
 
 def test_resources_res_link_source(caplog):
     caplog.set_level(logging.ERROR)
@@ -579,15 +549,14 @@ def test_resources_res_link_source(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "Required field not set for res_link" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "Required field not set for res_link (Required: source, destination, description): {'destination': 'test_system', 'description': 'Test connection from user to system'}",
+        ),
+        ("root", logging.ERROR, "Resources validation failed!"),
+    ]
 
 
 def test_resources_res_link_destination(caplog):
@@ -603,39 +572,14 @@ def test_resources_res_link_destination(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "Required field not set for res_link" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
-
-
-def test_defaults_top_level_systems_missing(caplog):
-    caplog.set_level(logging.ERROR)
-
-    with open(DEFAULTS_FILE, "r+", encoding="UTF-8") as defaults_file_update:
-        defaults_file_update_data = json.load(defaults_file_update)
-        del defaults_file_update_data["systems"]
-        defaults_file_update.seek(0)
-        defaults_file_update.write(json.dumps(defaults_file_update_data))
-        defaults_file_update.truncate()
-
-    with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
-
-    log_present = False
-    for record in caplog.records:
-        if "systems not found in defaults" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
+    assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "Required field not set for res_link (Required: source, destination, description): {'source': 'test_user', 'description': 'Test connection from user to system'}",
+        ),
+        ("root", logging.ERROR, "Resources validation failed!"),
+    ]
 
 
 def test_defaults_top_level_systems_missing(caplog):
@@ -651,15 +595,10 @@ def test_defaults_top_level_systems_missing(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "systems not found in defaults" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
+    assert caplog.record_tuples == [
+        ("root", logging.ERROR, "systems not found in defaults"),
+        ("root", logging.ERROR, "Defaults validation failed!"),
+    ]
 
 
 def test_defaults_top_level_users_missing(caplog):
@@ -675,15 +614,10 @@ def test_defaults_top_level_users_missing(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "users not found in defaults" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
+    assert caplog.record_tuples == [
+        ("root", logging.ERROR, "users not found in defaults"),
+        ("root", logging.ERROR, "Defaults validation failed!"),
+    ]
 
 
 def test_defaults_top_level_databases_missing(caplog):
@@ -699,15 +633,10 @@ def test_defaults_top_level_databases_missing(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "databases not found in defaults" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
+    assert caplog.record_tuples == [
+        ("root", logging.ERROR, "databases not found in defaults"),
+        ("root", logging.ERROR, "Defaults validation failed!"),
+    ]
 
 
 def test_defaults_top_level_networks_missing(caplog):
@@ -723,15 +652,10 @@ def test_defaults_top_level_networks_missing(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "networks not found in defaults" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
+    assert caplog.record_tuples == [
+        ("root", logging.ERROR, "networks not found in defaults"),
+        ("root", logging.ERROR, "Defaults validation failed!"),
+    ]
 
 
 def test_swagger_no_paths(caplog):
@@ -747,17 +671,10 @@ def test_swagger_no_paths(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "No paths provided in swagger.json" in record.msg:
-            log_present = True
-        else:
-            print(record.msg)
-
-    if log_present:
-        assert True
-    else:
-        assert False
+    assert caplog.record_tuples == [
+        ("root", logging.ERROR, "No paths provided in swagger.json"),
+        ("root", logging.ERROR, "Swagger validation failed!"),
+    ]
 
 
 def test_swagger_no_description(caplog):
@@ -775,12 +692,7 @@ def test_swagger_no_description(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-    log_present = False
-    for record in caplog.records:
-        if "description not set on swagger path /api/user/add" in record.msg:
-            log_present = True
-
-    if log_present:
-        assert True
-    else:
-        assert False
+    assert caplog.record_tuples == [
+        ("root", logging.ERROR, "description not set on swagger path /api/user/add"),
+        ("root", logging.ERROR, "Swagger validation failed!"),
+    ]
