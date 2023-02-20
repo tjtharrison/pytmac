@@ -135,6 +135,7 @@ def test_user_owned_device():
     else:
         assert False
 
+
 def test_broken_access_control():
     """
     Create insecure user and validate security check "broken_access_control"
@@ -169,15 +170,15 @@ def test_broken_access_control():
     insecure_resource_found = False
     for resource in insecure_resources:
         if (
-                resource["name"]
-                == security_checks_file_contents["broken_access_control"]["name"]
-                and resource["resource"] == "test_system"
-                and resource["description"]
-                == security_checks_file_contents["broken_access_control"]["description"]
-                and resource["remediation"]
-                == security_checks_file_contents["broken_access_control"]["remediation"]
-                and resource["severity"]
-                == security_checks_file_contents["broken_access_control"]["severity"]
+            resource["name"]
+            == security_checks_file_contents["broken_access_control"]["name"]
+            and resource["resource"] == "test_system"
+            and resource["description"]
+            == security_checks_file_contents["broken_access_control"]["description"]
+            and resource["remediation"]
+            == security_checks_file_contents["broken_access_control"]["remediation"]
+            and resource["severity"]
+            == security_checks_file_contents["broken_access_control"]["severity"]
         ):
             insecure_resource_found = True
     if insecure_resource_found:
@@ -221,15 +222,15 @@ def test_cryptographic_failures():
     for resource in insecure_resources:
         print(resource)
         if (
-                resource["name"]
-                == security_checks_file_contents["cryptographic_failures"]["name"]
-                and resource["resource"] == "test_database2"
-                and resource["description"]
-                == security_checks_file_contents["cryptographic_failures"]["description"]
-                and resource["remediation"]
-                == security_checks_file_contents["cryptographic_failures"]["remediation"]
-                and resource["severity"]
-                == security_checks_file_contents["cryptographic_failures"]["severity"]
+            resource["name"]
+            == security_checks_file_contents["cryptographic_failures"]["name"]
+            and resource["resource"] == "test_database2"
+            and resource["description"]
+            == security_checks_file_contents["cryptographic_failures"]["description"]
+            and resource["remediation"]
+            == security_checks_file_contents["cryptographic_failures"]["remediation"]
+            and resource["severity"]
+            == security_checks_file_contents["cryptographic_failures"]["severity"]
         ):
             insecure_resource_found = True
     if insecure_resource_found:
@@ -273,15 +274,14 @@ def test_sql_injection():
     for resource in insecure_resources:
         print(resource)
         if (
-                resource["name"]
-                == security_checks_file_contents["sql_injection"]["name"]
-                and resource["resource"] == "test_system2"
-                and resource["description"]
-                == security_checks_file_contents["sql_injection"]["description"]
-                and resource["remediation"]
-                == security_checks_file_contents["sql_injection"]["remediation"]
-                and resource["severity"]
-                == security_checks_file_contents["sql_injection"]["severity"]
+            resource["name"] == security_checks_file_contents["sql_injection"]["name"]
+            and resource["resource"] == "test_system2"
+            and resource["description"]
+            == security_checks_file_contents["sql_injection"]["description"]
+            and resource["remediation"]
+            == security_checks_file_contents["sql_injection"]["remediation"]
+            and resource["severity"]
+            == security_checks_file_contents["sql_injection"]["severity"]
         ):
             insecure_resource_found = True
     if insecure_resource_found:

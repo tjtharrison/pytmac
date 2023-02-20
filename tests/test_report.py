@@ -135,6 +135,7 @@ def test_report_contents():
 
     assert True
 
+
 #### Need to test insecure resource
 # def test_insecure_resource_table():
 

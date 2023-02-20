@@ -21,7 +21,7 @@ with open(os.environ.get("CONFIG_FILE"), encoding="UTF-8") as config_file_conten
     config_json = json.loads(config_file_contents.read())
 
 with open(
-        os.environ.get("RESOURCES_FILE"), encoding="UTF-8"
+    os.environ.get("RESOURCES_FILE"), encoding="UTF-8"
 ) as resources_file_contents:
     resources_json = json.loads(resources_file_contents.read())
 
@@ -30,6 +30,7 @@ with open(os.environ.get("DEFAULTS_FILE"), encoding="UTF-8") as defaults_file_co
 
 with open(os.environ.get("SWAGGER_FILE"), encoding="UTF-8") as swagger_file:
     swagger_json = json.loads(swagger_file.read())
+
 
 def backup_config():
     """
@@ -80,6 +81,7 @@ def my_fixture():
     yield
     restore_config()
 
+
 def test_default_setting_user():
     """
     Test generating resources with Swagger
@@ -96,6 +98,7 @@ def test_default_setting_user():
         assert True
     else:
         assert False
+
 
 # Test changing default on Swagger
 
