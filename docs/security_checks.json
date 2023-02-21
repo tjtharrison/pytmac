@@ -115,5 +115,82 @@
       " or not resources[resource][\"security_scan_on_build\"]",
       " or not resources[resource][\"security_scan_on_artifact_storage\"]"
     ]
+  },
+  "auth_failures": {
+    "name": "A07:2021 – Identification and Authentication Failures",
+    "description": "OWASP top 10 #7: Identification and Authentication Failures",
+    "remediation": "Review non-compliant controls and remediate",
+    "severity": 1,
+    "likelihood": 1,
+    "resource_scope": [
+      "systems",
+      "containers"
+    ],
+    "check_query": [
+      " not resources[resource][\"mfa_enabled\"] ",
+      " or not resources[resource][\"default_accounts_enabled\"]",
+      " or not resources[resource][\"has_secure_password_policy\"]",
+      " or not resources[resource][\"password_username_incorrect_same_message\"]",
+      " or not resources[resource][\"delayed_login_failures\"]",
+      " or not resources[resource][\"login_failures_logged\"]",
+      " or not resources[resource][\"sessions_stored_securely\"]"
+    ]
+  },
+  "integrity_failure": {
+    "name": "A08:2021 – Software and Data Integrity Failures",
+    "description": "OWASP top 10 #8: Software and Data Integrity Failures",
+    "remediation": "Review non-compliant controls and remediate",
+    "severity": 1,
+    "likelihood": 1,
+    "resource_scope": [
+      "systems",
+      "containers"
+    ],
+    "check_query": [
+      " not resources[resource][\"dependabot_used\"] ",
+      " or not resources[resource][\"dependency_signing_required\"]",
+      " or not resources[resource][\"code_review_required\"]",
+      " or not resources[resource][\"code_scan_in_pipeline\"]",
+      " or not resources[resource][\"code_scan_in_pipeline\"]"
+    ]
+  },
+  "logging_monitoring_failure": {
+    "name": "A09:2021 – Security Logging and Monitoring Failures",
+    "description": "OWASP top 10 #9: Security Logging and Monitoring Failures",
+    "remediation": "Review non-compliant controls and remediate",
+    "severity": 1,
+    "likelihood": 1,
+    "resource_scope": [
+      "systems",
+      "containers",
+      "databases"
+    ],
+    "check_query": [
+      " not resources[resource][\"audit_logging_enabled\"] ",
+      " or not resources[resource][\"audit_logging_to_siem\"]",
+      " or not resources[resource][\"audit_logging_tamper_proof\"]",
+      " or not resources[resource][\"audit_logging_monitored\"]",
+      " or not resources[resource][\"audit_logging_alerts\"]",
+      " or not resources[resource][\"incident_response_runbooks\"]",
+      " or not resources[resource][\"tested_recovery_process\"]"
+    ]
+  },
+  "ssrf": {
+    "name": "A10:2021 – Server-Side Request Forgery (SSRF)",
+    "description": "OWASP top 10 #10: Server-Side Request Forgery (SSRF)",
+    "remediation": "Review non-compliant controls and remediate",
+    "severity": 1,
+    "likelihood": 1,
+    "resource_scope": [
+      "systems",
+      "containers"
+    ],
+    "check_query": [
+      " not resources[resource][\"least_privileged_network\"] ",
+      " or not resources[resource][\"input_validation\"]",
+      " or not resources[resource][\"input_sanitization\"]",
+      " or not resources[resource][\"least_privileged_access\"]",
+      " or not resources[resource][\"requires_encryption\"]"
+    ]
   }
 }

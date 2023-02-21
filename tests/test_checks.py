@@ -386,3 +386,205 @@ def test_security_misconfig():
         assert True
     else:
         assert False
+
+
+
+def test_auth_failures():
+    """
+    Create insecure user and validate security check "auth_failures"
+    :return: True/False
+    """
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resource_file_update:
+        resource_file_update_data = json.load(resource_file_update)
+        resource_file_update_data["resources"]["systems"].append(
+            {
+                "name": "test_system2",
+                "network": "test_network",
+                "description": "Testing system with no sessions_stored_securely",
+                "config": {
+                    "delayed_login_failures": False,
+                },
+            }
+        )
+        resource_file_update.seek(0)
+        resource_file_update.write(json.dumps(resource_file_update_data))
+        resource_file_update.truncate()
+
+    main.main()
+
+    with open(OUTPUT_REPORT_FILE) as output_report_file:
+        output_report = json.loads(output_report_file.read())
+
+    insecure_resources = resource_validator.do_check(
+        output_report, security_checks_file_contents["auth_failures"]
+    )
+
+    insecure_resource_found = False
+    for resource in insecure_resources:
+        if (
+                resource["name"] == security_checks_file_contents["auth_failures"]["name"]
+                and resource["resource"] == "test_system2"
+                and resource["description"]
+                == security_checks_file_contents["auth_failures"]["description"]
+                and resource["remediation"]
+                == security_checks_file_contents["auth_failures"]["remediation"]
+                and resource["severity"]
+                == security_checks_file_contents["auth_failures"]["severity"]
+        ):
+            insecure_resource_found = True
+    if insecure_resource_found:
+        assert True
+    else:
+        assert False
+
+def test_integrity_failure():
+    """
+    Create insecure user and validate security check "integrity_failure"
+    :return: True/False
+    """
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resource_file_update:
+        resource_file_update_data = json.load(resource_file_update)
+        resource_file_update_data["resources"]["systems"].append(
+            {
+                "name": "test_system2",
+                "network": "test_network",
+                "description": "Testing system with no code_scan_in_pipeline",
+                "config": {
+                    "code_scan_in_pipeline": False,
+                },
+            }
+        )
+        resource_file_update.seek(0)
+        resource_file_update.write(json.dumps(resource_file_update_data))
+        resource_file_update.truncate()
+
+    main.main()
+
+    with open(OUTPUT_REPORT_FILE) as output_report_file:
+        output_report = json.loads(output_report_file.read())
+
+    insecure_resources = resource_validator.do_check(
+        output_report, security_checks_file_contents["integrity_failure"]
+    )
+
+    insecure_resource_found = False
+    for resource in insecure_resources:
+        if (
+                resource["name"] == security_checks_file_contents["integrity_failure"]["name"]
+                and resource["resource"] == "test_system2"
+                and resource["description"]
+                == security_checks_file_contents["integrity_failure"]["description"]
+                and resource["remediation"]
+                == security_checks_file_contents["integrity_failure"]["remediation"]
+                and resource["severity"]
+                == security_checks_file_contents["integrity_failure"]["severity"]
+        ):
+            insecure_resource_found = True
+    if insecure_resource_found:
+        assert True
+    else:
+        assert False
+
+
+
+def test_logging_monitoring_failure():
+    """
+    Create insecure user and validate security check "logging_monitoring_failure"
+    :return: True/False
+    """
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resource_file_update:
+        resource_file_update_data = json.load(resource_file_update)
+        resource_file_update_data["resources"]["systems"].append(
+            {
+                "name": "test_system2",
+                "network": "test_network",
+                "description": "Testing system with no tested_recovery_process",
+                "config": {
+                    "tested_recovery_process": False,
+                },
+            }
+        )
+        resource_file_update.seek(0)
+        resource_file_update.write(json.dumps(resource_file_update_data))
+        resource_file_update.truncate()
+
+    main.main()
+
+    with open(OUTPUT_REPORT_FILE) as output_report_file:
+        output_report = json.loads(output_report_file.read())
+
+    insecure_resources = resource_validator.do_check(
+        output_report, security_checks_file_contents["logging_monitoring_failure"]
+    )
+
+    insecure_resource_found = False
+    for resource in insecure_resources:
+        if (
+                resource["name"] == security_checks_file_contents["logging_monitoring_failure"]["name"]
+                and resource["resource"] == "test_system2"
+                and resource["description"]
+                == security_checks_file_contents["logging_monitoring_failure"]["description"]
+                and resource["remediation"]
+                == security_checks_file_contents["logging_monitoring_failure"]["remediation"]
+                and resource["severity"]
+                == security_checks_file_contents["logging_monitoring_failure"]["severity"]
+        ):
+            insecure_resource_found = True
+    if insecure_resource_found:
+        assert True
+    else:
+        assert False
+
+
+
+def test_ssrf():
+    """
+    Create insecure user and validate security check "ssrf"
+    :return: True/False
+    """
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resource_file_update:
+        resource_file_update_data = json.load(resource_file_update)
+        resource_file_update_data["resources"]["systems"].append(
+            {
+                "name": "test_system2",
+                "network": "test_network",
+                "description": "Testing system with no least_privileged_network",
+                "config": {
+                    "least_privileged_network": False,
+                },
+            }
+        )
+        resource_file_update.seek(0)
+        resource_file_update.write(json.dumps(resource_file_update_data))
+        resource_file_update.truncate()
+
+    main.main()
+
+    with open(OUTPUT_REPORT_FILE) as output_report_file:
+        output_report = json.loads(output_report_file.read())
+
+    insecure_resources = resource_validator.do_check(
+        output_report, security_checks_file_contents["ssrf"]
+    )
+
+    insecure_resource_found = False
+    for resource in insecure_resources:
+        if (
+                resource["name"] == security_checks_file_contents["ssrf"]["name"]
+                and resource["resource"] == "test_system2"
+                and resource["description"]
+                == security_checks_file_contents["ssrf"]["description"]
+                and resource["remediation"]
+                == security_checks_file_contents["ssrf"]["remediation"]
+                and resource["severity"]
+                == security_checks_file_contents["ssrf"]["severity"]
+        ):
+            insecure_resource_found = True
+    if insecure_resource_found:
+        assert True
+    else:
+        assert False
