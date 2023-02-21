@@ -324,26 +324,23 @@ def main():
             if len(insecure_resources) > 0:
                 # Writing some auto threat modelling
                 output_file.write(
-                    "| Name | Resources | Finding | Remediation | Severity |"
-                    "\n|-----|-----|-----|-----|-----|\n"
+                    "| Name | Resources | Finding | Remediation | Query | Severity |"
+                    "\n|-----|-----|-----|-----|-----|-----|\n"
                 )
                 for response in insecure_resources:
-                    check_name = response["name"]
-                    check_description = response["description"]
-                    check_resource = response["resource"]
-                    check_remediation = response["remediation"]
-                    check_severity = response["severity"]
                     response_detail = (
                         "| "
-                        + check_name
+                        + response["name"]
                         + " | "
-                        + check_resource
+                        + response["resource"]
                         + " | "
-                        + check_description
+                        + response["description"]
                         + " | "
-                        + check_remediation
+                        + response["remediation"]
                         + " | "
-                        + str(check_severity)
+                        + response["check_query"]
+                        + " | "
+                        + str(response["severity"])
                         + " | "
                         + "\n"
                     )

@@ -230,7 +230,7 @@ def test_override_setting_database():
                 "name": "test_database2",
                 "network": "test_network",
                 "description": "Testing database2",
-                "config": {"is_encrypted": True},
+                "config": {"is_encrypted": False},
             }
         )
         resource_file_update.seek(0)
@@ -243,8 +243,8 @@ def test_override_setting_database():
         output_report = json.loads(output_report_file.read())
 
     if (
-        not output_report["databases"]["test_database"]["is_encrypted"]
-        and output_report["databases"]["test_database2"]["is_encrypted"]
+        output_report["databases"]["test_database"]["is_encrypted"]
+        and not output_report["databases"]["test_database2"]["is_encrypted"]
     ):
         assert True
     else:
