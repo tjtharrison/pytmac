@@ -43,7 +43,8 @@ def do_check(output_json_report, check_details):
     [{
         "name": [The name of the check],
         "resource": [List of non-compliant resources],
-        "description": [Description of what the check],
+        "description": [Description of what the check does],
+        "check_query": [The query that returns True to generate this vulnerability type],
         "remediation": [Steps that should be taken to remediate the concern],
         "severity": [1-4 score on the impact of the insecurity]
     }]
@@ -64,6 +65,7 @@ def do_check(output_json_report, check_details):
                 "name": check_details["name"],
                 "resource": resource,
                 "description": check_details["description"],
+                "check_query": " ".join(check_details["check_query"]),
                 "remediation": check_details["remediation"],
                 "severity": check_details["severity"],
             }

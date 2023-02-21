@@ -55,7 +55,65 @@
       "containers"
     ],
     "check_query": [
-      "not resources[resource][\"input_sanitization\"] "
+      "(",
+      " not resources[resource][\"input_sanitization\"] ",
+      " or not resources[resource][\"authentication_required\"]",
+      " or not resources[resource][\"is_hardened\"]",
+      ") and resources[resource][\"db_op\"]"
+    ]
+  },
+  "insecure_design": {
+    "name": "A04:2021 – Insecure Design",
+    "description": "OWASP top 10 #4: Checks for good Software development practices",
+    "remediation": "Review non-compliant controls and remediate",
+    "severity": 1,
+    "likelihood": 1,
+    "resource_scope": [
+      "systems",
+      "containers"
+    ],
+    "check_query": [
+      " not resources[resource][\"dependabot_used\"] ",
+      " or not resources[resource][\"secret_scanning_used\"]",
+      " or not resources[resource][\"least_privileged_access\"]",
+      " or not resources[resource][\"least_privileged_network\"]"
+    ]
+  },
+  "security_misconfig": {
+    "name": "A05:2021 – Security Misconfiguration",
+    "description": "OWASP top 10 #5: Review for security misconfigurations",
+    "remediation": "Review non-compliant controls and remediate",
+    "severity": 1,
+    "likelihood": 1,
+    "resource_scope": [
+      "systems",
+      "containers",
+      "databases"
+    ],
+    "check_query": [
+      " not resources[resource][\"is_hardened\"] ",
+      " or not resources[resource][\"least_privileged_access\"]",
+      " or not resources[resource][\"least_privileged_network\"]",
+      " or not resources[resource][\"default_accounts_enabled\"]",
+      " or not resources[resource][\"secure_logging_enabled\"]",
+      " or not resources[resource][\"automatic_updates\"]"
+    ]
+  },
+  "vulnerable_components": {
+    "name": "A06:2021 – Vulnerable and Outdated Components",
+    "description": "OWASP top 10 #6: Review for outdated or insecure dependencies",
+    "remediation": "Review non-compliant controls and remediate",
+    "severity": 1,
+    "likelihood": 1,
+    "resource_scope": [
+      "systems",
+      "containers"
+    ],
+    "check_query": [
+      " not resources[resource][\"dependabot_used\"] ",
+      " or not resources[resource][\"automatic_updates\"]",
+      " or not resources[resource][\"security_scan_on_build\"]",
+      " or not resources[resource][\"security_scan_on_artifact_storage\"]"
     ]
   }
 }

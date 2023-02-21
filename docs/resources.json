@@ -26,7 +26,10 @@
       {
         "name": "vpn_server",
         "network": "office_network",
-        "description": "VPN Server"
+        "description": "VPN Server",
+        "config": {
+          "db_op": false
+        }
       }
     ],
     "containers": [
