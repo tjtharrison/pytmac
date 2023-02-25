@@ -113,9 +113,10 @@ def main():
 
             # Write wrapper for DFD
             output_file.write("# Data Flow Diagram\n")
-            output_file.write("```mermaid")
-            output_file.write("\n")
-            output_file.write("C4Context")
+            output_file.write("```plantuml\n")
+            output_file.write("@startuml " + " ".join(config_json["description"]) + "\n")
+            output_file.write("!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml\n")
+            output_file.write("!include https://raw.githubusercontent.com/geret1/plantuml-schemas/main/stride.puml\n")
             output_file.write("\n")
 
             # Write networks wrapper
@@ -145,8 +146,7 @@ def main():
                     logging.info("No overrides set, nothing to do")
                 # Write network to mermaid
                 output_file.write(
-                    "\t"
-                    + "Boundary(b"
+                    "Boundary(b"
                     + network["name"]
                     + ', "'
                     + network["name"]
@@ -175,7 +175,7 @@ def main():
                             logging.info("No overrides for %s", user["name"])
 
                         output_file.write(
-                            "\t\t"
+                            "\t"
                             + "Person("
                             + user["name"]
                             + ', "'
@@ -210,7 +210,7 @@ def main():
                             logging.info("No overrides for %s", database["name"])
 
                         output_file.write(
-                            "\t\t"
+                            "\t"
                             + "SystemDb("
                             + database["name"]
                             + ","
@@ -246,12 +246,12 @@ def main():
                             logging.info("No overrides for %s", system["name"])
 
                         output_file.write(
-                            "\t\t"
+                            "\t"
                             + "System("
-                            + system["name"]
+                            + system["name"].replace("/","_")
                             + ","
                             + '"'
-                            + system["name"]
+                            + system["name"].replace("/","_")
                             + ' ", "'
                             + system["description"]
                             + '")'
@@ -282,36 +282,34 @@ def main():
                             logging.info("No overrides for %s", container["name"])
 
                         output_file.write(
-                            "\t\t"
+                            "\t"
                             + "Container("
-                            + container["name"]
+                            + container["name"].replace("/","_")
                             + ","
                             + '"'
-                            + container["name"]
+                            + container["name"].replace("/","_")
                             + ' ", "'
                             + container["description"]
                             + '")'
                             + "\n"
                         )
-                output_file.write("\t" + "}" + "\n")
+                output_file.write("}" + "\n")
 
             # Process links between resources
             for res_links in resources["res_links"]:
                 output_file.write(
                     "\t"
                     + "BiRel("
-                    + res_links["source"]
+                    + res_links["source"].replace("/","_")
                     + ","
-                    + res_links["destination"]
+                    + res_links["destination"].replace("/","_")
                     + ', "'
                     + res_links["description"]
                     + '")'
                     + "\n"
                 )
                 output_file.write("\n")
-            output_file.write(
-                'UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="3")' + "\n"
-            )
+            output_file.write("@enduml\n")
             output_file.write("```\n")
 
             # Print final json
