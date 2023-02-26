@@ -251,7 +251,7 @@ def main():
                             + system["name"].replace("/","_")
                             + ","
                             + '"'
-                            + system["name"].replace("/","_")
+                            + system["name"]
                             + ' ", "'
                             + system["description"]
                             + '")'
@@ -287,7 +287,7 @@ def main():
                             + container["name"].replace("/","_")
                             + ","
                             + '"'
-                            + container["name"].replace("/","_")
+                            + container["name"]
                             + ' ", "'
                             + container["description"]
                             + '")'
