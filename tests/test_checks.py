@@ -588,3 +588,53 @@ def test_ssrf():
         assert True
     else:
         assert False
+
+
+def test_spoofing_users():
+    """
+    Create insecure user and validate security check "spoofing_users"
+    :return: True/False
+    """
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resource_file_update:
+        resource_file_update_data = json.load(resource_file_update)
+        resource_file_update_data["resources"]["users"].append(
+            {
+                "name": "test_system2",
+                "network": "test_network",
+                "description": "Testing system with no uses_mfa",
+                "config": {
+                    "uses_mfa": False,
+                },
+            }
+        )
+        resource_file_update.seek(0)
+        resource_file_update.write(json.dumps(resource_file_update_data))
+        resource_file_update.truncate()
+
+    main.main()
+
+    with open(OUTPUT_REPORT_FILE) as output_report_file:
+        output_report = json.loads(output_report_file.read())
+
+    insecure_resources = resource_validator.do_check(
+        output_report, security_checks_file_contents["spoofing_users"]
+    )
+
+    insecure_resource_found = False
+    for resource in insecure_resources:
+        if (
+                resource["name"] == security_checks_file_contents["spoofing_users"]["name"]
+                and resource["resource"] == "test_system2"
+                and resource["description"]
+                == security_checks_file_contents["spoofing_users"]["description"]
+                and resource["remediation"]
+                == security_checks_file_contents["spoofing_users"]["remediation"]
+                and resource["severity"]
+                == security_checks_file_contents["spoofing_users"]["severity"]
+        ):
+            insecure_resource_found = True
+    if insecure_resource_found:
+        assert True
+    else:
+        assert False

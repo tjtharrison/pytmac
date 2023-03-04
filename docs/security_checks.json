@@ -192,5 +192,44 @@
       " or not resources[resource][\"least_privileged_access\"]",
       " or not resources[resource][\"requires_encryption\"]"
     ]
+  },
+  "spoofing_users": {
+    "name": "STRIDE - Spoofing",
+    "description": "A spoofing attack is a situation in which a person or program successfully identifies as another by falsifying data, to gain an illegitimate advantage",
+    "remediation": "Ensure multiple methods of authentication are required for a user to verify their identity",
+    "severity": 1,
+    "likelihood": 1,
+    "resource_scope": [
+      "users"
+    ],
+    "check_query": [
+      " not resources[resource][\"uses_mfa\"] "
+    ]
+  },
+  "repudiation_user": {
+    "name": "STRIDE - Repudiation",
+    "description": "Repudiation is the ability to associate actions taken on a system with a specific user",
+    "remediation": "Ensure users do not use shared accounts",
+    "severity": 1,
+    "likelihood": 1,
+    "resource_scope": [
+      "users"
+    ],
+    "check_query": [
+      " not resources[resource][\"uses_own_login\"] "
+    ]
+  },
+  "repudiation_system": {
+    "name": "STRIDE - Repudiation",
+    "description": "Repudiation is the ability to associate actions taken on a system with a specific user",
+    "remediation": "Ensure logging contains identifiable information about the actor (Eg username, ip address)",
+    "severity": 1,
+    "likelihood": 1,
+    "resource_scope": [
+      "systems"
+    ],
+    "check_query": [
+      " not resources[resource][\"audit_logging_includes_user_details\"] "
+    ]
   }
 }
