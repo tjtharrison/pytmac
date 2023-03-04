@@ -50,7 +50,6 @@ def test_report_contents():
     system_correct = False
     container_correct = False
     relationship_correct = False
-    layout_correct = False
 
     for line in new_list:
         if line["name"] == "# test_doc" and line["level"] == 0:
@@ -59,44 +58,41 @@ def test_report_contents():
         if line["name"] == "Threat modelling for test" and line["level"] == 0:
             description_correct = True
 
-        if line["name"] == "```mermaid" and line["level"] == 0:
+        if line["name"] == "```plantuml" and line["level"] == 0:
             mermaid_prefix_correct = True
 
         if line["name"] == "```" and line["level"] == 0:
             mermaid_suffix_correct = True
 
-        if line["name"] == "C4Context" and line["level"] == 0:
+        if line["name"] == "@startuml Threat modelling for test" and line["level"] == 0:
             mermaid_type_correct = True
 
-        if (
-            line["name"] == 'Boundary(btest_network, "test_network") {'
-            and line["level"] == 1
-        ):
+        if line["name"] == 'Boundary(btest_network, "test_network") {' and line["level"] == 0:
             boundary_correct = True
 
         if (
             line["name"] == 'Person(test_user, "test_user", "Testing user")'
-            and line["level"] == 2
+            and line["level"] == 1
         ):
             person_correct = True
 
         if (
             line["name"]
             == 'SystemDb(test_database,"test_database ", "Testing database")'
-            and line["level"] == 2
+            and line["level"] == 1
         ):
             db_correct = True
 
         if (
             line["name"] == 'System(test_system,"test_system ", "Test System")'
-            and line["level"] == 2
+            and line["level"] == 1
         ):
             system_correct = True
 
         if (
             line["name"]
             == 'Container(test_container,"test_container ", "Testing Container")'
-            and line["level"] == 2
+            and line["level"] == 1
         ):
             container_correct = True
 
@@ -107,31 +103,25 @@ def test_report_contents():
         ):
             relationship_correct = True
 
-        if (
-            line["name"]
-            == 'UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="3")'
-            and line["level"] == 0
-        ):
-            layout_correct = True
-
     for check in [
+		mermaid_type_correct,
+		boundary_correct,
         title_correct,
         description_correct,
         mermaid_prefix_correct,
         mermaid_suffix_correct,
-        mermaid_type_correct,
-        boundary_correct,
         person_correct,
         db_correct,
         system_correct,
         container_correct,
         relationship_correct,
-        layout_correct,
     ]:
         if check == False:
             assert False
+            print(check + " has failed")
         else:
-            print("PASS")
+            print("PASS - " + str(check))
+
 
     assert True
 
