@@ -111,10 +111,10 @@ def main():
     ) as output_file:
         # Build out json report
         with open(
-            output_file_dir + "/" + output_file_name + ".json", "w", encoding="UTF-8"
-        ) as output_json:
+            output_file_dir + "/" + output_file_name + ".yaml", "w", encoding="UTF-8"
+        ) as output_yaml:
             # Start empty json for output report
-            output_json_report = {}
+            output_yaml_report = {}
             # Write intro into markdown
             output_file.write("# " + config_yaml["title"] + "\n")
             for description_line in config_yaml["description"]:
@@ -135,15 +135,15 @@ def main():
             output_file.write("\n")
 
             # Write networks wrapper
-            output_json_report["networks"] = {}
-            output_json_report["databases"] = {}
-            output_json_report["users"] = {}
-            output_json_report["systems"] = {}
-            output_json_report["containers"] = {}
+            output_yaml_report["networks"] = {}
+            output_yaml_report["databases"] = {}
+            output_yaml_report["users"] = {}
+            output_yaml_report["systems"] = {}
+            output_yaml_report["containers"] = {}
             # Process network resources as top wrapper
             for network in resources["networks"]:
                 # Build out network config in output
-                output_json_report["networks"][network["name"]] = deepcopy(
+                output_yaml_report["networks"][network["name"]] = deepcopy(
                     defaults_yaml["networks"]
                 )
 
@@ -154,7 +154,7 @@ def main():
                         logging.info(
                             "Setting " + config_setting + " on " + network["name"]
                         )
-                        output_json_report["networks"][network["name"]][
+                        output_yaml_report["networks"][network["name"]][
                             config_setting
                         ] = network["config"][config_setting]
                 except KeyError:
@@ -172,7 +172,7 @@ def main():
                 # Look for users in network
                 for user in resources["users"]:
                     if user["network"] == network["name"]:
-                        output_json_report["users"][user["name"]] = deepcopy(
+                        output_yaml_report["users"][user["name"]] = deepcopy(
                             defaults_yaml["users"]
                         )
                         # Look for override config
@@ -182,7 +182,7 @@ def main():
                                 logging.info(
                                     "Setting " + config_setting + " on " + user["name"]
                                 )
-                                output_json_report["users"][user["name"]][
+                                output_yaml_report["users"][user["name"]][
                                     config_setting
                                 ] = user["config"][config_setting]
                         except KeyError:
@@ -204,7 +204,7 @@ def main():
                 # Look for databases in network
                 for database in resources["databases"]:
                     if database["network"] == network["name"]:
-                        output_json_report["databases"][database["name"]] = deepcopy(
+                        output_yaml_report["databases"][database["name"]] = deepcopy(
                             defaults_yaml["databases"]
                         )
                         # Look for override config for database
@@ -217,7 +217,7 @@ def main():
                                     + " on "
                                     + database["name"]
                                 )
-                                output_json_report["databases"][database["name"]][
+                                output_yaml_report["databases"][database["name"]][
                                     config_setting
                                 ] = database["config"][config_setting]
                         except KeyError:
@@ -240,7 +240,7 @@ def main():
                 # Look for systems in network
                 for system in resources["systems"]:
                     if system["network"] == network["name"]:
-                        output_json_report["systems"][system["name"]] = deepcopy(
+                        output_yaml_report["systems"][system["name"]] = deepcopy(
                             defaults_yaml["systems"]
                         )
                         # Look for override config for system
@@ -253,7 +253,7 @@ def main():
                                     + " on "
                                     + system["name"]
                                 )
-                                output_json_report["systems"][system["name"]][
+                                output_yaml_report["systems"][system["name"]][
                                     config_setting
                                 ] = system["config"][config_setting]
                         except KeyError:
@@ -276,7 +276,7 @@ def main():
                 # Look for containers in network
                 for container in resources["containers"]:
                     if container["network"] == network["name"]:
-                        output_json_report["containers"][container["name"]] = deepcopy(
+                        output_yaml_report["containers"][container["name"]] = deepcopy(
                             defaults_yaml["systems"]
                         )
                         # Look for override config for system
@@ -289,7 +289,7 @@ def main():
                                     + " on "
                                     + container["name"]
                                 )
-                                output_json_report["containers"][container["name"]][
+                                output_yaml_report["containers"][container["name"]][
                                     config_setting
                                 ] = container["config"][config_setting]
                         except KeyError:
@@ -328,12 +328,11 @@ def main():
             output_file.write("```\n")
 
             # Print final json
-            final_report = json.dumps(output_json_report)
+            yaml.dump(output_yaml_report, output_yaml)
 
-            output_json.write(final_report)
 
             # Insecure resources
-            insecure_resources = resource_validator.main(output_json_report)
+            insecure_resources = resource_validator.main(output_yaml_report)
             if len(insecure_resources) > 0:
                 # Writing some auto threat modelling
                 output_file.write(
@@ -359,7 +358,6 @@ def main():
                     )
                     output_file.write(response_detail)
     return True
-
 
 if __name__ == "__main__":
     main()
