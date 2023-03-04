@@ -1,8 +1,9 @@
 """
 Python based programatic threat modelling tool tmacs
 """
-import json
+import yaml
 import logging
+import json
 import os
 import sys
 from copy import deepcopy
@@ -40,34 +41,42 @@ def main():
     report
     :return: True
     """
+
     # Load resources
-    with open(
-        os.environ.get("RESOURCES_FILE"), "r", encoding="UTF-8"
-    ) as resources_file:
-        resources_json = json.loads(resources_file.read())
+    with open(os.environ.get("RESOURCES_FILE"), "r", encoding="UTF-8") as resources_file:
+        try:
+            resources_yaml = yaml.safe_load(resources_file)
+        except yaml.YAMLError as error_message:
+            logging.error("Failed to load RESOURCES_FILE: %s", error_message)
 
     # Load config
     with open(os.environ.get("CONFIG_FILE"), "r", encoding="UTF-8") as config_file:
-        config_json = json.loads(config_file.read())
+        try:
+            config_yaml = yaml.safe_load(config_file)
+        except yaml.YAMLError as error_message:
+            logging.error("Failed to load CONFIG_FILE: %s", error_message)
 
     # Load defaults
     with open(os.environ.get("DEFAULTS_FILE"), "r", encoding="UTF-8") as defaults_file:
-        defaults_json = json.loads(defaults_file.read())
+        try:
+            defaults_yaml = yaml.safe_load(defaults_file)
+        except yaml.YAMLError as error_message:
+            logging.error("Failed to load DEFAULTS_FILE: %s", error_message)
 
     # Lets do some config validation
-    if not input_validator.config(config_json):
+    if not input_validator.config(config_yaml):
         logging.error("Config validation failed!")
         sys.exit()
-    if not input_validator.resources(resources_json):
+    if not input_validator.resources(resources_yaml):
         logging.error("Resources validation failed!")
         sys.exit()
-    if not input_validator.defaults(defaults_json):
+    if not input_validator.defaults(defaults_yaml):
         logging.error("Defaults validation failed!")
         sys.exit()
     else:
         logging.info("All files validated successfully")
 
-    resources = resources_json["resources"]
+    resources = resources_yaml["resources"]
 
     # Load swagger if enabled
     if os.environ.get("ENABLE_SWAGGER").lower() == "true":
@@ -85,13 +94,13 @@ def main():
         for swagger_path in swagger_paths:
             swagger_path_detail = {
                 "name": swagger_path,
-                "network": config_json["swagger_default_network"],
+                "network": config_yaml["swagger_default_network"],
                 "description": swagger_json["paths"][swagger_path][
                     str(list(swagger_json["paths"][swagger_path].keys())[0])
                 ]["description"],
             }
             # Append swagger endpoint to default swagger_resource_type resources
-            resources_json["resources"][config_json["swagger_resource_type"]].append(
+            resources_yaml["resources"][config_yaml["swagger_resource_type"]].append(
                 swagger_path_detail
             )
     output_file_dir = os.environ.get("OUTPUT_DIR")
@@ -107,15 +116,15 @@ def main():
             # Start empty json for output report
             output_json_report = {}
             # Write intro into markdown
-            output_file.write("# " + config_json["title"] + "\n")
-            for description_line in config_json["description"]:
+            output_file.write("# " + config_yaml["title"] + "\n")
+            for description_line in config_yaml["description"]:
                 output_file.write(description_line + "\n\n")
 
             # Write wrapper for DFD
             output_file.write("# Data Flow Diagram\n")
             output_file.write("```plantuml\n")
             output_file.write(
-                "@startuml " + " ".join(config_json["description"]) + "\n"
+                "@startuml " + " ".join(config_yaml["description"]) + "\n"
             )
             output_file.write(
                 "!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml\n"
@@ -135,7 +144,7 @@ def main():
             for network in resources["networks"]:
                 # Build out network config in output
                 output_json_report["networks"][network["name"]] = deepcopy(
-                    defaults_json["networks"]
+                    defaults_yaml["networks"]
                 )
 
                 # Look for override config for network
@@ -164,7 +173,7 @@ def main():
                 for user in resources["users"]:
                     if user["network"] == network["name"]:
                         output_json_report["users"][user["name"]] = deepcopy(
-                            defaults_json["users"]
+                            defaults_yaml["users"]
                         )
                         # Look for override config
                         try:
@@ -196,7 +205,7 @@ def main():
                 for database in resources["databases"]:
                     if database["network"] == network["name"]:
                         output_json_report["databases"][database["name"]] = deepcopy(
-                            defaults_json["databases"]
+                            defaults_yaml["databases"]
                         )
                         # Look for override config for database
                         try:
@@ -232,7 +241,7 @@ def main():
                 for system in resources["systems"]:
                     if system["network"] == network["name"]:
                         output_json_report["systems"][system["name"]] = deepcopy(
-                            defaults_json["systems"]
+                            defaults_yaml["systems"]
                         )
                         # Look for override config for system
                         try:
@@ -268,7 +277,7 @@ def main():
                 for container in resources["containers"]:
                     if container["network"] == network["name"]:
                         output_json_report["containers"][container["name"]] = deepcopy(
-                            defaults_json["systems"]
+                            defaults_yaml["systems"]
                         )
                         # Look for override config for system
                         try:

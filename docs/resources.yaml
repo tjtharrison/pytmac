@@ -1,0 +1,36 @@
+---
+resources:
+  networks:
+    - name: office_network
+    - name: home_network
+  users:
+    - name: user1
+      network: home_network
+      description: Database Administrator
+  databases:
+    - name: staging
+      network: office_network
+      description: Staging database
+  systems:
+    - name: vpn_server
+      network: office_network
+      description: VPN Server
+      config:
+        db_op: false
+  containers: []
+  res_links:
+    - source: user1
+      destination: vpn_server
+      description: User connects to VPN into office_network
+    - source: vpn_server
+      destination: "/api/user/add"
+      description: "/api/user/add accessed from the VPN server"
+    - source: vpn_server
+      destination: "/api/user"
+      description: "/api/user accessed from the VPN server"
+    - source: "/api/user/add"
+      destination: staging
+      description: "/api/user/add and adds data in the staging database"
+    - source: "/api/user"
+      destination: staging
+      description: "/api/user gets data from the staging database"
