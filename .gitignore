@@ -1,4 +1,4 @@
 .idea/*
 reports/*
 __pycache__
-**.bak.json
+**.bak.yaml

@@ -14,6 +14,7 @@ def config(config_json):
     :return: True/False
     """
     try:
+        print(config_json)
         title = config_json["title"]
         description = config_json["description"]
         logging.debug(json.dumps({"title": title, "description": description}))
@@ -28,7 +29,8 @@ def config(config_json):
                     }
                 )
             )
-    except KeyError:
+    except KeyError as error_message:
+        logging.error(str(error_message))
         return False
 
     return True

@@ -14,11 +14,10 @@ def main(output_json_report):
     report.
 
     :param output_json_report: A json document containing all resources and configuration settings
-    included in the final
-    report.
+    included in the final report.
     :return: List of insecure resources.
     """
-	# Load resources
+	# Load security checks
     with open(os.environ.get("SECURITY_CHECKS_FILE"), "r", encoding="UTF-8") as security_checks_file:
         try:
             security_checks_yaml = yaml.safe_load(security_checks_file)
