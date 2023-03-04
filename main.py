@@ -114,9 +114,15 @@ def main():
             # Write wrapper for DFD
             output_file.write("# Data Flow Diagram\n")
             output_file.write("```plantuml\n")
-            output_file.write("@startuml " + " ".join(config_json["description"]) + "\n")
-            output_file.write("!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml\n")
-            output_file.write("!include https://raw.githubusercontent.com/geret1/plantuml-schemas/main/stride.puml\n")
+            output_file.write(
+                "@startuml " + " ".join(config_json["description"]) + "\n"
+            )
+            output_file.write(
+                "!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml\n"
+            )
+            output_file.write(
+                "!include https://raw.githubusercontent.com/geret1/plantuml-schemas/main/stride.puml\n"
+            )
             output_file.write("\n")
 
             # Write networks wrapper
@@ -248,7 +254,7 @@ def main():
                         output_file.write(
                             "\t"
                             + "System("
-                            + system["name"].replace("/","_")
+                            + system["name"].replace("/", "_")
                             + ","
                             + '"'
                             + system["name"]
@@ -284,7 +290,7 @@ def main():
                         output_file.write(
                             "\t"
                             + "Container("
-                            + container["name"].replace("/","_")
+                            + container["name"].replace("/", "_")
                             + ","
                             + '"'
                             + container["name"]
@@ -300,9 +306,9 @@ def main():
                 output_file.write(
                     "\t"
                     + "BiRel("
-                    + res_links["source"].replace("/","_")
+                    + res_links["source"].replace("/", "_")
                     + ","
-                    + res_links["destination"].replace("/","_")
+                    + res_links["destination"].replace("/", "_")
                     + ', "'
                     + res_links["description"]
                     + '")'
