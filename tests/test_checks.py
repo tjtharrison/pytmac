@@ -4,6 +4,8 @@ import yaml
 from datetime import date
 
 from bin import resource_validator
+import tests.bin.config as config
+import tests.bin.resources as resources
 
 import main
 
@@ -21,27 +23,6 @@ BACKUP_RESOURCES_FILE = RESOURCES_FILE.replace(".yaml", ".bak.yaml")
 BACKUP_CONFIG_FILE = CONFIG_FILE.replace(".yaml", ".bak.yaml")
 BACKUP_DEFAULTS_FILE = DEFAULTS_FILE.replace(".yaml", ".bak.yaml")
 
-# Load config
-with open(os.environ.get("CONFIG_FILE"), "r", encoding="UTF-8") as config_file:
-    try:
-        config_yaml = yaml.safe_load(config_file)
-    except yaml.YAMLError as error_message:
-        logging.error("Failed to load CONFIG_FILE: %s", error_message)
-
-# Load resources
-with open(os.environ.get("RESOURCES_FILE"), "r", encoding="UTF-8") as resources_file:
-    try:
-        resources_yaml = yaml.safe_load(resources_file)
-    except yaml.YAMLError as error_message:
-        logging.error("Failed to load RESOURCES_FILE: %s", error_message)
-
-# Load defaults
-with open(os.environ.get("DEFAULTS_FILE"), "r", encoding="UTF-8") as defaults_file:
-    try:
-        defaults_yaml = yaml.safe_load(defaults_file)
-    except yaml.YAMLError as error_message:
-        logging.error("Failed to load DEFAULTS_FILE: %s", error_message)
-
 # Load security checks
 with open(
     os.environ.get("SECURITY_CHECKS_FILE"), "r", encoding="UTF-8"
@@ -51,84 +32,15 @@ with open(
     except yaml.YAMLError as error_message:
         logging.error("Failed to load SECURITY_CHECKS_FILE: %s", error_message)
 
-
-def backup_config():
-    """
-    Make a copy of the current resources so that it can be restored after manipulation
-    :return: True
-    """
-    with open(BACKUP_RESOURCES_FILE, "w+", encoding="UTF-8") as resources_backup:
-        yaml.dump(resources_yaml, resources_backup)
-
-    with open(BACKUP_CONFIG_FILE, "w+", encoding="UTF-8") as config_backup:
-        yaml.dump(config_yaml, config_backup)
-
-    with open(BACKUP_DEFAULTS_FILE, "w+", encoding="UTF-8") as defaults_backup:
-        yaml.dump(defaults_yaml, defaults_backup)
-
-    return True
-
-
-def restore_config():
-    """
-    Restore the backup version of the configuration to revert any field manipulation
-    :return: True
-    """
-    with open(BACKUP_CONFIG_FILE, "r", encoding="UTF-8") as config_backup:
-        try:
-            backup_config_contents = yaml.safe_load(config_backup)
-        except yaml.YAMLError as error_message:
-            logging.error("Failed to load BACKUP_CONFIG_FILE: %s", error_message)
-        with open(CONFIG_FILE, "w+", encoding="UTF-8") as config_restore:
-            yaml.dump(backup_config_contents, config_restore)
-
-    with open(BACKUP_RESOURCES_FILE, "r", encoding="UTF-8") as resources_backup:
-        try:
-            backup_resources_contents = yaml.safe_load(resources_backup)
-        except yaml.YAMLError as error_message:
-            logging.error("Failed to load BACKUP_RESOURCES_FILE: %s", error_message)
-        with open(RESOURCES_FILE, "w+", encoding="UTF-8") as resources_restore:
-            yaml.dump(backup_resources_contents, resources_restore)
-
-    with open(BACKUP_DEFAULTS_FILE, "r", encoding="UTF-8") as defaults_backup:
-        try:
-            backup_defaults_contents = yaml.safe_load(defaults_backup)
-        except yaml.YAMLError as error_message:
-            logging.error("Failed to load BACKUP_DEFAULTS_FILE: %s", error_message)
-        with open(DEFAULTS_FILE, "w+", encoding="UTF-8") as defaults_restore:
-            yaml.dump(backup_defaults_contents, defaults_restore)
-
-    return True
-
-
 @pytest.fixture(autouse=True)
 def my_fixture():
     """
     Wrapper for config unit tests to back up and restore configuration to test field manipulation.
     :return:
     """
-    backup_config()
+    config.backup()
     yield
-    restore_config()
-
-
-def update_resources(resource_block, contents):
-    """
-    Update resources file with value
-    :param resource_block: The block within resources that requires updating
-    :param contents: The dictionary to append onto the existing resources
-    :return:
-    """
-
-    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resource_file_update:
-        try:
-            resources_yaml = yaml.safe_load(resource_file_update)
-        except yaml.YAMLError as error_message:
-            logging.error("Failed to load RESOURCES_FILE: %s", error_message)
-        resources_yaml["resources"][resource_block].append(contents)
-        resource_file_update.seek(0)
-        yaml.dump(resources_yaml, resource_file_update)
-
+    config.restore()
 
 def test_user_owned_device():
     """
@@ -143,7 +55,7 @@ def test_user_owned_device():
         "config": {"company_user": True, "company_device": False},
     }
 
-    update_resources("users", new_resource)
+    resources.update("users", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -189,7 +101,7 @@ def test_broken_access_control():
         },
     }
 
-    update_resources("systems", new_resource)
+    resources.update("systems", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -236,7 +148,7 @@ def test_cryptographic_failures():
                                    },
                                }
 
-    update_resources("databases", new_resource)
+    resources.update("databases", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -283,7 +195,7 @@ def test_sql_injection():
                                    },
                                }
 
-    update_resources("systems", new_resource)
+    resources.update("systems", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -330,7 +242,7 @@ def test_insecure_design():
                                    },
                                }
 
-    update_resources("systems", new_resource)
+    resources.update("systems", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -377,7 +289,7 @@ def test_security_misconfig():
                                    },
                                }
 
-    update_resources("systems", new_resource)
+    resources.update("systems", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -425,7 +337,7 @@ def test_auth_failures():
                                    },
                                }
 
-    update_resources("systems", new_resource)
+    resources.update("systems", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -472,7 +384,7 @@ def test_integrity_failure():
                                    },
                                }
 
-    update_resources("systems", new_resource)
+    resources.update("systems", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -520,7 +432,7 @@ def test_logging_monitoring_failure():
                                    },
                                }
 
-    update_resources("systems", new_resource)
+    resources.update("systems", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -572,7 +484,7 @@ def test_ssrf():
                                    },
                                }
 
-    update_resources("systems", new_resource)
+    resources.update("systems", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -619,7 +531,7 @@ def test_spoofing_users():
                                    },
                                }
 
-    update_resources("users", new_resource)
+    resources.update("users", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:

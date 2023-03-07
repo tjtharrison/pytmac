@@ -1,0 +1,81 @@
+import yaml
+import os
+
+RESOURCES_FILE = os.environ.get("RESOURCES_FILE")
+CONFIG_FILE = os.environ.get("CONFIG_FILE")
+DEFAULTS_FILE = os.environ.get("DEFAULTS_FILE")
+SECURITY_CHECKS_FILE = os.environ.get("SECURITY_CHECKS_FILE")
+
+BACKUP_RESOURCES_FILE = RESOURCES_FILE.replace(".yaml", ".bak.yaml")
+BACKUP_CONFIG_FILE = CONFIG_FILE.replace(".yaml", ".bak.yaml")
+BACKUP_DEFAULTS_FILE = DEFAULTS_FILE.replace(".yaml", ".bak.yaml")
+
+# Load config
+with open(os.environ.get("CONFIG_FILE"), "r", encoding="UTF-8") as config_file:
+    try:
+        config_yaml = yaml.safe_load(config_file)
+    except yaml.YAMLError as error_message:
+        logging.error("Failed to load CONFIG_FILE: %s", error_message)
+
+# Load resources
+with open(os.environ.get("RESOURCES_FILE"), "r", encoding="UTF-8") as resources_file:
+    try:
+        resources_yaml = yaml.safe_load(resources_file)
+    except yaml.YAMLError as error_message:
+        logging.error("Failed to load RESOURCES_FILE: %s", error_message)
+
+# Load defaults
+with open(os.environ.get("DEFAULTS_FILE"), "r", encoding="UTF-8") as defaults_file:
+    try:
+        defaults_yaml = yaml.safe_load(defaults_file)
+    except yaml.YAMLError as error_message:
+        logging.error("Failed to load DEFAULTS_FILE: %s", error_message)
+
+
+def backup():
+    """
+    Make a copy of the current resources so that it can be restored after manipulation
+    :return: True
+    """
+    with open(BACKUP_RESOURCES_FILE, "w+", encoding="UTF-8") as resources_backup:
+        yaml.dump(resources_yaml, resources_backup)
+
+    with open(BACKUP_CONFIG_FILE, "w+", encoding="UTF-8") as config_backup:
+        yaml.dump(config_yaml, config_backup)
+
+    with open(BACKUP_DEFAULTS_FILE, "w+", encoding="UTF-8") as defaults_backup:
+        yaml.dump(defaults_yaml, defaults_backup)
+
+    return True
+
+
+def restore():
+    """
+    Restore the backup version of the configuration to revert any field manipulation
+    :return: True
+    """
+    with open(BACKUP_CONFIG_FILE, "r", encoding="UTF-8") as config_backup:
+        try:
+            backup_config_contents = yaml.safe_load(config_backup)
+        except yaml.YAMLError as error_message:
+            logging.error("Failed to load BACKUP_CONFIG_FILE: %s", error_message)
+        with open(CONFIG_FILE, "w+", encoding="UTF-8") as config_restore:
+            yaml.dump(backup_config_contents, config_restore)
+
+    with open(BACKUP_RESOURCES_FILE, "r", encoding="UTF-8") as resources_backup:
+        try:
+            backup_resources_contents = yaml.safe_load(resources_backup)
+        except yaml.YAMLError as error_message:
+            logging.error("Failed to load BACKUP_RESOURCES_FILE: %s", error_message)
+        with open(RESOURCES_FILE, "w+", encoding="UTF-8") as resources_restore:
+            yaml.dump(backup_resources_contents, resources_restore)
+
+    with open(BACKUP_DEFAULTS_FILE, "r", encoding="UTF-8") as defaults_backup:
+        try:
+            backup_defaults_contents = yaml.safe_load(defaults_backup)
+        except yaml.YAMLError as error_message:
+            logging.error("Failed to load BACKUP_DEFAULTS_FILE: %s", error_message)
+        with open(DEFAULTS_FILE, "w+", encoding="UTF-8") as defaults_restore:
+            yaml.dump(backup_defaults_contents, defaults_restore)
+
+    return True
