@@ -4,21 +4,21 @@ from datetime import date
 import logging
 import main
 import tests.bin.config as config
+import yaml
 
 import pytest
 
 OUTPUT_REPORT_DIRECTORY = os.environ.get("OUTPUT_DIR")
-OUTPUT_REPORT_FILE = OUTPUT_REPORT_DIRECTORY + "/report-" + str(date.today()) + ".json"
+OUTPUT_REPORT_FILE = OUTPUT_REPORT_DIRECTORY + "/report-" + str(date.today()) + ".yaml"
 
 RESOURCES_FILE = os.environ.get("RESOURCES_FILE")
 CONFIG_FILE = os.environ.get("CONFIG_FILE")
 DEFAULTS_FILE = os.environ.get("DEFAULTS_FILE")
-SWAGGER_FILE = os.environ.get("SWAGGER_FILE")
+SECURITY_CHECKS_FILE = os.environ.get("SECURITY_CHECKS_FILE")
 
-BACKUP_RESOURCES_FILE = RESOURCES_FILE.replace(".json", ".bak.json")
-BACKUP_CONFIG_FILE = CONFIG_FILE.replace(".json", ".bak.json")
-BACKUP_DEFAULTS_FILE = DEFAULTS_FILE.replace(".json", ".bak.json")
-BACKUP_SWAGGER_FILE = SWAGGER_FILE.replace(".json", ".bak.json")
+BACKUP_RESOURCES_FILE = RESOURCES_FILE.replace(".yaml", ".bak.yaml")
+BACKUP_CONFIG_FILE = CONFIG_FILE.replace(".yaml", ".bak.yaml")
+BACKUP_DEFAULTS_FILE = DEFAULTS_FILE.replace(".yaml", ".bak.yaml")
 
 @pytest.fixture(autouse=True)
 def my_fixture():
@@ -28,7 +28,7 @@ def my_fixture():
     """
     config.backup()
     yield
-#     config.restore()
+    config.restore()
 
 
 def test_config_good(caplog):
@@ -51,6 +51,11 @@ def test_config_no_title(caplog):
 
     assert caplog.record_tuples == [
         (
+                "root",
+                logging.ERROR,
+                "\'title\'",
+        ),
+        (
             "root",
             logging.ERROR,
             "Config validation failed!",
@@ -61,17 +66,17 @@ def test_config_no_title(caplog):
 def test_config_no_description(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(CONFIG_FILE, "r+", encoding="UTF-8") as config_file_update:
-        config_file_update_data = json.load(config_file_update)
-        del config_file_update_data["description"]
-        config_file_update.seek(0)
-        config_file_update.write(json.dumps(config_file_update_data))
-        config_file_update.truncate()
+    config.delete_config("description")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
     assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "\'description\'",
+        ),
         (
             "root",
             logging.ERROR,
@@ -82,17 +87,17 @@ def test_config_no_description(caplog):
 def test_config_no_swagger_resource_type(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(CONFIG_FILE, "r+", encoding="UTF-8") as config_file_update:
-        config_file_update_data = json.load(config_file_update)
-        del config_file_update_data["swagger_resource_type"]
-        config_file_update.seek(0)
-        config_file_update.write(json.dumps(config_file_update_data))
-        config_file_update.truncate()
+    config.delete_config("swagger_resource_type")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
     assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "\'swagger_resource_type\'",
+        ),
         (
             "root",
             logging.ERROR,
@@ -104,17 +109,17 @@ def test_config_no_swagger_resource_type(caplog):
 def test_config_no_swagger_default_network(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(CONFIG_FILE, "r+", encoding="UTF-8") as config_file_update:
-        config_file_update_data = json.load(config_file_update)
-        del config_file_update_data["swagger_default_network"]
-        config_file_update.seek(0)
-        config_file_update.write(json.dumps(config_file_update_data))
-        config_file_update.truncate()
+    config.delete_config("swagger_default_network")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
     assert caplog.record_tuples == [
+        (
+            "root",
+            logging.ERROR,
+            "\'swagger_default_network\'",
+        ),
         (
             "root",
             logging.ERROR,

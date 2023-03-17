@@ -113,9 +113,10 @@ def delete_config(config_field):
             logging.error("Failed to load CONFIG_FILE: %s", error_message)
 
         del config_yaml_all[config_field]
-        print(config_yaml_all)
-        config_file_update.seek(0)
+        # Clobber the file
         try:
-            yaml.dump(config_yaml_all, config_file_update, default_flow_style=False)
+            with open(CONFIG_FILE, "w", encoding="UTF-8") as config_file_update:
+                yaml.dump(config_yaml_all, config_file_update)
+
         except Exception as error_message:
             print(str(error_message))
