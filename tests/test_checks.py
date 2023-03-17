@@ -5,7 +5,6 @@ from datetime import date
 
 from bin import resource_validator
 import tests.bin.config as config
-import tests.bin.resources as resources
 
 import main
 
@@ -55,7 +54,7 @@ def test_user_owned_device():
         "config": {"company_user": True, "company_device": False},
     }
 
-    resources.update("users", new_resource)
+    config.update_resources("users", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -101,7 +100,7 @@ def test_broken_access_control():
         },
     }
 
-    resources.update("systems", new_resource)
+    config.update_resources("systems", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -148,7 +147,7 @@ def test_cryptographic_failures():
                                    },
                                }
 
-    resources.update("databases", new_resource)
+    config.update_resources("databases", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -195,7 +194,7 @@ def test_sql_injection():
                                    },
                                }
 
-    resources.update("systems", new_resource)
+    config.update_resources("systems", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -242,7 +241,7 @@ def test_insecure_design():
                                    },
                                }
 
-    resources.update("systems", new_resource)
+    config.update_resources("systems", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -289,7 +288,7 @@ def test_security_misconfig():
                                    },
                                }
 
-    resources.update("systems", new_resource)
+    config.update_resources("systems", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -337,7 +336,7 @@ def test_auth_failures():
                                    },
                                }
 
-    resources.update("systems", new_resource)
+    config.update_resources("systems", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -384,7 +383,7 @@ def test_integrity_failure():
                                    },
                                }
 
-    resources.update("systems", new_resource)
+    config.update_resources("systems", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -432,7 +431,7 @@ def test_logging_monitoring_failure():
                                    },
                                }
 
-    resources.update("systems", new_resource)
+    config.update_resources("systems", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -484,7 +483,7 @@ def test_ssrf():
                                    },
                                }
 
-    resources.update("systems", new_resource)
+    config.update_resources("systems", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -531,7 +530,7 @@ def test_spoofing_users():
                                    },
                                }
 
-    resources.update("users", new_resource)
+    config.update_resources("users", new_resource)
     main.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:

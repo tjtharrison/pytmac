@@ -1,5 +1,6 @@
 import yaml
 import os
+import logging
 
 RESOURCES_FILE = os.environ.get("RESOURCES_FILE")
 CONFIG_FILE = os.environ.get("CONFIG_FILE")
@@ -79,3 +80,42 @@ def restore():
             yaml.dump(backup_defaults_contents, defaults_restore)
 
     return True
+
+def update_resources(resource_block, contents):
+    """
+    Update resources file with value
+    :param resource_block: The block within resources that requires updating
+    :param contents: The dictionary to append onto the existing resources
+    :return:
+    """
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resource_file_update:
+        try:
+            resources_yaml = yaml.safe_load(resource_file_update)
+        except yaml.YAMLError as error_message:
+            logging.error("Failed to load RESOURCES_FILE: %s", error_message)
+        resources_yaml["resources"][resource_block].append(contents)
+        resource_file_update.seek(0)
+        yaml.dump(resources_yaml, resource_file_update)
+
+def delete_config(config_field):
+    """
+    Delete value from config file
+    :param resource_block: The block within resources that requires updating
+    :param contents: The dictionary to append onto the existing resources
+    :return:
+    """
+
+    with open(CONFIG_FILE, "r+", encoding="UTF-8") as config_file_update:
+        try:
+            config_yaml_all = yaml.safe_load(config_file_update)
+        except yaml.YAMLError as error_message:
+            logging.error("Failed to load CONFIG_FILE: %s", error_message)
+
+        del config_yaml_all[config_field]
+        print(config_yaml_all)
+        config_file_update.seek(0)
+        try:
+            yaml.dump(config_yaml_all, config_file_update, default_flow_style=False)
+        except Exception as error_message:
+            print(str(error_message))
