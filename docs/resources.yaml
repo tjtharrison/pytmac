@@ -17,7 +17,7 @@ resources:
       description: VPN Server
       config:
         db_op: false
-  containers: []
+  containers:
   res_links:
     - source: user1
       destination: vpn_server

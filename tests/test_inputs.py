@@ -131,16 +131,10 @@ def test_config_no_swagger_default_network(caplog):
 def test_resources_top_level_networks_missing(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
-        resources_file_update_data = json.load(resources_file_update)
-        del resources_file_update_data["resources"]["networks"]
-        resources_file_update.seek(0)
-        resources_file_update.write(json.dumps(resources_file_update_data))
-        resources_file_update.truncate()
+    config.delete_resource("networks")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
-
     assert caplog.record_tuples == [
         (
             "root",
@@ -155,16 +149,10 @@ def test_resources_top_level_networks_missing(caplog):
 def test_resources_top_level_users_missing(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
-        resources_file_update_data = json.load(resources_file_update)
-        del resources_file_update_data["resources"]["users"]
-        resources_file_update.seek(0)
-        resources_file_update.write(json.dumps(resources_file_update_data))
-        resources_file_update.truncate()
+    config.delete_resource("users")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
-
     assert caplog.record_tuples == [
         (
             "root",
@@ -176,19 +164,14 @@ def test_resources_top_level_users_missing(caplog):
 
 
 
+
 def test_resources_top_level_databases_missing(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
-        resources_file_update_data = json.load(resources_file_update)
-        del resources_file_update_data["resources"]["databases"]
-        resources_file_update.seek(0)
-        resources_file_update.write(json.dumps(resources_file_update_data))
-        resources_file_update.truncate()
+    config.delete_resource("databases")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
-
     assert caplog.record_tuples == [
         (
             "root",
@@ -199,20 +182,13 @@ def test_resources_top_level_databases_missing(caplog):
     ]
 
 
-
 def test_resources_top_level_systems_missing(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
-        resources_file_update_data = json.load(resources_file_update)
-        del resources_file_update_data["resources"]["systems"]
-        resources_file_update.seek(0)
-        resources_file_update.write(json.dumps(resources_file_update_data))
-        resources_file_update.truncate()
+    config.delete_resource("systems")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
-
     assert caplog.record_tuples == [
         (
             "root",
@@ -224,7 +200,7 @@ def test_resources_top_level_systems_missing(caplog):
 
 
 
-def test_resources_networks_fields(caplog):
+def test_resources_networks_name(caplog):
     caplog.set_level(logging.ERROR)
 
     with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:

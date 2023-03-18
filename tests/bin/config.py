@@ -101,12 +101,11 @@ def update_resources(resource_block, contents):
 def delete_config(config_field):
     """
     Delete value from config file
-    :param resource_block: The block within resources that requires updating
-    :param contents: The dictionary to append onto the existing resources
+    :param config_field: The field within config that requires deleting
     :return:
     """
 
-    with open(CONFIG_FILE, "r+", encoding="UTF-8") as config_file_update:
+    with open(CONFIG_FILE, "r", encoding="UTF-8") as config_file_update:
         try:
             config_yaml_all = yaml.safe_load(config_file_update)
         except yaml.YAMLError as error_message:
@@ -118,5 +117,29 @@ def delete_config(config_field):
             with open(CONFIG_FILE, "w", encoding="UTF-8") as config_file_update:
                 yaml.dump(config_yaml_all, config_file_update)
 
+        except Exception as error_message:
+            print(str(error_message))
+
+
+def delete_resource(resource_field):
+    """
+    Delete value from resources file
+    :param config_field: The field within resources that requires deleting
+    :return:
+    """
+
+    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resource_file_update:
+        try:
+            resource_yaml_all = yaml.safe_load(resource_file_update)
+        except yaml.YAMLError as error_message:
+            logging.error("Failed to load RESOURCES_FILE: %s", error_message)
+
+        print(resource_yaml_all)
+        del resource_yaml_all["resources"][resource_field]
+        # Clobber the file
+        try:
+            with open(RESOURCES_FILE, "w", encoding="UTF-8") as resource_file_update:
+                yaml.dump(resource_yaml_all, resource_file_update)
+            print(resource_yaml_all)
         except Exception as error_message:
             print(str(error_message))
