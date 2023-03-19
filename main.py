@@ -1,13 +1,14 @@
 """
 Python based programatic threat modelling tool tmacs
 """
-import yaml
-import logging
 import json
+import logging
 import os
 import sys
 from copy import deepcopy
 from datetime import date
+
+import yaml
 
 try:
     print(len(os.environ.get("GITHUB_WORKSPACE")))
@@ -43,7 +44,9 @@ def main():
     """
 
     # Load resources
-    with open(os.environ.get("RESOURCES_FILE"), "r", encoding="UTF-8") as resources_file:
+    with open(
+        os.environ.get("RESOURCES_FILE"), "r", encoding="UTF-8"
+    ) as resources_file:
         try:
             resources_yaml = yaml.safe_load(resources_file)
         except yaml.YAMLError as error_message:
@@ -331,7 +334,6 @@ def main():
             # Print final json
             yaml.dump(output_yaml_report, output_yaml)
 
-
             # Insecure resources
             insecure_resources = resource_validator.main(output_yaml_report)
             if len(insecure_resources) > 0:
@@ -359,6 +361,7 @@ def main():
                     )
                     output_file.write(response_detail)
     return True
+
 
 if __name__ == "__main__":
     main()
