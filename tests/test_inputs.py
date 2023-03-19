@@ -57,15 +57,15 @@ def test_config_no_title(caplog):
 
     assert caplog.record_tuples == [
         (
-                "root",
-                logging.ERROR,
-                "\'title\'",
+            "root",
+            logging.ERROR,
+            "'title'",
         ),
         (
             "root",
             logging.ERROR,
             "Config validation failed!",
-        )
+        ),
     ]
 
 
@@ -81,14 +81,15 @@ def test_config_no_description(caplog):
         (
             "root",
             logging.ERROR,
-            "\'description\'",
+            "'description'",
         ),
         (
             "root",
             logging.ERROR,
             "Config validation failed!",
-        )
+        ),
     ]
+
 
 def test_config_no_swagger_resource_type(caplog):
     caplog.set_level(logging.ERROR)
@@ -102,13 +103,13 @@ def test_config_no_swagger_resource_type(caplog):
         (
             "root",
             logging.ERROR,
-            "\'swagger_resource_type\'",
+            "'swagger_resource_type'",
         ),
         (
             "root",
             logging.ERROR,
             "Config validation failed!",
-        )
+        ),
     ]
 
 
@@ -124,13 +125,13 @@ def test_config_no_swagger_default_network(caplog):
         (
             "root",
             logging.ERROR,
-            "\'swagger_default_network\'",
+            "'swagger_default_network'",
         ),
         (
             "root",
             logging.ERROR,
             "Config validation failed!",
-        )
+        ),
     ]
 
 
@@ -151,7 +152,6 @@ def test_resources_top_level_networks_missing(caplog):
     ]
 
 
-
 def test_resources_top_level_users_missing(caplog):
     caplog.set_level(logging.ERROR)
 
@@ -167,8 +167,6 @@ def test_resources_top_level_users_missing(caplog):
         ),
         ("root", logging.ERROR, "Resources validation failed!"),
     ]
-
-
 
 
 def test_resources_top_level_databases_missing(caplog):
@@ -205,7 +203,6 @@ def test_resources_top_level_systems_missing(caplog):
     ]
 
 
-
 def test_resources_networks_name(caplog):
     caplog.set_level(logging.ERROR)
 
@@ -232,7 +229,6 @@ def test_resources_user_name(caplog):
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
-
     assert caplog.record_tuples == [
         (
             "root",
@@ -242,6 +238,7 @@ def test_resources_user_name(caplog):
         ("root", logging.ERROR, "Resources validation failed!"),
     ]
 
+
 def test_resources_user_network(caplog):
     caplog.set_level(logging.ERROR)
 
@@ -249,7 +246,6 @@ def test_resources_user_network(caplog):
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
-
 
     assert caplog.record_tuples == [
         (
@@ -268,7 +264,6 @@ def test_resources_user_description(caplog):
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
-
 
     assert caplog.record_tuples == [
         (
@@ -314,6 +309,7 @@ def test_resources_database_name(caplog):
         ),
         ("root", logging.ERROR, "Resources validation failed!"),
     ]
+
 
 def test_resources_database_network(caplog):
     caplog.set_level(logging.ERROR)
@@ -403,6 +399,7 @@ def test_resources_res_link_description(caplog):
         ),
         ("root", logging.ERROR, "Resources validation failed!"),
     ]
+
 
 def test_resources_res_link_source(caplog):
     caplog.set_level(logging.ERROR)

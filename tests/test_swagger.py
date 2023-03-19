@@ -30,6 +30,7 @@ def my_fixture():
     yield
     config.restore()
 
+
 def test_default_setting_user():
     """
     Test generating resources with Swagger
@@ -52,7 +53,9 @@ def test_default_setting_user():
         except yaml.YAMLError as error_message:
             logging.error("Failed to load CONFIG_FILE: %s", error_message)
 
-    resource_list = list(output_report_yaml[config_yaml["swagger_resource_type"]].keys())
+    resource_list = list(
+        output_report_yaml[config_yaml["swagger_resource_type"]].keys()
+    )
     if "/api/user/add" in resource_list and "/api/user" in resource_list:
         assert True
     else:

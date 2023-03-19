@@ -39,6 +39,7 @@ with open(os.environ.get("DEFAULTS_FILE"), "r", encoding="UTF-8") as defaults_fi
 with open(os.environ.get("SWAGGER_FILE"), encoding="UTF-8") as swagger_file_contents:
     swagger_json = json.loads(swagger_file_contents.read())
 
+
 def backup():
     """
     Make a copy of the current resources so that it can be restored after manipulation
@@ -95,6 +96,7 @@ def restore():
 
     return True
 
+
 def update_resources(resource_block, contents):
     """
     Update resources file with value
@@ -111,6 +113,7 @@ def update_resources(resource_block, contents):
         resources_yaml["resources"][resource_block].append(contents)
         resource_file_update.seek(0)
         yaml.dump(resources_yaml, resource_file_update)
+
 
 def delete_config(config_field):
     """
@@ -151,7 +154,9 @@ def delete_resource(resource_field):
         if "." not in resource_field:
             del resource_yaml_all["resources"][resource_field]
         else:
-            del resource_yaml_all["resources"][resource_field.split(".")[0]][0][resource_field.split(".")[1]]
+            del resource_yaml_all["resources"][resource_field.split(".")[0]][0][
+                resource_field.split(".")[1]
+            ]
         # Clobber the file
         try:
             with open(RESOURCES_FILE, "w", encoding="UTF-8") as resource_file_update:
@@ -161,7 +166,8 @@ def delete_resource(resource_field):
             return False
     return True
 
-def update_default_value(resource_type,resource_field,resource_value):
+
+def update_default_value(resource_type, resource_field, resource_value):
 
     with open(DEFAULTS_FILE, "r+", encoding="UTF-8") as default_file_update:
         try:

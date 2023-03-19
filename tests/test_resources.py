@@ -29,6 +29,7 @@ def my_fixture():
     yield
     config.restore()
 
+
 def test_default_setting_user():
     """
     Test modifying default settings for all users, verify that the generated configuration contains
@@ -36,7 +37,7 @@ def test_default_setting_user():
     :return: True/False
     """
 
-    config.update_default_value("users","company_user",False)
+    config.update_default_value("users", "company_user", False)
 
     main.main()
 
@@ -61,11 +62,11 @@ def test_override_setting_user():
     """
 
     new_resource = {
-                                   "name": "test_user2",
-                                   "network": "test_network",
-                                   "description": "Testing user2",
-                                   "config": {"company_user": False},
-                               }
+        "name": "test_user2",
+        "network": "test_network",
+        "description": "Testing user2",
+        "config": {"company_user": False},
+    }
 
     config.update_resources("users", new_resource)
 
@@ -94,7 +95,7 @@ def test_default_setting_networks():
     :return: True/False
     """
 
-    config.update_default_value("networks","has_wifi",True)
+    config.update_default_value("networks", "has_wifi", True)
 
     main.main()
 
@@ -147,7 +148,7 @@ def test_default_setting_databases():
     :return: True/False
     """
 
-    config.update_default_value("databases","databases",True)
+    config.update_default_value("databases", "databases", True)
 
     main.main()
 
@@ -172,11 +173,11 @@ def test_override_setting_database():
     """
 
     new_resource = {
-                                   "name": "test_database2",
-                                   "network": "test_network",
-                                   "description": "Testing database2",
-                                   "config": {"is_encrypted": False},
-                               }
+        "name": "test_database2",
+        "network": "test_network",
+        "description": "Testing database2",
+        "config": {"is_encrypted": False},
+    }
 
     config.update_resources("databases", new_resource)
 
@@ -205,7 +206,7 @@ def test_default_setting_systems():
     :return: True/False
     """
 
-    config.update_default_value("systems","is_hardened",False)
+    config.update_default_value("systems", "is_hardened", False)
 
     main.main()
 
@@ -230,11 +231,11 @@ def test_override_setting_system():
     """
 
     new_resource = {
-                                   "name": "test_system2",
-                                   "network": "test_network",
-                                   "description": "Test System2",
-                                   "config": {"is_hardened": False},
-                               }
+        "name": "test_system2",
+        "network": "test_network",
+        "description": "Test System2",
+        "config": {"is_hardened": False},
+    }
 
     config.update_resources("systems", new_resource)
 
@@ -263,7 +264,7 @@ def test_default_setting_containers():
     :return: True/False
     """
 
-    config.update_default_value("systems","is_hardened",False)
+    config.update_default_value("systems", "is_hardened", False)
 
     main.main()
 
@@ -287,13 +288,12 @@ def test_override_setting_containers():
     :return:
     """
 
-
     new_resource = {
-                                   "name": "test_container2",
-                                   "network": "test_network",
-                                   "description": "Test Container2",
-                                   "config": {"is_hardened": False},
-                               }
+        "name": "test_container2",
+        "network": "test_network",
+        "description": "Test Container2",
+        "config": {"is_hardened": False},
+    }
 
     config.update_resources("containers", new_resource)
 

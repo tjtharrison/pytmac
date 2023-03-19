@@ -31,6 +31,7 @@ with open(
     except yaml.YAMLError as error_message:
         logging.error("Failed to load SECURITY_CHECKS_FILE: %s", error_message)
 
+
 @pytest.fixture(autouse=True)
 def my_fixture():
     """
@@ -40,6 +41,7 @@ def my_fixture():
     config.backup()
     yield
     config.restore()
+
 
 def test_user_owned_device():
     """
@@ -139,13 +141,13 @@ def test_cryptographic_failures():
     """
 
     new_resource = {
-                                   "name": "test_database2",
-                                   "network": "test_network",
-                                   "description": "Testing database with no authentication",
-                                   "config": {
-                                       "authentication_required": False,
-                                   },
-                               }
+        "name": "test_database2",
+        "network": "test_network",
+        "description": "Testing database with no authentication",
+        "config": {
+            "authentication_required": False,
+        },
+    }
 
     config.update_resources("databases", new_resource)
     main.main()
@@ -163,8 +165,7 @@ def test_cryptographic_failures():
     insecure_resource_found = False
     for resource in insecure_resources:
         if (
-            resource["name"]
-            == security_checks_yaml["cryptographic_failures"]["name"]
+            resource["name"] == security_checks_yaml["cryptographic_failures"]["name"]
             and resource["resource"] == "test_database2"
             and resource["description"]
             == security_checks_yaml["cryptographic_failures"]["description"]
@@ -186,13 +187,13 @@ def test_sql_injection():
     :return: True/False
     """
     new_resource = {
-                                   "name": "test_system2",
-                                   "network": "test_network",
-                                   "description": "Testing system with no input_validation",
-                                   "config": {
-                                       "input_sanitization": False,
-                                   },
-                               }
+        "name": "test_system2",
+        "network": "test_network",
+        "description": "Testing system with no input_validation",
+        "config": {
+            "input_sanitization": False,
+        },
+    }
 
     config.update_resources("systems", new_resource)
     main.main()
@@ -233,13 +234,13 @@ def test_insecure_design():
     """
 
     new_resource = {
-                                   "name": "test_system2",
-                                   "network": "test_network",
-                                   "description": "Testing system with no dependabot_used",
-                                   "config": {
-                                       "dependabot_used": False,
-                                   },
-                               }
+        "name": "test_system2",
+        "network": "test_network",
+        "description": "Testing system with no dependabot_used",
+        "config": {
+            "dependabot_used": False,
+        },
+    }
 
     config.update_resources("systems", new_resource)
     main.main()
@@ -280,13 +281,13 @@ def test_security_misconfig():
     """
 
     new_resource = {
-                                   "name": "test_system2",
-                                   "network": "test_network",
-                                   "description": "Testing system with no automatic_updates",
-                                   "config": {
-                                       "automatic_updates": False,
-                                   },
-                               }
+        "name": "test_system2",
+        "network": "test_network",
+        "description": "Testing system with no automatic_updates",
+        "config": {
+            "automatic_updates": False,
+        },
+    }
 
     config.update_resources("systems", new_resource)
     main.main()
@@ -304,8 +305,7 @@ def test_security_misconfig():
     insecure_resource_found = False
     for resource in insecure_resources:
         if (
-            resource["name"]
-            == security_checks_yaml["security_misconfig"]["name"]
+            resource["name"] == security_checks_yaml["security_misconfig"]["name"]
             and resource["resource"] == "test_system2"
             and resource["description"]
             == security_checks_yaml["security_misconfig"]["description"]
@@ -328,13 +328,13 @@ def test_auth_failures():
     """
 
     new_resource = {
-                                   "name": "test_system2",
-                                   "network": "test_network",
-                                   "description": "Testing system with no sessions_stored_securely",
-                                   "config": {
-                                       "delayed_login_failures": False,
-                                   },
-                               }
+        "name": "test_system2",
+        "network": "test_network",
+        "description": "Testing system with no sessions_stored_securely",
+        "config": {
+            "delayed_login_failures": False,
+        },
+    }
 
     config.update_resources("systems", new_resource)
     main.main()
@@ -375,13 +375,13 @@ def test_integrity_failure():
     """
 
     new_resource = {
-                                   "name": "test_system2",
-                                   "network": "test_network",
-                                   "description": "Testing system with no code_scan_in_pipeline",
-                                   "config": {
-                                       "code_scan_in_pipeline": False,
-                                   },
-                               }
+        "name": "test_system2",
+        "network": "test_network",
+        "description": "Testing system with no code_scan_in_pipeline",
+        "config": {
+            "code_scan_in_pipeline": False,
+        },
+    }
 
     config.update_resources("systems", new_resource)
     main.main()
@@ -399,8 +399,7 @@ def test_integrity_failure():
     insecure_resource_found = False
     for resource in insecure_resources:
         if (
-            resource["name"]
-            == security_checks_yaml["integrity_failure"]["name"]
+            resource["name"] == security_checks_yaml["integrity_failure"]["name"]
             and resource["resource"] == "test_system2"
             and resource["description"]
             == security_checks_yaml["integrity_failure"]["description"]
@@ -422,14 +421,14 @@ def test_logging_monitoring_failure():
     :return: True/False
     """
 
-    new_resource =             {
-                                   "name": "test_system2",
-                                   "network": "test_network",
-                                   "description": "Testing system with no tested_recovery_process",
-                                   "config": {
-                                       "tested_recovery_process": False,
-                                   },
-                               }
+    new_resource = {
+        "name": "test_system2",
+        "network": "test_network",
+        "description": "Testing system with no tested_recovery_process",
+        "config": {
+            "tested_recovery_process": False,
+        },
+    }
 
     config.update_resources("systems", new_resource)
     main.main()
@@ -451,13 +450,9 @@ def test_logging_monitoring_failure():
             == security_checks_yaml["logging_monitoring_failure"]["name"]
             and resource["resource"] == "test_system2"
             and resource["description"]
-            == security_checks_yaml["logging_monitoring_failure"][
-                "description"
-            ]
+            == security_checks_yaml["logging_monitoring_failure"]["description"]
             and resource["remediation"]
-            == security_checks_yaml["logging_monitoring_failure"][
-                "remediation"
-            ]
+            == security_checks_yaml["logging_monitoring_failure"]["remediation"]
             and resource["severity"]
             == security_checks_yaml["logging_monitoring_failure"]["severity"]
         ):
@@ -474,14 +469,14 @@ def test_ssrf():
     :return: True/False
     """
 
-    new_resource =             {
-                                   "name": "test_system2",
-                                   "network": "test_network",
-                                   "description": "Testing system with no least_privileged_network",
-                                   "config": {
-                                       "least_privileged_network": False,
-                                   },
-                               }
+    new_resource = {
+        "name": "test_system2",
+        "network": "test_network",
+        "description": "Testing system with no least_privileged_network",
+        "config": {
+            "least_privileged_network": False,
+        },
+    }
 
     config.update_resources("systems", new_resource)
     main.main()
@@ -501,12 +496,9 @@ def test_ssrf():
         if (
             resource["name"] == security_checks_yaml["ssrf"]["name"]
             and resource["resource"] == "test_system2"
-            and resource["description"]
-            == security_checks_yaml["ssrf"]["description"]
-            and resource["remediation"]
-            == security_checks_yaml["ssrf"]["remediation"]
-            and resource["severity"]
-            == security_checks_yaml["ssrf"]["severity"]
+            and resource["description"] == security_checks_yaml["ssrf"]["description"]
+            and resource["remediation"] == security_checks_yaml["ssrf"]["remediation"]
+            and resource["severity"] == security_checks_yaml["ssrf"]["severity"]
         ):
             insecure_resource_found = True
     if insecure_resource_found:
@@ -522,13 +514,13 @@ def test_spoofing_users():
     """
 
     new_resource = {
-                                   "name": "test_system2",
-                                   "network": "test_network",
-                                   "description": "Testing system with no uses_mfa",
-                                   "config": {
-                                       "uses_mfa": False,
-                                   },
-                               }
+        "name": "test_system2",
+        "network": "test_network",
+        "description": "Testing system with no uses_mfa",
+        "config": {
+            "uses_mfa": False,
+        },
+    }
 
     config.update_resources("users", new_resource)
     main.main()

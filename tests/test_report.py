@@ -61,10 +61,16 @@ def test_report_contents():
         if line["name"] == "```" and line["level"] == 0:
             mermaid_suffix_correct = True
 
-        if line["name"] == "@startuml Threat modelling for testing" and line["level"] == 0:
+        if (
+            line["name"] == "@startuml Threat modelling for testing"
+            and line["level"] == 0
+        ):
             mermaid_type_correct = True
 
-        if line["name"] == 'Boundary(btest_network, "test_network") {' and line["level"] == 0:
+        if (
+            line["name"] == 'Boundary(btest_network, "test_network") {'
+            and line["level"] == 0
+        ):
             boundary_correct = True
 
         if (
@@ -101,8 +107,8 @@ def test_report_contents():
             relationship_correct = True
 
     for check in [
-		mermaid_type_correct,
-		boundary_correct,
+        mermaid_type_correct,
+        boundary_correct,
         title_correct,
         description_correct,
         mermaid_prefix_correct,
@@ -118,7 +124,6 @@ def test_report_contents():
             print(check + " has failed")
         else:
             print("PASS - " + str(check))
-
 
     assert True
 
