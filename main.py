@@ -54,7 +54,6 @@ def main():
     with open(os.environ.get("CONFIG_FILE"), "r", encoding="UTF-8") as config_file:
         try:
             config_yaml = yaml.safe_load(config_file)
-            print(config_yaml)
         except yaml.YAMLError as error_message:
             logging.error("Failed to load CONFIG_FILE: %s", error_message)
 

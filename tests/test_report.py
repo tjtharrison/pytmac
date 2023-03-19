@@ -8,9 +8,6 @@ OUTPUT_REPORT_DIRECTORY = os.environ.get("OUTPUT_DIR")
 OUTPUT_REPORT_FILE = OUTPUT_REPORT_DIRECTORY + "/report-" + str(date.today()) + ".md"
 CONFIG_FILE = os.environ.get("CONFIG_FILE")
 
-with open(os.environ.get("CONFIG_FILE"), encoding="UTF-8") as config_file_contents:
-    config_json = json.loads(config_file_contents.read())
-
 import main
 
 
@@ -55,7 +52,7 @@ def test_report_contents():
         if line["name"] == "# test_doc" and line["level"] == 0:
             title_correct = True
 
-        if line["name"] == "Threat modelling for test" and line["level"] == 0:
+        if line["name"] == "Threat modelling for testing" and line["level"] == 0:
             description_correct = True
 
         if line["name"] == "```plantuml" and line["level"] == 0:
@@ -64,7 +61,7 @@ def test_report_contents():
         if line["name"] == "```" and line["level"] == 0:
             mermaid_suffix_correct = True
 
-        if line["name"] == "@startuml Threat modelling for test" and line["level"] == 0:
+        if line["name"] == "@startuml Threat modelling for testing" and line["level"] == 0:
             mermaid_type_correct = True
 
         if line["name"] == 'Boundary(btest_network, "test_network") {' and line["level"] == 0:

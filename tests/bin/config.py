@@ -1,15 +1,18 @@
 import yaml
 import os
 import logging
+import json
 
 RESOURCES_FILE = os.environ.get("RESOURCES_FILE")
 CONFIG_FILE = os.environ.get("CONFIG_FILE")
 DEFAULTS_FILE = os.environ.get("DEFAULTS_FILE")
 SECURITY_CHECKS_FILE = os.environ.get("SECURITY_CHECKS_FILE")
+SWAGGER_FILE = os.environ.get("SWAGGER_FILE")
 
 BACKUP_RESOURCES_FILE = RESOURCES_FILE.replace(".yaml", ".bak.yaml")
 BACKUP_CONFIG_FILE = CONFIG_FILE.replace(".yaml", ".bak.yaml")
 BACKUP_DEFAULTS_FILE = DEFAULTS_FILE.replace(".yaml", ".bak.yaml")
+BACKUP_SWAGGER_FILE = SWAGGER_FILE.replace(".json", ".bak.json")
 
 # Load config
 with open(os.environ.get("CONFIG_FILE"), "r", encoding="UTF-8") as config_file:
@@ -32,6 +35,9 @@ with open(os.environ.get("DEFAULTS_FILE"), "r", encoding="UTF-8") as defaults_fi
     except yaml.YAMLError as error_message:
         logging.error("Failed to load DEFAULTS_FILE: %s", error_message)
 
+# Load swagger
+with open(os.environ.get("SWAGGER_FILE"), encoding="UTF-8") as swagger_file_contents:
+    swagger_json = json.loads(swagger_file_contents.read())
 
 def backup():
     """
@@ -46,6 +52,9 @@ def backup():
 
     with open(BACKUP_DEFAULTS_FILE, "w+", encoding="UTF-8") as defaults_backup:
         yaml.dump(defaults_yaml, defaults_backup)
+
+    with open(BACKUP_SWAGGER_FILE, "w+", encoding="UTF-8") as swagger_backup:
+        swagger_backup.write(json.dumps(swagger_json))
 
     return True
 
@@ -78,6 +87,11 @@ def restore():
             logging.error("Failed to load BACKUP_DEFAULTS_FILE: %s", error_message)
         with open(DEFAULTS_FILE, "w+", encoding="UTF-8") as defaults_restore:
             yaml.dump(backup_defaults_contents, defaults_restore)
+
+    with open(BACKUP_SWAGGER_FILE, "r", encoding="UTF-8") as swagger_backup:
+        backup_swagger_contents = json.loads(swagger_backup.read())
+        with open(SWAGGER_FILE, "w+", encoding="UTF-8") as swagger_restore:
+            swagger_restore.write(json.dumps(backup_swagger_contents))
 
     return True
 
@@ -134,12 +148,27 @@ def delete_resource(resource_field):
         except yaml.YAMLError as error_message:
             logging.error("Failed to load RESOURCES_FILE: %s", error_message)
 
-        print(resource_yaml_all)
-        del resource_yaml_all["resources"][resource_field]
+        if "." not in resource_field:
+            del resource_yaml_all["resources"][resource_field]
+        else:
+            del resource_yaml_all["resources"][resource_field.split(".")[0]][0][resource_field.split(".")[1]]
         # Clobber the file
         try:
             with open(RESOURCES_FILE, "w", encoding="UTF-8") as resource_file_update:
                 yaml.dump(resource_yaml_all, resource_file_update)
-            print(resource_yaml_all)
         except Exception as error_message:
-            print(str(error_message))
+            logging.error("Failed to rewrite file: %s", str(error_message))
+            return False
+    return True
+
+def update_default_value(resource_type,resource_field,resource_value):
+
+    with open(DEFAULTS_FILE, "r+", encoding="UTF-8") as default_file_update:
+        try:
+            defaults_yaml = yaml.safe_load(default_file_update)
+        except yaml.YAMLError as error_message:
+            logging.error("Failed to load RESOURCES_FILE: %s", error_message)
+
+        defaults_yaml[resource_type][resource_field] = resource_value
+        default_file_update.seek(0)
+        yaml.dump(defaults_yaml, default_file_update)

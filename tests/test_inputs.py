@@ -15,10 +15,16 @@ RESOURCES_FILE = os.environ.get("RESOURCES_FILE")
 CONFIG_FILE = os.environ.get("CONFIG_FILE")
 DEFAULTS_FILE = os.environ.get("DEFAULTS_FILE")
 SECURITY_CHECKS_FILE = os.environ.get("SECURITY_CHECKS_FILE")
+SWAGGER_FILE = os.environ.get("SWAGGER_FILE")
 
 BACKUP_RESOURCES_FILE = RESOURCES_FILE.replace(".yaml", ".bak.yaml")
 BACKUP_CONFIG_FILE = CONFIG_FILE.replace(".yaml", ".bak.yaml")
 BACKUP_DEFAULTS_FILE = DEFAULTS_FILE.replace(".yaml", ".bak.yaml")
+
+# Load swagger
+with open(os.environ.get("SWAGGER_FILE"), encoding="UTF-8") as swagger_file_contents:
+    swagger_json = json.loads(swagger_file_contents.read())
+
 
 @pytest.fixture(autouse=True)
 def my_fixture():
@@ -203,12 +209,7 @@ def test_resources_top_level_systems_missing(caplog):
 def test_resources_networks_name(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
-        resources_file_update_data = json.load(resources_file_update)
-        del resources_file_update_data["resources"]["networks"][0]["name"]
-        resources_file_update.seek(0)
-        resources_file_update.write(json.dumps(resources_file_update_data))
-        resources_file_update.truncate()
+    config.delete_resource("networks.name")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
@@ -226,21 +227,17 @@ def test_resources_networks_name(caplog):
 def test_resources_user_name(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
-        resources_file_update_data = json.load(resources_file_update)
-        del resources_file_update_data["resources"]["users"][0]["name"]
-        resources_file_update.seek(0)
-        resources_file_update.write(json.dumps(resources_file_update_data))
-        resources_file_update.truncate()
+    config.delete_resource("users.name")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
+
 
     assert caplog.record_tuples == [
         (
             "root",
             logging.ERROR,
-            "Required field not set for user (Required: name, network, description): {'network': 'test_network', 'description': 'Testing user'}",
+            "Required field not set for user (Required: name, network, description): {'description': 'Testing user', 'network': 'test_network'}",
         ),
         ("root", logging.ERROR, "Resources validation failed!"),
     ]
@@ -248,21 +245,17 @@ def test_resources_user_name(caplog):
 def test_resources_user_network(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
-        resources_file_update_data = json.load(resources_file_update)
-        del resources_file_update_data["resources"]["users"][0]["network"]
-        resources_file_update.seek(0)
-        resources_file_update.write(json.dumps(resources_file_update_data))
-        resources_file_update.truncate()
+    config.delete_resource("users.network")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
+
 
     assert caplog.record_tuples == [
         (
             "root",
             logging.ERROR,
-            "Required field not set for user (Required: name, network, description): {'name': 'test_user', 'description': 'Testing user'}",
+            "Required field not set for user (Required: name, network, description): {'description': 'Testing user', 'name': 'test_user'}",
         ),
         ("root", logging.ERROR, "Resources validation failed!"),
     ]
@@ -271,15 +264,11 @@ def test_resources_user_network(caplog):
 def test_resources_user_description(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
-        resources_file_update_data = json.load(resources_file_update)
-        del resources_file_update_data["resources"]["users"][0]["description"]
-        resources_file_update.seek(0)
-        resources_file_update.write(json.dumps(resources_file_update_data))
-        resources_file_update.truncate()
+    config.delete_resource("users.description")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
+
 
     assert caplog.record_tuples == [
         (
@@ -294,12 +283,7 @@ def test_resources_user_description(caplog):
 def test_resources_database_description(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
-        resources_file_update_data = json.load(resources_file_update)
-        del resources_file_update_data["resources"]["databases"][0]["description"]
-        resources_file_update.seek(0)
-        resources_file_update.write(json.dumps(resources_file_update_data))
-        resources_file_update.truncate()
+    config.delete_resource("databases.description")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
@@ -317,12 +301,7 @@ def test_resources_database_description(caplog):
 def test_resources_database_name(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
-        resources_file_update_data = json.load(resources_file_update)
-        del resources_file_update_data["resources"]["databases"][0]["name"]
-        resources_file_update.seek(0)
-        resources_file_update.write(json.dumps(resources_file_update_data))
-        resources_file_update.truncate()
+    config.delete_resource("databases.name")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
@@ -331,7 +310,7 @@ def test_resources_database_name(caplog):
         (
             "root",
             logging.ERROR,
-            "Required field not set for database (Required: name, network, description): {'network': 'test_network', 'description': 'Testing database'}",
+            "Required field not set for database (Required: name, network, description): {'description': 'Testing database', 'network': 'test_network'}",
         ),
         ("root", logging.ERROR, "Resources validation failed!"),
     ]
@@ -339,12 +318,7 @@ def test_resources_database_name(caplog):
 def test_resources_database_network(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
-        resources_file_update_data = json.load(resources_file_update)
-        del resources_file_update_data["resources"]["databases"][0]["network"]
-        resources_file_update.seek(0)
-        resources_file_update.write(json.dumps(resources_file_update_data))
-        resources_file_update.truncate()
+    config.delete_resource("databases.network")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
@@ -353,7 +327,7 @@ def test_resources_database_network(caplog):
         (
             "root",
             logging.ERROR,
-            "Required field not set for database (Required: name, network, description): {'name': 'test_database', 'description': 'Testing database'}",
+            "Required field not set for database (Required: name, network, description): {'description': 'Testing database', 'name': 'test_database'}",
         ),
         ("root", logging.ERROR, "Resources validation failed!"),
     ]
@@ -362,12 +336,7 @@ def test_resources_database_network(caplog):
 def test_resources_system_name(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
-        resources_file_update_data = json.load(resources_file_update)
-        del resources_file_update_data["resources"]["systems"][0]["name"]
-        resources_file_update.seek(0)
-        resources_file_update.write(json.dumps(resources_file_update_data))
-        resources_file_update.truncate()
+    config.delete_resource("systems.name")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
@@ -376,7 +345,7 @@ def test_resources_system_name(caplog):
         (
             "root",
             logging.ERROR,
-            "Required field not set for system (Required: name, network, description): {'network': 'test_network', 'description': 'Test System'}",
+            "Required field not set for system (Required: name, network, description): {'description': 'Test System', 'network': 'test_network'}",
         ),
         ("root", logging.ERROR, "Resources validation failed!"),
     ]
@@ -385,12 +354,7 @@ def test_resources_system_name(caplog):
 def test_resources_system_network(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
-        resources_file_update_data = json.load(resources_file_update)
-        del resources_file_update_data["resources"]["systems"][0]["network"]
-        resources_file_update.seek(0)
-        resources_file_update.write(json.dumps(resources_file_update_data))
-        resources_file_update.truncate()
+    config.delete_resource("systems.network")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
@@ -399,7 +363,7 @@ def test_resources_system_network(caplog):
         (
             "root",
             logging.ERROR,
-            "Required field not set for system (Required: name, network, description): {'name': 'test_system', 'description': 'Test System'}",
+            "Required field not set for system (Required: name, network, description): {'description': 'Test System', 'name': 'test_system'}",
         ),
         ("root", logging.ERROR, "Resources validation failed!"),
     ]
@@ -408,12 +372,7 @@ def test_resources_system_network(caplog):
 def test_resources_system_description(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
-        resources_file_update_data = json.load(resources_file_update)
-        del resources_file_update_data["resources"]["systems"][0]["description"]
-        resources_file_update.seek(0)
-        resources_file_update.write(json.dumps(resources_file_update_data))
-        resources_file_update.truncate()
+    config.delete_resource("systems.description")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
@@ -431,12 +390,7 @@ def test_resources_system_description(caplog):
 def test_resources_res_link_description(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
-        resources_file_update_data = json.load(resources_file_update)
-        del resources_file_update_data["resources"]["res_links"][0]["description"]
-        resources_file_update.seek(0)
-        resources_file_update.write(json.dumps(resources_file_update_data))
-        resources_file_update.truncate()
+    config.delete_resource("res_links.description")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
@@ -445,7 +399,7 @@ def test_resources_res_link_description(caplog):
         (
             "root",
             logging.ERROR,
-            "Required field not set for res_link (Required: source, destination, description): {'source': 'test_user', 'destination': 'test_system'}",
+            "Required field not set for res_link (Required: source, destination, description): {'destination': 'test_system', 'source': 'test_user'}",
         ),
         ("root", logging.ERROR, "Resources validation failed!"),
     ]
@@ -453,12 +407,7 @@ def test_resources_res_link_description(caplog):
 def test_resources_res_link_source(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
-        resources_file_update_data = json.load(resources_file_update)
-        del resources_file_update_data["resources"]["res_links"][0]["source"]
-        resources_file_update.seek(0)
-        resources_file_update.write(json.dumps(resources_file_update_data))
-        resources_file_update.truncate()
+    config.delete_resource("res_links.source")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
@@ -467,7 +416,7 @@ def test_resources_res_link_source(caplog):
         (
             "root",
             logging.ERROR,
-            "Required field not set for res_link (Required: source, destination, description): {'destination': 'test_system', 'description': 'Test connection from user to system'}",
+            "Required field not set for res_link (Required: source, destination, description): {'description': 'Test connection from user to system', 'destination': 'test_system'}",
         ),
         ("root", logging.ERROR, "Resources validation failed!"),
     ]
@@ -476,12 +425,7 @@ def test_resources_res_link_source(caplog):
 def test_resources_res_link_destination(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(RESOURCES_FILE, "r+", encoding="UTF-8") as resources_file_update:
-        resources_file_update_data = json.load(resources_file_update)
-        del resources_file_update_data["resources"]["res_links"][0]["destination"]
-        resources_file_update.seek(0)
-        resources_file_update.write(json.dumps(resources_file_update_data))
-        resources_file_update.truncate()
+    config.delete_resource("res_links.destination")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
@@ -490,7 +434,7 @@ def test_resources_res_link_destination(caplog):
         (
             "root",
             logging.ERROR,
-            "Required field not set for res_link (Required: source, destination, description): {'source': 'test_user', 'description': 'Test connection from user to system'}",
+            "Required field not set for res_link (Required: source, destination, description): {'description': 'Test connection from user to system', 'source': 'test_user'}",
         ),
         ("root", logging.ERROR, "Resources validation failed!"),
     ]
@@ -499,76 +443,56 @@ def test_resources_res_link_destination(caplog):
 def test_defaults_top_level_systems_missing(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(DEFAULTS_FILE, "r+", encoding="UTF-8") as defaults_file_update:
-        defaults_file_update_data = json.load(defaults_file_update)
-        del defaults_file_update_data["systems"]
-        defaults_file_update.seek(0)
-        defaults_file_update.write(json.dumps(defaults_file_update_data))
-        defaults_file_update.truncate()
+    config.delete_resource("systems")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
     assert caplog.record_tuples == [
-        ("root", logging.ERROR, "systems not found in defaults"),
-        ("root", logging.ERROR, "Defaults validation failed!"),
+        ("root", logging.ERROR, "systems not found in resources"),
+        ("root", logging.ERROR, "Resources validation failed!"),
     ]
 
 
 def test_defaults_top_level_users_missing(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(DEFAULTS_FILE, "r+", encoding="UTF-8") as defaults_file_update:
-        defaults_file_update_data = json.load(defaults_file_update)
-        del defaults_file_update_data["users"]
-        defaults_file_update.seek(0)
-        defaults_file_update.write(json.dumps(defaults_file_update_data))
-        defaults_file_update.truncate()
+    config.delete_resource("users")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
     assert caplog.record_tuples == [
-        ("root", logging.ERROR, "users not found in defaults"),
-        ("root", logging.ERROR, "Defaults validation failed!"),
+        ("root", logging.ERROR, "users not found in resources"),
+        ("root", logging.ERROR, "Resources validation failed!"),
     ]
 
 
 def test_defaults_top_level_databases_missing(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(DEFAULTS_FILE, "r+", encoding="UTF-8") as defaults_file_update:
-        defaults_file_update_data = json.load(defaults_file_update)
-        del defaults_file_update_data["databases"]
-        defaults_file_update.seek(0)
-        defaults_file_update.write(json.dumps(defaults_file_update_data))
-        defaults_file_update.truncate()
+    config.delete_resource("databases")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
     assert caplog.record_tuples == [
-        ("root", logging.ERROR, "databases not found in defaults"),
-        ("root", logging.ERROR, "Defaults validation failed!"),
+        ("root", logging.ERROR, "databases not found in resources"),
+        ("root", logging.ERROR, "Resources validation failed!"),
     ]
 
 
 def test_defaults_top_level_networks_missing(caplog):
     caplog.set_level(logging.ERROR)
 
-    with open(DEFAULTS_FILE, "r+", encoding="UTF-8") as defaults_file_update:
-        defaults_file_update_data = json.load(defaults_file_update)
-        del defaults_file_update_data["networks"]
-        defaults_file_update.seek(0)
-        defaults_file_update.write(json.dumps(defaults_file_update_data))
-        defaults_file_update.truncate()
+    config.delete_resource("networks")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         main.main()
 
     assert caplog.record_tuples == [
-        ("root", logging.ERROR, "networks not found in defaults"),
-        ("root", logging.ERROR, "Defaults validation failed!"),
+        ("root", logging.ERROR, "networks not found in resources"),
+        ("root", logging.ERROR, "Resources validation failed!"),
     ]
 
 
