@@ -27,7 +27,6 @@ jobs:
                   python3 -m pytest
             - name: "Test coverage"
               run: |
-                mkdir tests/reports
                 if (( python3 -m pytest --cov | grep "TOTAL" | awk {'print $4'} | sed 's/%//g' < 95)); then
                   echo "Less than 95% test coverage"
                   exit 1
