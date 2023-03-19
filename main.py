@@ -1,13 +1,14 @@
 """
 Python based programatic threat modelling tool tmacs
 """
-import yaml
-import logging
 import json
+import logging
 import os
 import sys
 from copy import deepcopy
 from datetime import date
+
+import yaml
 
 try:
     print(len(os.environ.get("GITHUB_WORKSPACE")))

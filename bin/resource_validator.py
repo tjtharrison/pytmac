@@ -3,9 +3,10 @@ Module used to initiate and collate security findings from the json report gener
 document function.
 """
 import json
-import yaml
-import os
 import logging
+import os
+
+import yaml
 
 
 def main(output_json_report):
