@@ -4,6 +4,9 @@ document function.
 """
 import json
 import logging
+import os
+
+import yaml
 
 
 def main(output_json_report):
@@ -12,17 +15,23 @@ def main(output_json_report):
     report.
 
     :param output_json_report: A json document containing all resources and configuration settings
-    included in the final
-    report.
+    included in the final report.
     :return: List of insecure resources.
     """
-    with open("docs/security_checks.json", "r", encoding="UTF-8") as check_details_file:
-        check_details = json.loads(check_details_file.read())
+    # Load security checks
+    with open(
+        os.environ.get("SECURITY_CHECKS_FILE"), "r", encoding="UTF-8"
+    ) as security_checks_file:
+        try:
+            security_checks_yaml = yaml.safe_load(security_checks_file)
+        except yaml.YAMLError as error_message:
+            logging.error("Failed to load SECURITY_CHECKS_FILE: %s", error_message)
+
     insecure_resources = []
 
-    for security_check in check_details:
+    for security_check in security_checks_yaml:
         logging.info("Starting security check %s", security_check)
-        results = do_check(output_json_report, check_details[security_check])
+        results = do_check(output_json_report, security_checks_yaml[security_check])
         if len(results) > 0:
             logging.info("Results found! Appending to insecure_resources")
             for result in results:

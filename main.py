@@ -8,6 +8,8 @@ import sys
 from copy import deepcopy
 from datetime import date
 
+import yaml
+
 try:
     print(len(os.environ.get("GITHUB_WORKSPACE")))
 except TypeError:
@@ -40,34 +42,45 @@ def main():
     report
     :return: True
     """
+
     # Load resources
     with open(
         os.environ.get("RESOURCES_FILE"), "r", encoding="UTF-8"
     ) as resources_file:
-        resources_json = json.loads(resources_file.read())
+        try:
+            resources_yaml = yaml.safe_load(resources_file)
+        except yaml.YAMLError as error_message:
+            logging.error("Failed to load RESOURCES_FILE: %s", error_message)
 
     # Load config
+
     with open(os.environ.get("CONFIG_FILE"), "r", encoding="UTF-8") as config_file:
-        config_json = json.loads(config_file.read())
+        try:
+            config_yaml = yaml.safe_load(config_file)
+        except yaml.YAMLError as error_message:
+            logging.error("Failed to load CONFIG_FILE: %s", error_message)
 
     # Load defaults
     with open(os.environ.get("DEFAULTS_FILE"), "r", encoding="UTF-8") as defaults_file:
-        defaults_json = json.loads(defaults_file.read())
+        try:
+            defaults_yaml = yaml.safe_load(defaults_file)
+        except yaml.YAMLError as error_message:
+            logging.error("Failed to load DEFAULTS_FILE: %s", error_message)
 
     # Lets do some config validation
-    if not input_validator.config(config_json):
+    if not input_validator.config(config_yaml):
         logging.error("Config validation failed!")
         sys.exit()
-    if not input_validator.resources(resources_json):
+    if not input_validator.resources(resources_yaml):
         logging.error("Resources validation failed!")
         sys.exit()
-    if not input_validator.defaults(defaults_json):
+    if not input_validator.defaults(defaults_yaml):
         logging.error("Defaults validation failed!")
         sys.exit()
     else:
         logging.info("All files validated successfully")
 
-    resources = resources_json["resources"]
+    resources = resources_yaml["resources"]
 
     # Load swagger if enabled
     if os.environ.get("ENABLE_SWAGGER").lower() == "true":
@@ -85,13 +98,13 @@ def main():
         for swagger_path in swagger_paths:
             swagger_path_detail = {
                 "name": swagger_path,
-                "network": config_json["swagger_default_network"],
+                "network": config_yaml["swagger_default_network"],
                 "description": swagger_json["paths"][swagger_path][
                     str(list(swagger_json["paths"][swagger_path].keys())[0])
                 ]["description"],
             }
             # Append swagger endpoint to default swagger_resource_type resources
-            resources_json["resources"][config_json["swagger_resource_type"]].append(
+            resources_yaml["resources"][config_yaml["swagger_resource_type"]].append(
                 swagger_path_detail
             )
     output_file_dir = os.environ.get("OUTPUT_DIR")
@@ -102,20 +115,20 @@ def main():
     ) as output_file:
         # Build out json report
         with open(
-            output_file_dir + "/" + output_file_name + ".json", "w", encoding="UTF-8"
-        ) as output_json:
+            output_file_dir + "/" + output_file_name + ".yaml", "w", encoding="UTF-8"
+        ) as output_yaml:
             # Start empty json for output report
-            output_json_report = {}
+            output_yaml_report = {}
             # Write intro into markdown
-            output_file.write("# " + config_json["title"] + "\n")
-            for description_line in config_json["description"]:
+            output_file.write("# " + config_yaml["title"] + "\n")
+            for description_line in config_yaml["description"]:
                 output_file.write(description_line + "\n\n")
 
             # Write wrapper for DFD
             output_file.write("# Data Flow Diagram\n")
             output_file.write("```plantuml\n")
             output_file.write(
-                "@startuml " + " ".join(config_json["description"]) + "\n"
+                "@startuml " + " ".join(config_yaml["description"]) + "\n"
             )
             output_file.write(
                 "!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml\n"
@@ -126,16 +139,16 @@ def main():
             output_file.write("\n")
 
             # Write networks wrapper
-            output_json_report["networks"] = {}
-            output_json_report["databases"] = {}
-            output_json_report["users"] = {}
-            output_json_report["systems"] = {}
-            output_json_report["containers"] = {}
+            output_yaml_report["networks"] = {}
+            output_yaml_report["databases"] = {}
+            output_yaml_report["users"] = {}
+            output_yaml_report["systems"] = {}
+            output_yaml_report["containers"] = {}
             # Process network resources as top wrapper
             for network in resources["networks"]:
                 # Build out network config in output
-                output_json_report["networks"][network["name"]] = deepcopy(
-                    defaults_json["networks"]
+                output_yaml_report["networks"][network["name"]] = deepcopy(
+                    defaults_yaml["networks"]
                 )
 
                 # Look for override config for network
@@ -145,7 +158,7 @@ def main():
                         logging.info(
                             "Setting " + config_setting + " on " + network["name"]
                         )
-                        output_json_report["networks"][network["name"]][
+                        output_yaml_report["networks"][network["name"]][
                             config_setting
                         ] = network["config"][config_setting]
                 except KeyError:
@@ -163,8 +176,8 @@ def main():
                 # Look for users in network
                 for user in resources["users"]:
                     if user["network"] == network["name"]:
-                        output_json_report["users"][user["name"]] = deepcopy(
-                            defaults_json["users"]
+                        output_yaml_report["users"][user["name"]] = deepcopy(
+                            defaults_yaml["users"]
                         )
                         # Look for override config
                         try:
@@ -173,7 +186,7 @@ def main():
                                 logging.info(
                                     "Setting " + config_setting + " on " + user["name"]
                                 )
-                                output_json_report["users"][user["name"]][
+                                output_yaml_report["users"][user["name"]][
                                     config_setting
                                 ] = user["config"][config_setting]
                         except KeyError:
@@ -195,8 +208,8 @@ def main():
                 # Look for databases in network
                 for database in resources["databases"]:
                     if database["network"] == network["name"]:
-                        output_json_report["databases"][database["name"]] = deepcopy(
-                            defaults_json["databases"]
+                        output_yaml_report["databases"][database["name"]] = deepcopy(
+                            defaults_yaml["databases"]
                         )
                         # Look for override config for database
                         try:
@@ -208,7 +221,7 @@ def main():
                                     + " on "
                                     + database["name"]
                                 )
-                                output_json_report["databases"][database["name"]][
+                                output_yaml_report["databases"][database["name"]][
                                     config_setting
                                 ] = database["config"][config_setting]
                         except KeyError:
@@ -231,8 +244,8 @@ def main():
                 # Look for systems in network
                 for system in resources["systems"]:
                     if system["network"] == network["name"]:
-                        output_json_report["systems"][system["name"]] = deepcopy(
-                            defaults_json["systems"]
+                        output_yaml_report["systems"][system["name"]] = deepcopy(
+                            defaults_yaml["systems"]
                         )
                         # Look for override config for system
                         try:
@@ -244,7 +257,7 @@ def main():
                                     + " on "
                                     + system["name"]
                                 )
-                                output_json_report["systems"][system["name"]][
+                                output_yaml_report["systems"][system["name"]][
                                     config_setting
                                 ] = system["config"][config_setting]
                         except KeyError:
@@ -267,8 +280,8 @@ def main():
                 # Look for containers in network
                 for container in resources["containers"]:
                     if container["network"] == network["name"]:
-                        output_json_report["containers"][container["name"]] = deepcopy(
-                            defaults_json["systems"]
+                        output_yaml_report["containers"][container["name"]] = deepcopy(
+                            defaults_yaml["systems"]
                         )
                         # Look for override config for system
                         try:
@@ -280,7 +293,7 @@ def main():
                                     + " on "
                                     + container["name"]
                                 )
-                                output_json_report["containers"][container["name"]][
+                                output_yaml_report["containers"][container["name"]][
                                     config_setting
                                 ] = container["config"][config_setting]
                         except KeyError:
@@ -319,12 +332,10 @@ def main():
             output_file.write("```\n")
 
             # Print final json
-            final_report = json.dumps(output_json_report)
-
-            output_json.write(final_report)
+            yaml.dump(output_yaml_report, output_yaml)
 
             # Insecure resources
-            insecure_resources = resource_validator.main(output_json_report)
+            insecure_resources = resource_validator.main(output_yaml_report)
             if len(insecure_resources) > 0:
                 # Writing some auto threat modelling
                 output_file.write(

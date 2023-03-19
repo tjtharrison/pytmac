@@ -28,7 +28,8 @@ def config(config_json):
                     }
                 )
             )
-    except KeyError:
+    except KeyError as error_message:
+        logging.error(str(error_message))
         return False
 
     return True

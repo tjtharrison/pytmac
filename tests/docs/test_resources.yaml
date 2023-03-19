@@ -1,0 +1,23 @@
+resources:
+  containers:
+  - description: Testing Container
+    name: test_container
+    network: test_network
+  databases:
+  - description: Testing database
+    name: test_database
+    network: test_network
+  networks:
+  - name: test_network
+  res_links:
+  - description: Test connection from user to system
+    destination: test_system
+    source: test_user
+  systems:
+  - description: Test System
+    name: test_system
+    network: test_network
+  users:
+  - description: Testing user
+    name: test_user
+    network: test_network
