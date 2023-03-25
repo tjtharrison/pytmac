@@ -104,10 +104,17 @@ def main():
                 ]["description"],
             }
             # Append swagger endpoint to default swagger_resource_type resources
-            if resources_yaml["resources"][config_yaml["swagger_resource_type"]] == None:
-                resources_yaml["resources"][config_yaml["swagger_resource_type"]] = swagger_path_detail
+            if (
+                resources_yaml["resources"][config_yaml["swagger_resource_type"]]
+                == None
+            ):
+                resources_yaml["resources"][
+                    config_yaml["swagger_resource_type"]
+                ] = swagger_path_detail
             else:
-                resources_yaml["resources"][config_yaml["swagger_resource_type"]].append(swagger_path_detail)
+                resources_yaml["resources"][
+                    config_yaml["swagger_resource_type"]
+                ].append(swagger_path_detail)
     output_file_dir = os.environ.get("OUTPUT_DIR")
     output_file_name = "report-" + str(date.today())
 
@@ -282,9 +289,9 @@ def main():
                 try:
                     for container in resources["containers"]:
                         if container["network"] == network["name"]:
-                            output_yaml_report["containers"][container["name"]] = deepcopy(
-                                defaults_yaml["systems"]
-                            )
+                            output_yaml_report["containers"][
+                                container["name"]
+                            ] = deepcopy(defaults_yaml["systems"])
                             # Look for override config for system
                             try:
                                 logging.info("Overrides set for %s", container["name"])
