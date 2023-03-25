@@ -104,7 +104,6 @@ def main():
                 ]["description"],
             }
             # Append swagger endpoint to default swagger_resource_type resources
-            print(resources_yaml["resources"][config_yaml["swagger_resource_type"]])
             if (
                 resources_yaml["resources"][config_yaml["swagger_resource_type"]]
                 == None
@@ -311,7 +310,6 @@ def main():
                 # Look for containers in network
                 try:
                     for container in resources["containers"]:
-                        print(container)
                         if container["network"] == network["name"]:
                             output_yaml_report["containers"][
                                 container["name"]
