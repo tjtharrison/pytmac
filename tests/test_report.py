@@ -57,6 +57,7 @@ def test_report_contents():
     system_correct = False
     container_correct = False
     relationship_correct = False
+    diagram_correct = False
 
     for line in new_list:
         if line["name"] == "# test_doc" and line["level"] == 0:
@@ -72,7 +73,7 @@ def test_report_contents():
             mermaid_suffix_correct = True
 
         if (
-            line["name"] == "@startuml Threat modelling for testing"
+            line["name"] == "@startuml report-2023-03-25"
             and line["level"] == 0
         ):
             mermaid_type_correct = True
@@ -112,9 +113,17 @@ def test_report_contents():
         if (
             line["name"]
             == 'BiRel(test_user,test_system, "Test connection from user to system")'
-            and line["level"] == 1
+            and line["level"] == 0
         ):
             relationship_correct = True
+
+        if (
+                line["name"]
+                == '![Diagram](./report-2023-03-25.svg)'
+                and line["level"] == 0
+        ):
+            diagram_correct = True
+
 
     for check in [
         mermaid_type_correct,
@@ -128,6 +137,7 @@ def test_report_contents():
         system_correct,
         container_correct,
         relationship_correct,
+        diagram_correct
     ]:
         if check == False:
             assert False

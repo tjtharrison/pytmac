@@ -104,15 +104,14 @@ def main():
                 ]["description"],
             }
             # Append swagger endpoint to default swagger_resource_type resources
-            print(resources_yaml["resources"][config_yaml["swagger_resource_type"]])
             if (
                 resources_yaml["resources"][config_yaml["swagger_resource_type"]]
                 == None
             ):
-                print("Got here")
+                resources_yaml["resources"][config_yaml["swagger_resource_type"]] = []
                 resources_yaml["resources"][
                     config_yaml["swagger_resource_type"]
-                ] = swagger_path_detail
+                ].append(swagger_path_detail)
             else:
                 if (
                     type(
@@ -156,9 +155,7 @@ def main():
             # Write wrapper for DFD
             output_file.write("# Data Flow Diagram\n")
             output_file.write("```plantuml\n")
-            output_file.write(
-                "@startuml " + " ".join(config_yaml["description"]) + "\n"
-            )
+            output_file.write("@startuml " + output_file_name + "\n")
             output_file.write(
                 "!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml\n"
             )
@@ -342,15 +339,13 @@ def main():
                                 + '")'
                                 + "\n"
                             )
-                    output_file.write("}" + "\n")
                 except TypeError:
                     logging.debug("No containers found")
-
+                output_file.write("}" + "\n")
             # Process links between resources
             for res_links in resources["res_links"]:
                 output_file.write(
-                    "\t"
-                    + "BiRel("
+                    "BiRel("
                     + res_links["source"].replace("/", "_")
                     + ","
                     + res_links["destination"].replace("/", "_")
@@ -359,9 +354,10 @@ def main():
                     + '")'
                     + "\n"
                 )
-                output_file.write("\n")
             output_file.write("@enduml\n")
             output_file.write("```\n")
+            output_file.write("\n")
+            output_file.write("![Diagram](./" + output_file_name + ".svg)")
 
             # Print final json
             yaml.dump(output_yaml_report, output_yaml)
