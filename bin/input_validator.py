@@ -125,12 +125,8 @@ def resources(resources_json):
                     {"name": name, "network": network, "description": description}
                 )
             )
-    except KeyError:
-        logging.error(
-            "Required field not set for container (Required: name, network, description): %s",
-            str(container),
-        )
-        return False
+    except TypeError:
+        logging.debug("Containers not specified")
 
     # Validate res_link fields
     try:
