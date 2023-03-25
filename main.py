@@ -109,10 +109,12 @@ def main():
                 resources_yaml["resources"][config_yaml["swagger_resource_type"]]
                 == None
             ):
-                print("Got here")
                 resources_yaml["resources"][
                     config_yaml["swagger_resource_type"]
-                ] = swagger_path_detail
+                ] = []
+                resources_yaml["resources"][
+                    config_yaml["swagger_resource_type"]
+                ].append(swagger_path_detail)
             else:
                 if (
                     type(
@@ -157,7 +159,7 @@ def main():
             output_file.write("# Data Flow Diagram\n")
             output_file.write("```plantuml\n")
             output_file.write(
-                "@startuml " + " ".join(config_yaml["description"]) + "\n"
+                "@startuml " +  output_file_name + "\n"
             )
             output_file.write(
                 "!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml\n"
@@ -309,6 +311,7 @@ def main():
                 # Look for containers in network
                 try:
                     for container in resources["containers"]:
+                        print(container)
                         if container["network"] == network["name"]:
                             output_yaml_report["containers"][
                                 container["name"]
@@ -342,15 +345,13 @@ def main():
                                 + '")'
                                 + "\n"
                             )
-                    output_file.write("}" + "\n")
                 except TypeError:
                     logging.debug("No containers found")
-
+                output_file.write("}" + "\n")
             # Process links between resources
             for res_links in resources["res_links"]:
                 output_file.write(
-                    "\t"
-                    + "BiRel("
+                    "BiRel("
                     + res_links["source"].replace("/", "_")
                     + ","
                     + res_links["destination"].replace("/", "_")
@@ -359,9 +360,10 @@ def main():
                     + '")'
                     + "\n"
                 )
-                output_file.write("\n")
             output_file.write("@enduml\n")
             output_file.write("```\n")
+            output_file.write("\n")
+            output_file.write("![Diagram](./" + output_file_name + ".svg)")
 
             # Print final json
             yaml.dump(output_yaml_report, output_yaml)
