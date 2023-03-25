@@ -114,11 +114,25 @@ def main():
                     config_yaml["swagger_resource_type"]
                 ] = swagger_path_detail
             else:
-                if type(resources_yaml["resources"][config_yaml["swagger_resource_type"]]) == dict:
+                if (
+                    type(
+                        resources_yaml["resources"][
+                            config_yaml["swagger_resource_type"]
+                        ]
+                    )
+                    == dict
+                ):
                     resources_yaml["resources"][
                         config_yaml["swagger_resource_type"]
                     ] | (swagger_path_detail)
-                elif type(resources_yaml["resources"][config_yaml["swagger_resource_type"]]) == list:
+                elif (
+                    type(
+                        resources_yaml["resources"][
+                            config_yaml["swagger_resource_type"]
+                        ]
+                    )
+                    == list
+                ):
                     resources_yaml["resources"][
                         config_yaml["swagger_resource_type"]
                     ].append(swagger_path_detail)
