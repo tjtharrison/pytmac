@@ -108,9 +108,7 @@ def main():
                 resources_yaml["resources"][config_yaml["swagger_resource_type"]]
                 == None
             ):
-                resources_yaml["resources"][
-                    config_yaml["swagger_resource_type"]
-                ] = []
+                resources_yaml["resources"][config_yaml["swagger_resource_type"]] = []
                 resources_yaml["resources"][
                     config_yaml["swagger_resource_type"]
                 ].append(swagger_path_detail)
@@ -157,9 +155,7 @@ def main():
             # Write wrapper for DFD
             output_file.write("# Data Flow Diagram\n")
             output_file.write("```plantuml\n")
-            output_file.write(
-                "@startuml " +  output_file_name + "\n"
-            )
+            output_file.write("@startuml " + output_file_name + "\n")
             output_file.write(
                 "!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml\n"
             )
