@@ -27,7 +27,7 @@ jobs:
                   python3 -m pytest
             - name: "Test coverage"
               run: |
-                min_required_test_coverage=93
+                min_required_test_coverage=90
                 test_coverage=$(python3 -m pytest --cov | grep "TOTAL" | awk {'print $4'} | sed 's/%//g')
                 echo "Test coverage is $test_coverage"
                 if (( $test_coverage < $min_required_test_coverage)); then

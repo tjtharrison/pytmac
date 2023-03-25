@@ -104,14 +104,22 @@ def main():
                 ]["description"],
             }
             # Append swagger endpoint to default swagger_resource_type resources
-            resources_yaml["resources"][config_yaml["swagger_resource_type"]].append(
-                swagger_path_detail
-            )
+            if (
+                resources_yaml["resources"][config_yaml["swagger_resource_type"]]
+                == None
+            ):
+                resources_yaml["resources"][
+                    config_yaml["swagger_resource_type"]
+                ] = swagger_path_detail
+            else:
+                resources_yaml["resources"][
+                    config_yaml["swagger_resource_type"]
+                ].append(swagger_path_detail)
     output_file_dir = os.environ.get("OUTPUT_DIR")
     output_file_name = "report-" + str(date.today())
 
     with open(
-        output_file_dir + "/" + output_file_name + ".md", "w", encoding="UTF-8"
+        output_file_dir + "/" + output_file_name + ".md", "w+", encoding="UTF-8"
     ) as output_file:
         # Build out json report
         with open(
@@ -278,41 +286,44 @@ def main():
                         )
 
                 # Look for containers in network
-                for container in resources["containers"]:
-                    if container["network"] == network["name"]:
-                        output_yaml_report["containers"][container["name"]] = deepcopy(
-                            defaults_yaml["systems"]
-                        )
-                        # Look for override config for system
-                        try:
-                            logging.info("Overrides set for %s", container["name"])
-                            for config_setting in container["config"]:
-                                logging.info(
-                                    "Setting "
-                                    + config_setting
-                                    + " on "
-                                    + container["name"]
-                                )
-                                output_yaml_report["containers"][container["name"]][
-                                    config_setting
-                                ] = container["config"][config_setting]
-                        except KeyError:
-                            # No overrides set, nothing to do
-                            logging.info("No overrides for %s", container["name"])
+                try:
+                    for container in resources["containers"]:
+                        if container["network"] == network["name"]:
+                            output_yaml_report["containers"][
+                                container["name"]
+                            ] = deepcopy(defaults_yaml["systems"])
+                            # Look for override config for system
+                            try:
+                                logging.info("Overrides set for %s", container["name"])
+                                for config_setting in container["config"]:
+                                    logging.info(
+                                        "Setting "
+                                        + config_setting
+                                        + " on "
+                                        + container["name"]
+                                    )
+                                    output_yaml_report["containers"][container["name"]][
+                                        config_setting
+                                    ] = container["config"][config_setting]
+                            except KeyError:
+                                # No overrides set, nothing to do
+                                logging.info("No overrides for %s", container["name"])
 
-                        output_file.write(
-                            "\t"
-                            + "Container("
-                            + container["name"].replace("/", "_")
-                            + ","
-                            + '"'
-                            + container["name"]
-                            + ' ", "'
-                            + container["description"]
-                            + '")'
-                            + "\n"
-                        )
-                output_file.write("}" + "\n")
+                            output_file.write(
+                                "\t"
+                                + "Container("
+                                + container["name"].replace("/", "_")
+                                + ","
+                                + '"'
+                                + container["name"]
+                                + ' ", "'
+                                + container["description"]
+                                + '")'
+                                + "\n"
+                            )
+                    output_file.write("}" + "\n")
+                except TypeError:
+                    logging.debug("No containers found")
 
             # Process links between resources
             for res_links in resources["res_links"]:
