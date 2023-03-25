@@ -4,6 +4,7 @@ from datetime import date
 import logging
 import main
 import tests.bin.config as config
+import tests.bin.dirs as dirs
 import yaml
 
 import pytest
@@ -32,6 +33,7 @@ def my_fixture():
     Wrapper for config unit tests to back up and restore configuration to test field manipulation.
     :return:
     """
+    dirs.create()
     config.backup()
     yield
     config.restore()

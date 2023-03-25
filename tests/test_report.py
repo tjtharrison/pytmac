@@ -3,6 +3,7 @@ import os
 from datetime import date
 import main
 import pytest
+import tests.bin.dirs as dirs
 
 OUTPUT_REPORT_DIRECTORY = os.environ.get("OUTPUT_DIR")
 OUTPUT_REPORT_FILE = OUTPUT_REPORT_DIRECTORY + "/report-" + str(date.today()) + ".md"
@@ -10,6 +11,15 @@ CONFIG_FILE = os.environ.get("CONFIG_FILE")
 
 import main
 
+
+@pytest.fixture(autouse=True)
+def my_fixture():
+    """
+    Wrapper for config unit tests to back up and restore configuration to test field manipulation.
+    :return:
+    """
+    dirs.create()
+    yield
 
 def test_report_contents():
     """
