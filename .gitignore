@@ -3,3 +3,4 @@ reports/*
 __pycache__
 **.bak.yaml
 **.bak.json
+tests/reports/*
