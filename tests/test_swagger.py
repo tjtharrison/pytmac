@@ -2,6 +2,7 @@ import json
 import os
 from datetime import date
 import tests.bin.config as config
+import tests.bin.dirs as dirs
 import yaml
 
 import main
@@ -26,6 +27,7 @@ def my_fixture():
     Wrapper for config unit tests to back up and restore configuration to test field manipulation.
     :return:
     """
+    dirs.create()
     config.backup()
     yield
     config.restore()

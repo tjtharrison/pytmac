@@ -104,17 +104,24 @@ def main():
                 ]["description"],
             }
             # Append swagger endpoint to default swagger_resource_type resources
+            print(resources_yaml["resources"][config_yaml["swagger_resource_type"]])
             if (
                 resources_yaml["resources"][config_yaml["swagger_resource_type"]]
                 == None
             ):
+                print("Got here")
                 resources_yaml["resources"][
                     config_yaml["swagger_resource_type"]
                 ] = swagger_path_detail
             else:
-                resources_yaml["resources"][
-                    config_yaml["swagger_resource_type"]
-                ].append(swagger_path_detail)
+                if type(resources_yaml["resources"][config_yaml["swagger_resource_type"]]) == dict:
+                    resources_yaml["resources"][
+                        config_yaml["swagger_resource_type"]
+                    ] | (swagger_path_detail)
+                elif type(resources_yaml["resources"][config_yaml["swagger_resource_type"]]) == list:
+                    resources_yaml["resources"][
+                        config_yaml["swagger_resource_type"]
+                    ].append(swagger_path_detail)
     output_file_dir = os.environ.get("OUTPUT_DIR")
     output_file_name = "report-" + str(date.today())
 
