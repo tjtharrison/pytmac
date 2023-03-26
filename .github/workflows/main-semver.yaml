@@ -2,11 +2,11 @@ name: Semver Bump
 on:
     push:
         branches:
-            - "32-automatic-semver-bumping"
+            - "main"
     workflow_dispatch:
 
 jobs:
-    unit-tests:
+    auto-semver:
         runs-on: "ubuntu-latest"
         steps:
           - name: "Checkout code"
