@@ -1,6 +1,6 @@
 name: Semver Bump
 on:
-    pull_request:
+    push:
         branches:
             - "32-automatic-semver-bumping"
     workflow_dispatch:
