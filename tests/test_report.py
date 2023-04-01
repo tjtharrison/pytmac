@@ -73,47 +73,47 @@ def test_report_contents():
             mermaid_suffix_correct = True
 
         if (
-            line["name"] == "@startuml report-" + str(date.today())
-            and line["level"] == 0
+                line["name"] == "@startuml report-" + str(date.today())
+                and line["level"] == 0
         ):
             mermaid_type_correct = True
 
         if (
-            line["name"] == 'Boundary(btest_network, "test_network") {'
-            and line["level"] == 0
+                line["name"] == 'Boundary(btest_network, "test_network") {'
+                and line["level"] == 0
         ):
             boundary_correct = True
 
         if (
-            line["name"] == 'Person(test_user, "test_user", "Testing user")'
-            and line["level"] == 1
+                line["name"] == 'Person(test_user, "test_user", "Testing user")'
+                and line["level"] == 1
         ):
             person_correct = True
 
         if (
-            line["name"]
-            == 'SystemDb(test_database,"test_database ", "Testing database")'
-            and line["level"] == 1
+                line["name"]
+                == 'SystemDb(test_database,"test_database ", "Testing database")'
+                and line["level"] == 1
         ):
             db_correct = True
 
         if (
-            line["name"] == 'System(test_system,"test_system ", "Test System")'
-            and line["level"] == 1
+                line["name"] == 'System(test_system,"test_system ", "Test System")'
+                and line["level"] == 1
         ):
             system_correct = True
 
         if (
-            line["name"]
-            == 'Container(test_container,"test_container ", "Testing Container")'
-            and line["level"] == 1
+                line["name"]
+                == 'Container(test_container,"test_container ", "Testing Container")'
+                and line["level"] == 1
         ):
             container_correct = True
 
         if (
-            line["name"]
-            == 'BiRel(test_user,test_system, "Test connection from user to system")'
-            and line["level"] == 0
+                line["name"]
+                == 'BiRel(test_user,test_system, "Test connection from user to system")'
+                and line["level"] == 0
         ):
             relationship_correct = True
 
