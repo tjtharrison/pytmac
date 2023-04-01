@@ -163,6 +163,7 @@ Overides can be set on a per-resource basis, by appending `configs` nested dicti
 below is based on having `"is_cloud": false` as a default setting - It will create two networks, one with is_cloud set
 to `false` (the default), the other (`aws_public_subnet`) will have `is_cloud` set to `true`.
 
+
 ```
 ---
 resources:
