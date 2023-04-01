@@ -73,7 +73,7 @@ def test_report_contents():
             mermaid_suffix_correct = True
 
         if (
-            line["name"] == "@startuml report-2023-03-25"
+            line["name"] == "@startuml report-" + str(date.today())
             and line["level"] == 0
         ):
             mermaid_type_correct = True
@@ -119,7 +119,7 @@ def test_report_contents():
 
         if (
                 line["name"]
-                == '![Diagram](./report-2023-03-25.svg)'
+                == "![Diagram](./report-" + str(date.today()) + ".svg)"
                 and line["level"] == 0
         ):
             diagram_correct = True
