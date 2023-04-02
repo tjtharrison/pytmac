@@ -2,3 +2,4 @@
 version_variable = "setup.py:__version__"
 branch = "main"
 upload_to_repository = "False"
+upload_to_pypi = "False"

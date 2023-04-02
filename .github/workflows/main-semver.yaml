@@ -2,7 +2,7 @@ name: Semver Bump
 on:
     push:
         branches:
-            - "main"
+            - "fix_ci_upload"
     workflow_dispatch:
 
 jobs:
@@ -17,4 +17,3 @@ jobs:
             uses: "python-semantic-release/python-semantic-release@master"
             with:
               github_token: ${{ secrets.GITHUB_TOKEN }}
-              additional_options: "-D upload_to_repository=false"
