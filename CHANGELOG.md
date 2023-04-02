@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.1.0 (2023-04-02)
+### Feature
+* Auto bump for first available release with a subset of features ([`d9c60fb`](https://github.com/tjtharrison/tmac/commit/d9c60fbffe51a3777e9f7eebb81ba8a8a6e3d0c8))
+
 ## v0.0.1 (2023-04-01)
 ### Fix
 * Linebreak in docs ([`b4cfbb8`](https://github.com/tjtharrison/tmac/commit/b4cfbb8728d7a2365dd7cd57c4fafc08c2a2cd0a))
