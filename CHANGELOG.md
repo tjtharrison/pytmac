@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v1.0.0 (2023-04-02)
+### Feature
+* CI working and first release ready ([`c571a08`](https://github.com/tjtharrison/tmac/commit/c571a086cd2face2e117bebf5317d87e96e42f06))
+
+### Breaking
+* CI working and first release ready ([`c571a08`](https://github.com/tjtharrison/tmac/commit/c571a086cd2face2e117bebf5317d87e96e42f06))
+
 ## v0.1.2 (2023-04-02)
 ### Fix
 * Fixing upload_to_repository in toml ([`68a5875`](https://github.com/tjtharrison/tmac/commit/68a587550272a5c19c7292727afdc7fae2186e4b))
