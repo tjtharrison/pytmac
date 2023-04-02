@@ -3,7 +3,8 @@ user_owned_device:
   name: Non company device used
   description: Checks for users with company_user true and company_device false.
   remediation: Understand and remediate or document known exception.
-  severity: 3
+  risk: 3
+  likelihood: 1
   resource_scope:
     - users
   check_query:
@@ -13,7 +14,7 @@ broken_access_control:
   description: 'OWASP top 10 #1: Checks for combination of controls that indicate
     lack of mitigation against this type of attack'
   remediation: Review non-compliant controls and remediate
-  severity: 1
+  risk: 1
   likelihood: 1
   resource_scope:
     - systems
@@ -28,7 +29,7 @@ cryptographic_failures:
   name: A02:2021-Cryptographic_Failures
   description: 'OWASP top 10 #2: Checks for various items related to encryption'
   remediation: Review non-compliant controls and remediate
-  severity: 1
+  risk: 1
   likelihood: 1
   resource_scope:
     - databases
@@ -42,7 +43,7 @@ sql_injection:
   name: A03:2021 – Injection
   description: 'OWASP top 10 #3: Checks for mitigations against SQL injection'
   remediation: Review non-compliant controls and remediate
-  severity: 1
+  risk: 1
   likelihood: 1
   resource_scope:
     - systems
@@ -57,7 +58,7 @@ insecure_design:
   name: A04:2021 – Insecure Design
   description: 'OWASP top 10 #4: Checks for good Software development practices'
   remediation: Review non-compliant controls and remediate
-  severity: 1
+  risk: 1
   likelihood: 1
   resource_scope:
     - systems
@@ -71,7 +72,7 @@ security_misconfig:
   name: A05:2021 – Security Misconfiguration
   description: 'OWASP top 10 #5: Review for security misconfigurations'
   remediation: Review non-compliant controls and remediate
-  severity: 1
+  risk: 1
   likelihood: 1
   resource_scope:
     - systems
@@ -88,7 +89,7 @@ vulnerable_components:
   name: A06:2021 – Vulnerable and Outdated Components
   description: 'OWASP top 10 #6: Review for outdated or insecure dependencies'
   remediation: Review non-compliant controls and remediate
-  severity: 1
+  risk: 1
   likelihood: 1
   resource_scope:
     - systems
@@ -102,7 +103,7 @@ auth_failures:
   name: A07:2021 – Identification and Authentication Failures
   description: 'OWASP top 10 #7: Identification and Authentication Failures'
   remediation: Review non-compliant controls and remediate
-  severity: 1
+  risk: 1
   likelihood: 1
   resource_scope:
     - systems
@@ -119,7 +120,7 @@ integrity_failure:
   name: A08:2021 – Software and Data Integrity Failures
   description: 'OWASP top 10 #8: Software and Data Integrity Failures'
   remediation: Review non-compliant controls and remediate
-  severity: 1
+  risk: 1
   likelihood: 1
   resource_scope:
     - systems
@@ -134,7 +135,7 @@ logging_monitoring_failure:
   name: A09:2021 – Security Logging and Monitoring Failures
   description: 'OWASP top 10 #9: Security Logging and Monitoring Failures'
   remediation: Review non-compliant controls and remediate
-  severity: 1
+  risk: 1
   likelihood: 1
   resource_scope:
     - systems
@@ -152,7 +153,7 @@ ssrf:
   name: A10:2021 – Server-Side Request Forgery (SSRF)
   description: 'OWASP top 10 #10: Server-Side Request Forgery (SSRF)'
   remediation: Review non-compliant controls and remediate
-  severity: 1
+  risk: 1
   likelihood: 1
   resource_scope:
     - systems
@@ -169,7 +170,7 @@ spoofing_users:
     identifies as another by falsifying data, to gain an illegitimate advantage
   remediation: Ensure multiple methods of authentication are required for a user to
     verify their identity
-  severity: 1
+  risk: 1
   likelihood: 1
   resource_scope:
     - users
@@ -180,7 +181,7 @@ repudiation_user:
   description: Repudiation is the ability to associate actions taken on a system with
     a specific user
   remediation: Ensure users do not use shared accounts
-  severity: 1
+  risk: 1
   likelihood: 1
   resource_scope:
     - users
@@ -192,7 +193,7 @@ repudiation_system:
     a specific user
   remediation: Ensure logging contains identifiable information about the actor (Eg
     username, ip address)
-  severity: 1
+  risk: 1
   likelihood: 1
   resource_scope:
     - systems

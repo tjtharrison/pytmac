@@ -76,7 +76,8 @@ def do_check(output_json_report, check_details):
                 "description": check_details["description"],
                 "check_query": " ".join(check_details["check_query"]),
                 "remediation": check_details["remediation"],
-                "severity": check_details["severity"],
+                "risk": check_details["risk"],
+                "likelihood": check_details["likelihood"],
             }
 
             insecure_resources.append(example_resource)
