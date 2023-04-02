@@ -3,6 +3,7 @@ on:
     push:
         branches:
             - "fix_ci_upload"
+            - "main"
     workflow_dispatch:
 
 jobs:
