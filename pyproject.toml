@@ -1,3 +1,4 @@
 [tool.semantic_release]
 version_variable = "setup.py:__version__"
 branch = "main"
+upload_to_repository = "false"
