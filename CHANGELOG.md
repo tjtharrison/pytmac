@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.1.2 (2023-04-02)
+### Fix
+* Fixing upload_to_repository in toml ([`68a5875`](https://github.com/tjtharrison/tmac/commit/68a587550272a5c19c7292727afdc7fae2186e4b))
+
 ## v0.1.1 (2023-04-02)
 ### Fix
 * Dummy fix commit to test CI/CD ([`5294c48`](https://github.com/tjtharrison/tmac/commit/5294c480389585c88b08a46e93e4e34b1ffaf0de))
