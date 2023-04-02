@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.1.1 (2023-04-02)
+### Fix
+* Dummy fix commit to test CI/CD ([`5294c48`](https://github.com/tjtharrison/tmac/commit/5294c480389585c88b08a46e93e4e34b1ffaf0de))
+
 ## v0.1.0 (2023-04-02)
 ### Feature
 * Auto bump for first available release with a subset of features ([`d9c60fb`](https://github.com/tjtharrison/tmac/commit/d9c60fbffe51a3777e9f7eebb81ba8a8a6e3d0c8))
