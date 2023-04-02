@@ -17,4 +17,3 @@ jobs:
             uses: "python-semantic-release/python-semantic-release@master"
             with:
               github_token: ${{ secrets.GITHUB_TOKEN }}
-              additional_options: "-D upload_to_repository=false"
