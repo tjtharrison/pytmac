@@ -39,10 +39,9 @@ def main(output_json_report):
         logging.info("Finished security check %s", security_check)
 
     logging.info("Prioritising insecure resources")
-    insecure_resources.sort(key=lambda k: k['severity'])
+    insecure_resources.sort(key=lambda k: k["severity"])
 
     logging.info("Insecure resources: %s", str(insecure_resources))
-
 
     return insecure_resources
 
