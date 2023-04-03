@@ -19,9 +19,9 @@ databases:
   least_privileged_access: true
   least_privileged_network: true
   least_privileged_users: true
-  passwords_hashed: false
+  passwords_hashed: true
   requires_encrypted_connections: true
-  secure_logging_enabled: false
+  secure_logging_enabled: true
   tested_recovery_process: true
 networks:
   has_wifi: false
