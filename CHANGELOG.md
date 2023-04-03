@@ -2,6 +2,15 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.0 (2023-04-03)
+### Feature
+* Started replacing severity with risk and likelihood ([`4d1978d`](https://github.com/tjtharrison/tmac/commit/4d1978d07c12ff6958ae6a9c9606ab9343ece9b0))
+
+### Fix
+* Reverted changes to defaults ([`3f58a97`](https://github.com/tjtharrison/tmac/commit/3f58a97c61876f1f191363fc8295886d3f359e28))
+* Reverted changes made to defaults ([`486d9c2`](https://github.com/tjtharrison/tmac/commit/486d9c29b7c38707a38b3f25bdb1c17c111e3cd8))
+* Fixed unit tests for severity ([`7a8c63c`](https://github.com/tjtharrison/tmac/commit/7a8c63c6a54b81944ccf2d469b97c3f141c28ce3))
+
 ## v1.0.0 (2023-04-02)
 ### Feature
 * CI working and first release ready ([`c571a08`](https://github.com/tjtharrison/tmac/commit/c571a086cd2face2e117bebf5317d87e96e42f06))
