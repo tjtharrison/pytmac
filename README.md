@@ -179,6 +179,8 @@ resources:
 Security checks have been included to cover use cases for the Owasp top 10, however you may want to extend tmac with custom checks can be written and added to `./docs/security_checks.yaml`. These files should be written as below, the 
 checks are iterated over and executed individually, all fields are required.
 
+Severity should be used as a combination of Risk vs Likelihood, any security findings are prioritised by severity in the report output. 
+
 ```
 user_owned_device:
   name: Non company device used

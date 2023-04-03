@@ -38,7 +38,12 @@ def main(output_json_report):
                 insecure_resources.append(result)
         logging.info("Finished security check %s", security_check)
 
+    logging.info("Prioritising insecure resources")
+    insecure_resources.sort(key=lambda k: k['severity'])
+
     logging.info("Insecure resources: %s", str(insecure_resources))
+
+
     return insecure_resources
 
 
@@ -76,10 +81,8 @@ def do_check(output_json_report, check_details):
                 "description": check_details["description"],
                 "check_query": " ".join(check_details["check_query"]),
                 "remediation": check_details["remediation"],
-                "risk": check_details["risk"],
-                "likelihood": check_details["likelihood"],
+                "severity": check_details["severity"],
             }
-
             insecure_resources.append(example_resource)
 
     return insecure_resources

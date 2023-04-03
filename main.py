@@ -368,8 +368,8 @@ def main():
                 # Writing some auto threat modelling
                 output_file.write(
                     "\n\n"
-                    "| Name | Resources | Finding | Remediation | Query | Severity | Risk | Likelihood |"
-                    "\n|-----|-----|-----|-----|-----|-----|-----|-----\n"
+                    "| Name | Resources | Finding | Remediation | Query | Severity |"
+                    "\n|-----|-----|-----|-----|-----|-----|\n"
                 )
                 for response in insecure_resources:
                     response_detail = (
@@ -384,11 +384,7 @@ def main():
                         + " | "
                         + response["check_query"]
                         + " | "
-                        + str(response["risk"] * response["likelihood"])
-                        + " | "
-                        + str(response["risk"])
-                        + " | "
-                        + str(response["likelihood"])
+                        + str(response["severity"])
                         + " | "
                         + "\n"
                     )
