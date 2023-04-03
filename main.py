@@ -367,6 +367,7 @@ def main():
             if len(insecure_resources) > 0:
                 # Writing some auto threat modelling
                 output_file.write(
+                    "\n\n"
                     "| Name | Resources | Finding | Remediation | Query | Severity |"
                     "\n|-----|-----|-----|-----|-----|-----|\n"
                 )

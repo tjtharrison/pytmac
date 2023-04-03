@@ -24,7 +24,7 @@ jobs:
             - name: "Unit tests"
               run: |
                   mkdir tests/reports
-                  python3 -m pytest
+                  make test
             - name: "Test coverage"
               run: |
                 min_required_test_coverage=90

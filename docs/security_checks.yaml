@@ -3,7 +3,7 @@ user_owned_device:
   name: Non company device used
   description: Checks for users with company_user true and company_device false.
   remediation: Understand and remediate or document known exception.
-  severity: 3
+  severity: 1
   resource_scope:
     - users
   check_query:
@@ -14,7 +14,6 @@ broken_access_control:
     lack of mitigation against this type of attack'
   remediation: Review non-compliant controls and remediate
   severity: 1
-  likelihood: 1
   resource_scope:
     - systems
     - containers
@@ -29,7 +28,6 @@ cryptographic_failures:
   description: 'OWASP top 10 #2: Checks for various items related to encryption'
   remediation: Review non-compliant controls and remediate
   severity: 1
-  likelihood: 1
   resource_scope:
     - databases
   check_query:
@@ -43,7 +41,6 @@ sql_injection:
   description: 'OWASP top 10 #3: Checks for mitigations against SQL injection'
   remediation: Review non-compliant controls and remediate
   severity: 1
-  likelihood: 1
   resource_scope:
     - systems
     - containers
@@ -58,7 +55,6 @@ insecure_design:
   description: 'OWASP top 10 #4: Checks for good Software development practices'
   remediation: Review non-compliant controls and remediate
   severity: 1
-  likelihood: 1
   resource_scope:
     - systems
     - containers
@@ -72,7 +68,6 @@ security_misconfig:
   description: 'OWASP top 10 #5: Review for security misconfigurations'
   remediation: Review non-compliant controls and remediate
   severity: 1
-  likelihood: 1
   resource_scope:
     - systems
     - containers
@@ -89,7 +84,6 @@ vulnerable_components:
   description: 'OWASP top 10 #6: Review for outdated or insecure dependencies'
   remediation: Review non-compliant controls and remediate
   severity: 1
-  likelihood: 1
   resource_scope:
     - systems
     - containers
@@ -103,7 +97,6 @@ auth_failures:
   description: 'OWASP top 10 #7: Identification and Authentication Failures'
   remediation: Review non-compliant controls and remediate
   severity: 1
-  likelihood: 1
   resource_scope:
     - systems
     - containers
@@ -120,7 +113,6 @@ integrity_failure:
   description: 'OWASP top 10 #8: Software and Data Integrity Failures'
   remediation: Review non-compliant controls and remediate
   severity: 1
-  likelihood: 1
   resource_scope:
     - systems
     - containers
@@ -135,7 +127,6 @@ logging_monitoring_failure:
   description: 'OWASP top 10 #9: Security Logging and Monitoring Failures'
   remediation: Review non-compliant controls and remediate
   severity: 1
-  likelihood: 1
   resource_scope:
     - systems
     - containers
@@ -153,7 +144,6 @@ ssrf:
   description: 'OWASP top 10 #10: Server-Side Request Forgery (SSRF)'
   remediation: Review non-compliant controls and remediate
   severity: 1
-  likelihood: 1
   resource_scope:
     - systems
     - containers
@@ -170,7 +160,6 @@ spoofing_users:
   remediation: Ensure multiple methods of authentication are required for a user to
     verify their identity
   severity: 1
-  likelihood: 1
   resource_scope:
     - users
   check_query:
@@ -181,7 +170,6 @@ repudiation_user:
     a specific user
   remediation: Ensure users do not use shared accounts
   severity: 1
-  likelihood: 1
   resource_scope:
     - users
   check_query:
@@ -193,7 +181,6 @@ repudiation_system:
   remediation: Ensure logging contains identifiable information about the actor (Eg
     username, ip address)
   severity: 1
-  likelihood: 1
   resource_scope:
     - systems
   check_query:
