@@ -16,4 +16,4 @@ jobs:
         id: checkov
         uses: bridgecrewio/checkov-action@7bac8ad9627c5775917e8623ee2e342a98bb2dbf
         with:
-          directory: /
+          directory: .
