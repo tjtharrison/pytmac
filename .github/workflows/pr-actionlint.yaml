@@ -6,6 +6,8 @@ on:
     paths:
       - ".github/**"
 
+permissions: read-all
+
 jobs:
   actionlint:
     runs-on: ubuntu-latest
