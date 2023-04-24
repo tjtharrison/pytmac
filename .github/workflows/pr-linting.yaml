@@ -2,8 +2,13 @@ name: Code Linting
 on:
   pull_request:
     branches:
-      - "main"
+        - "main"
+    paths:
+        - "**.py"
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   code-linting:
@@ -14,8 +19,8 @@ jobs:
       - name: "Code format"
         run: |
           pip3 install isort pylint black
-          python3 -m isort $(find . -name "*.py" -not -path "./tests/*")
-          python3 -m black $(find . -name "*.py" -not -path "./tests/*")
+          python3 -m isort "$(find . -name "*.py" -not -path "./tests/*")"
+          python3 -m black "$(find . -name "*.py" -not -path "./tests/*")"
       - name: "Commit linted files"
         uses: "stefanzweifel/git-auto-commit-action@v4"
         with:
