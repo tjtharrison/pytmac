@@ -1,4 +1,4 @@
-name: Code Linting
+name: Action Linting
 on:
   pull_request:
     branches:
