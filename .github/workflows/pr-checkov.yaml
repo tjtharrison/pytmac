@@ -19,4 +19,4 @@ jobs:
         uses: bridgecrewio/checkov-action@7bac8ad9627c5775917e8623ee2e342a98bb2dbf
         with:
           directory: .
-          skip_check: CKV_OPENAPI_5 # Demo swagger file
+          skip_check: CKV_OPENAPI_5, CKV_OPENAPI_4 # Demo swagger file
