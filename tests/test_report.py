@@ -1,7 +1,6 @@
 import json
 import os
 from datetime import date
-import main
 import pytest
 import tests.bin.dirs as dirs
 
@@ -9,7 +8,7 @@ OUTPUT_REPORT_DIRECTORY = os.environ.get("OUTPUT_DIR")
 OUTPUT_REPORT_FILE = OUTPUT_REPORT_DIRECTORY + "/report-" + str(date.today()) + ".md"
 CONFIG_FILE = os.environ.get("CONFIG_FILE")
 
-import main
+import tmac
 
 
 @pytest.fixture(autouse=True)
@@ -27,7 +26,7 @@ def test_report_contents():
     :return: True/False
     """
     output_valid = True
-    main.main()
+    tmac.main()
 
     with open(OUTPUT_REPORT_FILE, "r") as markdown_file:
         markdown_file_contents = markdown_file.readlines()

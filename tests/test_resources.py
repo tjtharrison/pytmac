@@ -2,7 +2,7 @@ import json
 import os
 from datetime import date
 import yaml
-import main
+import tmac
 import tests.bin.config as config
 import tests.bin.dirs as dirs
 
@@ -41,7 +41,7 @@ def test_default_setting_user():
 
     config.update_default_value("users", "company_user", False)
 
-    main.main()
+    tmac.main()
 
     # Load defaults
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -72,7 +72,7 @@ def test_override_setting_user():
 
     config.update_resources("users", new_resource)
 
-    main.main()
+    tmac.main()
 
     # Load defaults
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -99,7 +99,7 @@ def test_default_setting_networks():
 
     config.update_default_value("networks", "has_wifi", True)
 
-    main.main()
+    tmac.main()
 
     # Load defaults
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -125,7 +125,7 @@ def test_override_setting_network():
 
     config.update_resources("networks", new_resource)
 
-    main.main()
+    tmac.main()
 
     # Load defaults
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -152,7 +152,7 @@ def test_default_setting_databases():
 
     config.update_default_value("databases", "databases", True)
 
-    main.main()
+    tmac.main()
 
     # Load defaults
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -183,7 +183,7 @@ def test_override_setting_database():
 
     config.update_resources("databases", new_resource)
 
-    main.main()
+    tmac.main()
 
     # Load defaults
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -210,7 +210,7 @@ def test_default_setting_systems():
 
     config.update_default_value("systems", "is_hardened", False)
 
-    main.main()
+    tmac.main()
 
     # Load defaults
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -241,7 +241,7 @@ def test_override_setting_system():
 
     config.update_resources("systems", new_resource)
 
-    main.main()
+    tmac.main()
 
     # Load defaults
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -268,7 +268,7 @@ def test_default_setting_containers():
 
     config.update_default_value("systems", "is_hardened", False)
 
-    main.main()
+    tmac.main()
 
     # Load defaults
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -299,7 +299,7 @@ def test_override_setting_containers():
 
     config.update_resources("containers", new_resource)
 
-    main.main()
+    tmac.main()
 
     # Load defaults
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:

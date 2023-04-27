@@ -1,13 +1,12 @@
-import json
 import os
 import yaml
 from datetime import date
 
-from bin import resource_validator
+import tmac_resource_validator as resource_validator
 import tests.bin.config as config
 import tests.bin.dirs as dirs
 
-import main
+import tmac
 
 import pytest
 
@@ -59,7 +58,7 @@ def test_user_owned_device():
     }
 
     config.update_resources("users", new_resource)
-    main.main()
+    tmac.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -105,7 +104,7 @@ def test_broken_access_control():
     }
 
     config.update_resources("systems", new_resource)
-    main.main()
+    tmac.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -152,7 +151,7 @@ def test_cryptographic_failures():
     }
 
     config.update_resources("databases", new_resource)
-    main.main()
+    tmac.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -198,7 +197,7 @@ def test_sql_injection():
     }
 
     config.update_resources("systems", new_resource)
-    main.main()
+    tmac.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -245,7 +244,7 @@ def test_insecure_design():
     }
 
     config.update_resources("systems", new_resource)
-    main.main()
+    tmac.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -292,7 +291,7 @@ def test_security_misconfig():
     }
 
     config.update_resources("systems", new_resource)
-    main.main()
+    tmac.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -339,7 +338,7 @@ def test_auth_failures():
     }
 
     config.update_resources("systems", new_resource)
-    main.main()
+    tmac.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -386,7 +385,7 @@ def test_integrity_failure():
     }
 
     config.update_resources("systems", new_resource)
-    main.main()
+    tmac.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -433,7 +432,7 @@ def test_logging_monitoring_failure():
     }
 
     config.update_resources("systems", new_resource)
-    main.main()
+    tmac.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -481,7 +480,7 @@ def test_ssrf():
     }
 
     config.update_resources("systems", new_resource)
-    main.main()
+    tmac.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -525,7 +524,7 @@ def test_spoofing_users():
     }
 
     config.update_resources("users", new_resource)
-    main.main()
+    tmac.main()
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:

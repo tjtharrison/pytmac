@@ -5,7 +5,7 @@ import tests.bin.config as config
 import tests.bin.dirs as dirs
 import yaml
 
-import main
+import tmac
 
 import pytest
 
@@ -39,7 +39,7 @@ def test_default_setting_user():
     :return: True/False
     """
 
-    main.main()
+    tmac.main()
 
     # Load config
     with open(os.environ.get("CONFIG_FILE"), "r", encoding="UTF-8") as config_file:

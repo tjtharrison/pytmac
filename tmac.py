@@ -8,6 +8,8 @@ import sys
 from copy import deepcopy
 from datetime import date
 
+import tmac_input_validator as input_validator
+import tmac_resource_validator as resource_validator
 import yaml
 
 try:
@@ -18,8 +20,6 @@ except TypeError:
     from dotenv import load_dotenv  # pylint: disable=unused-import
 
     load_dotenv()
-
-from bin import input_validator, resource_validator
 
 # Configure logging
 logging.basicConfig(

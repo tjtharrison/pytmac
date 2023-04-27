@@ -2,7 +2,7 @@ import json
 import os
 from datetime import date
 import logging
-import main
+import tmac
 import tests.bin.config as config
 import tests.bin.dirs as dirs
 import yaml
@@ -41,7 +41,7 @@ def my_fixture():
 
 def test_config_good(caplog):
     caplog.set_level(logging.ERROR)
-    main.main()
+    tmac.main()
 
     if len(caplog.records) > 0:
         assert False
@@ -55,7 +55,7 @@ def test_config_no_title(caplog):
     config.delete_config("title")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         (
@@ -77,7 +77,7 @@ def test_config_no_description(caplog):
     config.delete_config("description")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         (
@@ -99,7 +99,7 @@ def test_config_no_swagger_resource_type(caplog):
     config.delete_config("swagger_resource_type")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         (
@@ -121,7 +121,7 @@ def test_config_no_swagger_default_network(caplog):
     config.delete_config("swagger_default_network")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         (
@@ -143,7 +143,7 @@ def test_resources_top_level_networks_missing(caplog):
     config.delete_resource("networks")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
     assert caplog.record_tuples == [
         (
             "root",
@@ -160,7 +160,7 @@ def test_resources_top_level_users_missing(caplog):
     config.delete_resource("users")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
     assert caplog.record_tuples == [
         (
             "root",
@@ -177,7 +177,7 @@ def test_resources_top_level_databases_missing(caplog):
     config.delete_resource("databases")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
     assert caplog.record_tuples == [
         (
             "root",
@@ -194,7 +194,7 @@ def test_resources_top_level_systems_missing(caplog):
     config.delete_resource("systems")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
     assert caplog.record_tuples == [
         (
             "root",
@@ -211,7 +211,7 @@ def test_resources_networks_name(caplog):
     config.delete_resource("networks.name")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         (
@@ -229,7 +229,7 @@ def test_resources_user_name(caplog):
     config.delete_resource("users.name")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         (
@@ -247,7 +247,7 @@ def test_resources_user_network(caplog):
     config.delete_resource("users.network")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         (
@@ -265,7 +265,7 @@ def test_resources_user_description(caplog):
     config.delete_resource("users.description")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         (
@@ -283,7 +283,7 @@ def test_resources_database_description(caplog):
     config.delete_resource("databases.description")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         (
@@ -301,7 +301,7 @@ def test_resources_database_name(caplog):
     config.delete_resource("databases.name")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         (
@@ -319,7 +319,7 @@ def test_resources_database_network(caplog):
     config.delete_resource("databases.network")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         (
@@ -337,7 +337,7 @@ def test_resources_system_name(caplog):
     config.delete_resource("systems.name")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         (
@@ -355,7 +355,7 @@ def test_resources_system_network(caplog):
     config.delete_resource("systems.network")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         (
@@ -373,7 +373,7 @@ def test_resources_system_description(caplog):
     config.delete_resource("systems.description")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         (
@@ -391,7 +391,7 @@ def test_resources_res_link_description(caplog):
     config.delete_resource("res_links.description")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         (
@@ -409,7 +409,7 @@ def test_resources_res_link_source(caplog):
     config.delete_resource("res_links.source")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         (
@@ -427,7 +427,7 @@ def test_resources_res_link_destination(caplog):
     config.delete_resource("res_links.destination")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         (
@@ -445,7 +445,7 @@ def test_defaults_top_level_systems_missing(caplog):
     config.delete_resource("systems")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         ("root", logging.ERROR, "systems not found in resources"),
@@ -459,7 +459,7 @@ def test_defaults_top_level_users_missing(caplog):
     config.delete_resource("users")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         ("root", logging.ERROR, "users not found in resources"),
@@ -473,7 +473,7 @@ def test_defaults_top_level_databases_missing(caplog):
     config.delete_resource("databases")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         ("root", logging.ERROR, "databases not found in resources"),
@@ -487,7 +487,7 @@ def test_defaults_top_level_networks_missing(caplog):
     config.delete_resource("networks")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         ("root", logging.ERROR, "networks not found in resources"),
@@ -506,7 +506,7 @@ def test_swagger_no_paths(caplog):
         swagger_file_update.truncate()
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         ("root", logging.ERROR, "No paths provided in swagger.json"),
@@ -527,7 +527,7 @@ def test_swagger_no_description(caplog):
         swagger_file_update.truncate()
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        main.main()
+        tmac.main()
 
     assert caplog.record_tuples == [
         ("root", logging.ERROR, "description not set on swagger path /api/user/add"),
