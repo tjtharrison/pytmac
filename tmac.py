@@ -1,5 +1,7 @@
+#!/usr/bin/env python3
+
 """
-Python based programatic threat modelling tool tmacs
+Python based programmatic threat modelling tool tmacs
 """
 import json
 import logging
@@ -7,9 +9,10 @@ import os
 import sys
 from copy import deepcopy
 from datetime import date
-
-import tmac_input_validator as input_validator
-import tmac_resource_validator as resource_validator
+import argparse
+from bin import input_validator as input_validator, \
+    resource_validator as resource_validator, \
+    get_config as get_config
 import yaml
 
 try:
@@ -20,6 +23,10 @@ except TypeError:
     from dotenv import load_dotenv  # pylint: disable=unused-import
 
     load_dotenv()
+
+from _version import __version__
+
+VERSION = __version__
 
 # Configure logging
 logging.basicConfig(
@@ -35,6 +42,23 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 
+# Use argparse to add arguments
+parser = argparse.ArgumentParser(
+    prog="tmacs",
+    description="Python based programmatic threat modelling tool",
+)
+parser.add_argument(
+    "--version",
+    action="store_true",
+    help="Option to print the current version only"
+)
+parser.add_argument(
+    "--demo",
+    action="store_true",
+    help="Run tmac in demo mode using the demo config and resources"
+)
+
+args = parser.parse_args()
 
 def main():
     """
@@ -44,15 +68,11 @@ def main():
     """
 
     # Load resources
-    with open(
-        os.environ.get("RESOURCES_FILE"), "r", encoding="UTF-8"
-    ) as resources_file:
+    with open(os.environ.get("RESOURCES_FILE"), "r", encoding="UTF-8") as resources_file:
         try:
             resources_yaml = yaml.safe_load(resources_file)
         except yaml.YAMLError as error_message:
-            logging.error("Failed to load RESOURCES_FILE: %s", error_message)
-
-    # Load config
+            logging.error("Failed to load RESOURCE_FILE: %s", error_message)
 
     with open(os.environ.get("CONFIG_FILE"), "r", encoding="UTF-8") as config_file:
         try:
@@ -393,4 +413,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if args.version:
+        print(VERSION)
+    elif args.demo:
+        print("Will run in demonstration mode")
+    else:
+        # Will need to validate the presence of required config files
+        main()

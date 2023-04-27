@@ -21,5 +21,14 @@ setup(
     long_description=readme_contents,
     long_description_content_type="text/markdown",
     install_requires=required,
-    scripts=["tmac", "_version.py"],
+    scripts=[
+        "tmac",
+        "_version.py"
+        ],
+    packages=[
+        "bin"
+    ],
+    package_data={
+        "docs": ["*"]
+    }
 )

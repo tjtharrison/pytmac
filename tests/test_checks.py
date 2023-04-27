@@ -2,7 +2,7 @@ import os
 import yaml
 from datetime import date
 
-import tmac_resource_validator as resource_validator
+from bin import resource_validator as resource_validator
 import tests.bin.config as config
 import tests.bin.dirs as dirs
 
