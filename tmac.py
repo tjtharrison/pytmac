@@ -15,15 +15,6 @@ from bin import input_validator as input_validator, \
     get_config as get_config
 import yaml
 
-try:
-    print(len(os.environ.get("GITHUB_WORKSPACE")))
-except TypeError:
-    # Not GITHUB, load dotenv
-    import dotenv  # pylint: disable=unused-import
-    from dotenv import load_dotenv  # pylint: disable=unused-import
-
-    load_dotenv()
-
 from _version import __version__
 
 VERSION = __version__
@@ -57,62 +48,31 @@ parser.add_argument(
     action="store_true",
     help="Run tmac in demo mode using the demo config and resources"
 )
+parser.add_argument(
+    "--enable-swagger",
+    action="store_false", ######### TODO: Disable this option
+    help="Parse swagger file"
+)
+parser.add_argument(
+    "--output-dir",
+    action="store",
+    default="reports",
+    help="[Default: reports] Set the directory for report output",
+)
 
 args = parser.parse_args()
 
-def main():
+def main(resources_yaml, config_yaml, defaults_yaml, security_checks_yaml, swagger_json):
     """
     Main function used to open up provided config and resource files, generating DFD and output
     report
     :return: True
     """
 
-    # Load resources
-    with open(os.environ.get("RESOURCES_FILE"), "r", encoding="UTF-8") as resources_file:
-        try:
-            resources_yaml = yaml.safe_load(resources_file)
-        except yaml.YAMLError as error_message:
-            logging.error("Failed to load RESOURCE_FILE: %s", error_message)
-
-    with open(os.environ.get("CONFIG_FILE"), "r", encoding="UTF-8") as config_file:
-        try:
-            config_yaml = yaml.safe_load(config_file)
-        except yaml.YAMLError as error_message:
-            logging.error("Failed to load CONFIG_FILE: %s", error_message)
-
-    # Load defaults
-    with open(os.environ.get("DEFAULTS_FILE"), "r", encoding="UTF-8") as defaults_file:
-        try:
-            defaults_yaml = yaml.safe_load(defaults_file)
-        except yaml.YAMLError as error_message:
-            logging.error("Failed to load DEFAULTS_FILE: %s", error_message)
-
-    # Lets do some config validation
-    if not input_validator.config(config_yaml):
-        logging.error("Config validation failed!")
-        sys.exit()
-    if not input_validator.resources(resources_yaml):
-        logging.error("Resources validation failed!")
-        sys.exit()
-    if not input_validator.defaults(defaults_yaml):
-        logging.error("Defaults validation failed!")
-        sys.exit()
-    else:
-        logging.info("All files validated successfully")
-
     resources = resources_yaml["resources"]
 
     # Load swagger if enabled
-    if os.environ.get("ENABLE_SWAGGER").lower() == "true":
-        # Load specified swagger file
-        with open(
-            os.environ.get("SWAGGER_FILE"), "r", encoding="UTF-8"
-        ) as swagger_file:
-            swagger_json = json.loads(swagger_file.read())
-
-        if not input_validator.swagger(swagger_json):
-            logging.error("Swagger validation failed!")
-            sys.exit(1)
+    if args.enable_swagger == "true":
 
         swagger_paths = list(swagger_json["paths"].keys())
         for swagger_path in swagger_paths:
@@ -155,7 +115,7 @@ def main():
                     resources_yaml["resources"][
                         config_yaml["swagger_resource_type"]
                     ].append(swagger_path_detail)
-    output_file_dir = os.environ.get("OUTPUT_DIR")
+    output_file_dir = args.output_dir
     output_file_name = "report-" + str(date.today())
 
     with open(
@@ -383,7 +343,7 @@ def main():
             yaml.dump(output_yaml_report, output_yaml)
 
             # Insecure resources
-            insecure_resources = resource_validator.main(output_yaml_report)
+            insecure_resources = resource_validator.main(security_checks_yaml, output_yaml_report)
             if len(insecure_resources) > 0:
                 # Writing some auto threat modelling
                 output_file.write(
@@ -416,7 +376,13 @@ if __name__ == "__main__":
     if args.version:
         print(VERSION)
     elif args.demo:
-        print("Will run in demonstration mode")
+        logging.info("Running in demonstration mode")
+        resources_input = get_config.resources("demo")
+        config_input = get_config.config("demo")
+        defaults_input = get_config.defaults("demo")
+        security_checks_input = get_config.security_checks("demo")
+        swagger_input = get_config.swagger("demo")
     else:
         # Will need to validate the presence of required config files
-        main()
+        logging.info("Requires input")
+    main(resources_input, config_input, defaults_input, security_checks_input, swagger_input)

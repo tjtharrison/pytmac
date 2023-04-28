@@ -1,6 +1,8 @@
 import yaml
 import logging
 import json
+import sys
+from bin import input_validator as input_validator
 
 def get_contents(file_name):
     """
@@ -29,3 +31,117 @@ demo_swagger_json = json.dumps({"tags": [], "paths": {"/api/user/add": {"post": 
 default_security_checks = {'user_owned_device': {'name': 'Non company device used', 'description': 'Checks for users with company_user true and company_device false.', 'remediation': 'Understand and remediate or document known exception.', 'severity': 1, 'resource_scope': ['users'], 'check_query': ['resources[resource]["company_user"] and not resources[resource]["company_device"]']}, 'broken_access_control': {'name': 'A01:2021-Broken Access Control', 'description': 'OWASP top 10 #1: Checks for combination of controls that indicate lack of mitigation against this type of attack', 'remediation': 'Review non-compliant controls and remediate', 'severity': 1, 'resource_scope': ['systems', 'containers'], 'check_query': ['not resources[resource]["requires_authentication"] ', 'or not resources[resource]["least_privileged_access"] ', 'or not resources[resource]["access_logging_enabled"] ', 'or not resources[resource]["cors_minimal_required_usage"] ', 'or not resources[resource]["stateful_sessions_invalidated"] ']}, 'cryptographic_failures': {'name': 'A02:2021-Cryptographic_Failures', 'description': 'OWASP top 10 #2: Checks for various items related to encryption', 'remediation': 'Review non-compliant controls and remediate', 'severity': 1, 'resource_scope': ['databases'], 'check_query': ['not resources[resource]["is_encrypted"] ', 'or not resources[resource]["cleanup_tasks_configured"] ', 'or not resources[resource]["requires_encrypted_connections"] ', 'or not resources[resource]["authentication_required"] ', 'or not resources[resource]["passwords_hashed"] ']}, 'sql_injection': {'name': 'A03:2021 – Injection', 'description': 'OWASP top 10 #3: Checks for mitigations against SQL injection', 'remediation': 'Review non-compliant controls and remediate', 'severity': 1, 'resource_scope': ['systems', 'containers'], 'check_query': ['(', ' not resources[resource]["input_sanitization"] ', ' or not resources[resource]["authentication_required"]', ' or not resources[resource]["is_hardened"]', ') and resources[resource]["db_op"]']}, 'insecure_design': {'name': 'A04:2021 – Insecure Design', 'description': 'OWASP top 10 #4: Checks for good Software development practices', 'remediation': 'Review non-compliant controls and remediate', 'severity': 1, 'resource_scope': ['systems', 'containers'], 'check_query': [' not resources[resource]["dependabot_used"] ', ' or not resources[resource]["secret_scanning_used"]', ' or not resources[resource]["least_privileged_access"]', ' or not resources[resource]["least_privileged_network"]']}, 'security_misconfig': {'name': 'A05:2021 – Security Misconfiguration', 'description': 'OWASP top 10 #5: Review for security misconfigurations', 'remediation': 'Review non-compliant controls and remediate', 'severity': 1, 'resource_scope': ['systems', 'containers', 'databases'], 'check_query': [' not resources[resource]["is_hardened"] ', ' or not resources[resource]["least_privileged_access"]', ' or not resources[resource]["least_privileged_network"]', ' or not resources[resource]["default_accounts_enabled"]', ' or not resources[resource]["secure_logging_enabled"]', ' or not resources[resource]["automatic_updates"]']}, 'vulnerable_components': {'name': 'A06:2021 – Vulnerable and Outdated Components', 'description': 'OWASP top 10 #6: Review for outdated or insecure dependencies', 'remediation': 'Review non-compliant controls and remediate', 'severity': 1, 'resource_scope': ['systems', 'containers'], 'check_query': [' not resources[resource]["dependabot_used"] ', ' or not resources[resource]["automatic_updates"]', ' or not resources[resource]["security_scan_on_build"]', ' or not resources[resource]["security_scan_on_artifact_storage"]']}, 'auth_failures': {'name': 'A07:2021 – Identification and Authentication Failures', 'description': 'OWASP top 10 #7: Identification and Authentication Failures', 'remediation': 'Review non-compliant controls and remediate', 'severity': 1, 'resource_scope': ['systems', 'containers'], 'check_query': [' not resources[resource]["mfa_enabled"] ', ' or not resources[resource]["default_accounts_enabled"]', ' or not resources[resource]["has_secure_password_policy"]', ' or not resources[resource]["password_username_incorrect_same_message"]', ' or not resources[resource]["delayed_login_failures"]', ' or not resources[resource]["login_failures_logged"]', ' or not resources[resource]["sessions_stored_securely"]']}, 'integrity_failure': {'name': 'A08:2021 – Software and Data Integrity Failures', 'description': 'OWASP top 10 #8: Software and Data Integrity Failures', 'remediation': 'Review non-compliant controls and remediate', 'severity': 1, 'resource_scope': ['systems', 'containers'], 'check_query': [' not resources[resource]["dependabot_used"] ', ' or not resources[resource]["dependency_signing_required"]', ' or not resources[resource]["code_review_required"]', ' or not resources[resource]["code_scan_in_pipeline"]', ' or not resources[resource]["code_scan_in_pipeline"]']}, 'logging_monitoring_failure': {'name': 'A09:2021 – Security Logging and Monitoring Failures', 'description': 'OWASP top 10 #9: Security Logging and Monitoring Failures', 'remediation': 'Review non-compliant controls and remediate', 'severity': 1, 'resource_scope': ['systems', 'containers', 'databases'], 'check_query': [' not resources[resource]["audit_logging_enabled"] ', ' or not resources[resource]["audit_logging_to_siem"]', ' or not resources[resource]["audit_logging_tamper_proof"]', ' or not resources[resource]["audit_logging_monitored"]', ' or not resources[resource]["audit_logging_alerts"]', ' or not resources[resource]["incident_response_runbooks"]', ' or not resources[resource]["tested_recovery_process"]']}, 'ssrf': {'name': 'A10:2021 – Server-Side Request Forgery (SSRF)', 'description': 'OWASP top 10 #10: Server-Side Request Forgery (SSRF)', 'remediation': 'Review non-compliant controls and remediate', 'severity': 1, 'resource_scope': ['systems', 'containers'], 'check_query': [' not resources[resource]["least_privileged_network"] ', ' or not resources[resource]["input_validation"]', ' or not resources[resource]["input_sanitization"]', ' or not resources[resource]["least_privileged_access"]', ' or not resources[resource]["requires_encryption"]']}, 'spoofing_users': {'name': 'STRIDE - Spoofing', 'description': 'A spoofing attack is a situation in which a person or program successfully identifies as another by falsifying data, to gain an illegitimate advantage', 'remediation': 'Ensure multiple methods of authentication are required for a user to verify their identity', 'severity': 1, 'resource_scope': ['users'], 'check_query': [' not resources[resource]["uses_mfa"] ']}, 'repudiation_user': {'name': 'STRIDE - Repudiation', 'description': 'Repudiation is the ability to associate actions taken on a system with a specific user', 'remediation': 'Ensure users do not use shared accounts', 'severity': 1, 'resource_scope': ['users'], 'check_query': [' not resources[resource]["uses_own_login"] ']}, 'repudiation_system': {'name': 'STRIDE - Repudiation', 'description': 'Repudiation is the ability to associate actions taken on a system with a specific user', 'remediation': 'Ensure logging contains identifiable information about the actor (Eg username, ip address)', 'severity': 1, 'resource_scope': ['systems'], 'check_query': [' not resources[resource]["audit_logging_includes_user_details"] ']}}
 
 #### https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+
+def resources(file):
+    """
+    Function to return a list of resources to be included in the package
+    :return: List of resources
+    """
+    if file == "demo":
+        resources_yaml = demo_resources
+    else:
+        with open(file, "r", encoding="UTF-8") as resources_file:
+            try:
+                resources_yaml = yaml.safe_load(resources_file)
+            except yaml.YAMLError as error_message:
+                logging.error("Failed to load RESOURCE_FILE: %s", error_message)
+
+    if not input_validator.resources(resources_yaml):
+        logging.error("Resources validation failed!")
+        sys.exit()
+
+    return resources_yaml
+
+def config(file):
+    """
+    Function to return a list of config to be included in the package
+    :return: List of resources
+    """
+    if file == "demo":
+        config_yaml = demo_config
+    else:
+        with open(file, "r", encoding="UTF-8") as config_file:
+            try:
+                config_yaml = yaml.safe_load(config_file)
+            except yaml.YAMLError as error_message:
+                logging.error("Failed to load CONFIG_FILE: %s", error_message)
+
+    if not input_validator.config(config_yaml):
+        logging.error("Config validation failed!")
+        sys.exit()
+
+    return config_yaml
+
+def defaults(file):
+    """
+    Function to return a list of defaults to be included in the package
+    :return: List of resources
+    """
+    if file == "demo":
+        default_yaml = demo_defaults
+    else:
+        with open(file, "r", encoding="UTF-8") as default_file:
+            try:
+                default_yaml = yaml.safe_load(default_file)
+            except yaml.YAMLError as error_message:
+                logging.error("Failed to load DEFAULTS_FILE: %s", error_message)
+
+    if not input_validator.defaults(default_yaml):
+        logging.error("Defaults validation failed!")
+        sys.exit()
+
+    return default_yaml
+
+def defaults(file):
+    """
+    Function to return a list of defaults to be included in the package
+    :return: List of resources
+    """
+    if file == "demo":
+        default_yaml = demo_defaults
+    else:
+        with open(file, "r", encoding="UTF-8") as default_file:
+            try:
+                default_yaml = yaml.safe_load(default_file)
+            except yaml.YAMLError as error_message:
+                logging.error("Failed to load DEFAULTS_FILE: %s", error_message)
+
+    return default_yaml
+
+
+def security_checks(file):
+    """
+    Function to return a list of security_checks to be included in the package
+    :return: List of resources
+    """
+    if file == "demo":
+        security_checks_yaml = default_security_checks
+    else:
+        with open(file, "r", encoding="UTF-8") as security_checks_file:
+            try:
+                security_checks_yaml = yaml.safe_load(security_checks_file)
+            except yaml.YAMLError as error_message:
+                logging.error("Failed to load SECURITY_CHECKS_FILE: %s", error_message)
+
+    return security_checks_yaml
+
+
+def swagger(file):
+    """
+    Function to get and return swagger file contents
+    :return: List of resources
+    """
+    if file == "demo":
+        swagger_json = demo_swagger_json
+    else:
+        with open(file, "r", encoding="UTF-8") as security_checks_file:
+            try:
+                security_checks_yaml = yaml.safe_load(security_checks_file)
+            except yaml.YAMLError as error_message:
+                logging.error("Failed to load SECURITY_CHECKS_FILE: %s", error_message)
+
+    if not input_validator.swagger(swagger_json):
+        logging.error("Swagger validation failed!")
+        sys.exit(1)
+
+    return swagger_json

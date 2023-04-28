@@ -2,6 +2,10 @@ generate:
 	python3 tmac.py
 	plantuml -tsvg reports/report-$$(date +%F).md
 
+demo:
+	python3 tmac.py --demo
+	plantuml -tsvg reports/report-$$(date +%F).md
+
 test:
 	python3 -m pytest
 
