@@ -60,12 +60,12 @@ def config(file):
     if file == "demo":
         config_yaml = demo_config
     else:
+        print(file)
         with open(file, "r", encoding="UTF-8") as config_file:
             try:
                 config_yaml = yaml.safe_load(config_file)
             except yaml.YAMLError as error_message:
                 logging.error("Failed to load CONFIG_FILE: %s", error_message)
-
     if not input_validator.config(config_yaml):
         logging.error("Config validation failed!")
         sys.exit()
@@ -114,7 +114,7 @@ def security_checks(file):
     Function to return a list of security_checks to be included in the package
     :return: List of resources
     """
-    if file == "demo":
+    if file == "default":
         security_checks_yaml = default_security_checks
     else:
         with open(file, "r", encoding="UTF-8") as security_checks_file:
@@ -136,7 +136,7 @@ def swagger(file):
     else:
         with open(file, "r", encoding="UTF-8") as security_checks_file:
             try:
-                security_checks_yaml = yaml.safe_load(security_checks_file)
+                swagger_json = yaml.safe_load(security_checks_file)
             except yaml.YAMLError as error_message:
                 logging.error("Failed to load SECURITY_CHECKS_FILE: %s", error_message)
 

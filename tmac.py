@@ -49,16 +49,42 @@ parser.add_argument(
     help="Run tmac in demo mode using the demo config and resources"
 )
 parser.add_argument(
-    "--enable-swagger",
-    action="store_false", ######### TODO: Disable this option
-    help="Parse swagger file"
-)
-parser.add_argument(
     "--output-dir",
     action="store",
     default="reports",
     help="[Default: reports] Set the directory for report output",
 )
+parser.add_argument(
+    "--resources-file",
+    action="store",
+    default="None",
+    help="The path to the resources file",
+)
+parser.add_argument(
+    "--config-file",
+    action="store",
+    default="None",
+    help="The path to the config file",
+)
+parser.add_argument(
+    "--defaults-file",
+    action="store",
+    default="None",
+    help="The path to the defaults file",
+)
+parser.add_argument(
+    "--security-checks-file",
+    action="store",
+    default="Default",
+    help="[Default: security_checks.yaml] The path to the security-checks file",
+)
+parser.add_argument(
+    "--swagger-file",
+    action="store",
+    default="None",
+    help="[Default: None] The path to the swagger file (optional)",
+)
+
 
 args = parser.parse_args()
 
@@ -72,8 +98,10 @@ def main(resources_yaml, config_yaml, defaults_yaml, security_checks_yaml, swagg
     resources = resources_yaml["resources"]
 
     # Load swagger if enabled
-    if args.enable_swagger == "true":
+    if args.swagger_file != "None":
 
+        # Load swagger file
+        swagger_json = get_config.swagger(args.swagger_file)
         swagger_paths = list(swagger_json["paths"].keys())
         for swagger_path in swagger_paths:
             swagger_path_detail = {
@@ -380,9 +408,37 @@ if __name__ == "__main__":
         resources_input = get_config.resources("demo")
         config_input = get_config.config("demo")
         defaults_input = get_config.defaults("demo")
-        security_checks_input = get_config.security_checks("demo")
+        security_checks_input = get_config.security_checks("default")
         swagger_input = get_config.swagger("demo")
     else:
-        # Will need to validate the presence of required config files
+        if str(args.resources_file) != "None":
+            print("Got here")
+            resources_input = get_config.resources(args.resources_file)
+        else:
+            logging.error("--resource-file is required, see --help for details")
+            sys.exit(1)
+
+        if str(args.config_file) != "None":
+            config_input = get_config.config(args.config_file)
+        else:
+            logging.error("--config-file is required, see --help for details")
+            sys.exit(1)
+
+        if str(args.defaults_file) != "None":
+            defaults_input = get_config.defaults(args.defaults_file)
+        else:
+            logging.error("--defaults-file is required, see --help for details")
+            sys.exit(1)
+
+        if str(args.security_checks_file) != "Default":
+            security_checks_input = get_config.config(args.security_checks_file)
+        else:
+            security_checks_input = get_config.security_checks("default")
+
+        if str(args.swagger_file) != "None":
+            swagger_input = get_config.swagger(args.swagger_file)
+        else:
+            swagger_input = "None"
+
         logging.info("Requires input")
     main(resources_input, config_input, defaults_input, security_checks_input, swagger_input)
