@@ -88,13 +88,12 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-def main(resources_yaml, config_yaml, defaults_yaml, security_checks_yaml, swagger_json):
+def main(resources_yaml, config_yaml, defaults_yaml, security_checks_yaml, swagger_json, output_dir):
     """
     Main function used to open up provided config and resource files, generating DFD and output
     report
     :return: True
     """
-
     resources = resources_yaml["resources"]
 
     # Load swagger if enabled
@@ -143,7 +142,7 @@ def main(resources_yaml, config_yaml, defaults_yaml, security_checks_yaml, swagg
                     resources_yaml["resources"][
                         config_yaml["swagger_resource_type"]
                     ].append(swagger_path_detail)
-    output_file_dir = args.output_dir
+    output_file_dir = output_dir
     output_file_name = "report-" + str(date.today())
 
     with open(
@@ -412,33 +411,47 @@ if __name__ == "__main__":
         swagger_input = get_config.swagger("demo")
     else:
         if str(args.resources_file) != "None":
-            print("Got here")
-            resources_input = get_config.resources(args.resources_file)
+            if args.resources_file == "test":
+                resources_input = get_config.resources("demo")
+            else:
+                resources_input = get_config.resources(args.resources_file)
         else:
             logging.error("--resource-file is required, see --help for details")
             sys.exit(1)
 
         if str(args.config_file) != "None":
-            config_input = get_config.config(args.config_file)
+            if args.config_file == "test":
+                config_input = get_config.config("demo")
+            else:
+                config_input = get_config.config(args.config_file)
         else:
             logging.error("--config-file is required, see --help for details")
             sys.exit(1)
 
         if str(args.defaults_file) != "None":
-            defaults_input = get_config.defaults(args.defaults_file)
+            if args.defaults_file == "test":
+                defaults_input = get_config.defaults("demo")
+            else:
+                defaults_input = get_config.defaults(args.defaults_file)
         else:
             logging.error("--defaults-file is required, see --help for details")
             sys.exit(1)
 
         if str(args.security_checks_file) != "Default":
-            security_checks_input = get_config.config(args.security_checks_file)
+            if args.security_checks_file == "test":
+                security_checks_input = get_config.security_checks("default")
+            else:
+                security_checks_input = get_config.config(args.security_checks_file)
         else:
             security_checks_input = get_config.security_checks("default")
 
         if str(args.swagger_file) != "None":
-            swagger_input = get_config.swagger(args.swagger_file)
+            if args.swagger_file == "test":
+                swagger_input = get_config.swagger("demo")
+            else:
+                swagger_input = get_config.swagger(args.swagger_file)
         else:
             swagger_input = "None"
 
         logging.info("Requires input")
-    main(resources_input, config_input, defaults_input, security_checks_input, swagger_input)
+    main(resources_input, config_input, defaults_input, security_checks_input, swagger_input, args.output_dir)

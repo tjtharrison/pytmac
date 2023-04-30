@@ -60,7 +60,6 @@ def config(file):
     if file == "demo":
         config_yaml = demo_config
     else:
-        print(file)
         with open(file, "r", encoding="UTF-8") as config_file:
             try:
                 config_yaml = yaml.safe_load(config_file)
@@ -134,11 +133,11 @@ def swagger(file):
     if file == "demo":
         swagger_json = demo_swagger_json
     else:
-        with open(file, "r", encoding="UTF-8") as security_checks_file:
+        with open(file, "r", encoding="UTF-8") as swagger_file:
             try:
-                swagger_json = yaml.safe_load(security_checks_file)
-            except yaml.YAMLError as error_message:
-                logging.error("Failed to load SECURITY_CHECKS_FILE: %s", error_message)
+                swagger_json = json.loads(swagger_file.read())
+            except Exception as error_message:
+                logging.error("Failed to load SWAGGER_FILE: %s", error_message)
 
     if not input_validator.swagger(swagger_json):
         logging.error("Swagger validation failed!")
