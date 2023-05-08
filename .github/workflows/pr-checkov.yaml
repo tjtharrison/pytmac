@@ -16,7 +16,7 @@ jobs:
 
       - name: Run Checkov action
         id: checkov
-        uses: bridgecrewio/checkov-action@b031131d118e3a1654eda07537191063cdc1e614
+        uses: bridgecrewio/checkov-action@1b8095cc845522ebb28d34bc3bb8ca454fadd032
         with:
           directory: .
           skip_check: CKV_OPENAPI_5,CKV_OPENAPI_4 # Demo swagger file
