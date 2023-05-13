@@ -61,12 +61,12 @@ def test_user_owned_device():
 
     new_resource = {
         "name": "test_user2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing user2",
         "config": {"company_user": True, "company_device": False},
     }
 
-    config.update_resources("users", new_resource)
+    resources_input = config.update_resources("users", new_resource)
     tmac.main(
         resources_input,
         config_input,
@@ -112,14 +112,14 @@ def test_broken_access_control():
     """
     new_resource = {
         "name": "test_system",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing system with no authentication",
         "config": {
             "requires_authentication": False,
         },
     }
 
-    config.update_resources("systems", new_resource)
+    resources_input = config.update_resources("systems", new_resource)
     tmac.main(
         resources_input,
         config_input,
@@ -166,14 +166,14 @@ def test_cryptographic_failures():
 
     new_resource = {
         "name": "test_database2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing database with no authentication",
         "config": {
             "authentication_required": False,
         },
     }
 
-    config.update_resources("databases", new_resource)
+    resources_input = config.update_resources("databases", new_resource)
     tmac.main(
         resources_input,
         config_input,
@@ -219,14 +219,14 @@ def test_sql_injection():
     """
     new_resource = {
         "name": "test_system2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing system with no input_validation",
         "config": {
             "input_sanitization": False,
         },
     }
 
-    config.update_resources("systems", new_resource)
+    resources_input = config.update_resources("systems", new_resource)
     tmac.main(
         resources_input,
         config_input,
@@ -273,14 +273,14 @@ def test_insecure_design():
 
     new_resource = {
         "name": "test_system2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing system with no dependabot_used",
         "config": {
             "dependabot_used": False,
         },
     }
 
-    config.update_resources("systems", new_resource)
+    resources_input = config.update_resources("systems", new_resource)
     tmac.main(
         resources_input,
         config_input,
@@ -327,14 +327,14 @@ def test_security_misconfig():
 
     new_resource = {
         "name": "test_system2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing system with no automatic_updates",
         "config": {
             "automatic_updates": False,
         },
     }
 
-    config.update_resources("systems", new_resource)
+    resources_input = config.update_resources("systems", new_resource)
     tmac.main(
         resources_input,
         config_input,
@@ -381,14 +381,14 @@ def test_auth_failures():
 
     new_resource = {
         "name": "test_system2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing system with no sessions_stored_securely",
         "config": {
             "delayed_login_failures": False,
         },
     }
 
-    config.update_resources("systems", new_resource)
+    resources_input = config.update_resources("systems", new_resource)
     tmac.main(
         resources_input,
         config_input,
@@ -435,14 +435,14 @@ def test_integrity_failure():
 
     new_resource = {
         "name": "test_system2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing system with no code_scan_in_pipeline",
         "config": {
             "code_scan_in_pipeline": False,
         },
     }
 
-    config.update_resources("systems", new_resource)
+    resources_input = config.update_resources("systems", new_resource)
     tmac.main(
         resources_input,
         config_input,
@@ -489,14 +489,14 @@ def test_logging_monitoring_failure():
 
     new_resource = {
         "name": "test_system2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing system with no tested_recovery_process",
         "config": {
             "tested_recovery_process": False,
         },
     }
 
-    config.update_resources("systems", new_resource)
+    resources_input = config.update_resources("systems", new_resource)
     tmac.main(
         resources_input,
         config_input,
@@ -544,14 +544,14 @@ def test_ssrf():
 
     new_resource = {
         "name": "test_system2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing system with no least_privileged_network",
         "config": {
             "least_privileged_network": False,
         },
     }
 
-    config.update_resources("systems", new_resource)
+    resources_input = config.update_resources("systems", new_resource)
     tmac.main(
         resources_input,
         config_input,
@@ -595,14 +595,14 @@ def test_spoofing_users():
 
     new_resource = {
         "name": "test_system2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing system with no uses_mfa",
         "config": {
             "uses_mfa": False,
         },
     }
 
-    config.update_resources("users", new_resource)
+    resources_input = config.update_resources("users", new_resource)
     tmac.main(
         resources_input,
         config_input,

@@ -4,6 +4,7 @@ from datetime import date
 import tests.bin.config as config
 import tests.bin.dirs as dirs
 import yaml
+import logging
 
 import tmac
 

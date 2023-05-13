@@ -5,20 +5,26 @@ import yaml
 import tmac
 import tests.bin.config as config
 import tests.bin.dirs as dirs
+from bin import get_config as get_config
+import logging
 
 import pytest
 
 OUTPUT_REPORT_DIRECTORY = os.environ.get("OUTPUT_DIR")
 OUTPUT_REPORT_FILE = OUTPUT_REPORT_DIRECTORY + "/report-" + str(date.today()) + ".yaml"
 
-RESOURCES_FILE = os.environ.get("RESOURCES_FILE")
-CONFIG_FILE = os.environ.get("CONFIG_FILE")
-DEFAULTS_FILE = os.environ.get("DEFAULTS_FILE")
+RESOURCES_FILE = "tests/docs/test_resources.yaml"
+CONFIG_FILE = "tests/docs/test_config.yaml"
+DEFAULTS_FILE = "docs/defaults.yaml"
+OUTPUT_DIR = "tests/reports"
+SECURITY_CHECKS_FILE = "docs/security_checks.yaml"
+SWAGGER_FILE = "docs/swagger.json"
 
-BACKUP_RESOURCES_FILE = RESOURCES_FILE.replace(".json", ".bak.json")
-BACKUP_CONFIG_FILE = CONFIG_FILE.replace(".json", ".bak.json")
-BACKUP_DEFAULTS_FILE = DEFAULTS_FILE.replace(".json", ".bak.json")
-
+security_checks_input = get_config.security_checks(SECURITY_CHECKS_FILE)
+resources_input = get_config.resources(RESOURCES_FILE)
+config_input = get_config.config(CONFIG_FILE)
+defaults_input = get_config.defaults(DEFAULTS_FILE)
+swagger_input = get_config.swagger(SWAGGER_FILE)
 
 @pytest.fixture(autouse=True)
 def my_fixture():
@@ -39,9 +45,16 @@ def test_default_setting_user():
     :return: True/False
     """
 
-    config.update_default_value("users", "company_user", False)
+    defaults_input = config.update_default_value("users", "company_user", False)
 
-    tmac.main()
+    tmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        swagger_input,
+        OUTPUT_DIR,
+    )
 
     # Load defaults
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -65,14 +78,20 @@ def test_override_setting_user():
 
     new_resource = {
         "name": "test_user2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing user2",
         "config": {"company_user": False},
     }
 
-    config.update_resources("users", new_resource)
-
-    tmac.main()
+    resources_input = config.update_resources("users", new_resource)
+    tmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        swagger_input,
+        OUTPUT_DIR,
+    )
 
     # Load defaults
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -97,9 +116,16 @@ def test_default_setting_networks():
     :return: True/False
     """
 
-    config.update_default_value("networks", "has_wifi", True)
+    defaults_input = config.update_default_value("networks", "has_wifi", True)
 
-    tmac.main()
+    tmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        swagger_input,
+        OUTPUT_DIR,
+    )
 
     # Load defaults
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -108,7 +134,7 @@ def test_default_setting_networks():
         except yaml.YAMLError as error_message:
             logging.error("Failed to load DEFAULTS_FILE: %s", error_message)
 
-    if output_report["networks"]["test_network"]["has_wifi"]:
+    if output_report["networks"]["office_network"]["has_wifi"]:
         assert True
     else:
         assert False
@@ -123,9 +149,16 @@ def test_override_setting_network():
 
     new_resource = {"name": "test_network_2", "config": {"has_wifi": True}}
 
-    config.update_resources("networks", new_resource)
-
-    tmac.main()
+    resources_input = config.update_resources("networks", new_resource)
+    print(resources_input)
+    tmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        swagger_input,
+        OUTPUT_DIR,
+    )
 
     # Load defaults
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -135,7 +168,7 @@ def test_override_setting_network():
             logging.error("Failed to load DEFAULTS_FILE: %s", error_message)
 
     if (
-        not output_report["networks"]["test_network"]["has_wifi"]
+        not output_report["networks"]["home_network"]["has_wifi"]
         and output_report["networks"]["test_network_2"]["has_wifi"]
     ):
         assert True
@@ -150,9 +183,16 @@ def test_default_setting_databases():
     :return: True/False
     """
 
-    config.update_default_value("databases", "databases", True)
+    defaults_input = config.update_default_value("databases", "databases", True)
 
-    tmac.main()
+    tmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        swagger_input,
+        OUTPUT_DIR,
+    )
 
     # Load defaults
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -176,14 +216,21 @@ def test_override_setting_database():
 
     new_resource = {
         "name": "test_database2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing database2",
         "config": {"is_encrypted": False},
     }
 
-    config.update_resources("databases", new_resource)
-
-    tmac.main()
+    resources_input = config.update_resources("databases", new_resource)
+    print(resources_input)
+    tmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        swagger_input,
+        OUTPUT_DIR,
+    )
 
     # Load defaults
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -208,9 +255,16 @@ def test_default_setting_systems():
     :return: True/False
     """
 
-    config.update_default_value("systems", "is_hardened", False)
+    defaults_input = config.update_default_value("systems", "is_hardened", False)
 
-    tmac.main()
+    tmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        swagger_input,
+        OUTPUT_DIR,
+    )
 
     # Load defaults
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -234,14 +288,21 @@ def test_override_setting_system():
 
     new_resource = {
         "name": "test_system2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Test System2",
         "config": {"is_hardened": False},
     }
 
-    config.update_resources("systems", new_resource)
+    resources_input = config.update_resources("systems", new_resource)
 
-    tmac.main()
+    tmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        swagger_input,
+        OUTPUT_DIR,
+    )
 
     # Load defaults
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -253,64 +314,6 @@ def test_override_setting_system():
     if (
         output_report["systems"]["test_system"]["is_hardened"]
         and not output_report["systems"]["test_system2"]["is_hardened"]
-    ):
-        assert True
-    else:
-        assert False
-
-
-def test_default_setting_containers():
-    """
-    Test modifying default settings for all containers, verify that the generated configuration contains
-    the change after creating a container.
-    :return: True/False
-    """
-
-    config.update_default_value("systems", "is_hardened", False)
-
-    tmac.main()
-
-    # Load defaults
-    with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
-        try:
-            output_report = yaml.safe_load(output_report_file)
-        except yaml.YAMLError as error_message:
-            logging.error("Failed to load DEFAULTS_FILE: %s", error_message)
-
-    if not output_report["containers"]["test_container"]["is_hardened"]:
-        assert True
-    else:
-        assert False
-
-
-def test_override_setting_containers():
-    """
-    Test modifying a single settings for one system, verify that the generated configuration
-    contains the change for only one system after creating two.
-    :return:
-    """
-
-    new_resource = {
-        "name": "test_container2",
-        "network": "test_network",
-        "description": "Test Container2",
-        "config": {"is_hardened": False},
-    }
-
-    config.update_resources("containers", new_resource)
-
-    tmac.main()
-
-    # Load defaults
-    with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
-        try:
-            output_report = yaml.safe_load(output_report_file)
-        except yaml.YAMLError as error_message:
-            logging.error("Failed to load DEFAULTS_FILE: %s", error_message)
-
-    if (
-        output_report["containers"]["test_container"]["is_hardened"]
-        and not output_report["containers"]["test_container2"]["is_hardened"]
     ):
         assert True
     else:

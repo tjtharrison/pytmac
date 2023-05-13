@@ -95,7 +95,6 @@ def main(resources_yaml, config_yaml, defaults_yaml, security_checks_yaml, swagg
     :return: True
     """
     resources = resources_yaml["resources"]
-
     # Load swagger if enabled
     if args.swagger_file != "None":
 

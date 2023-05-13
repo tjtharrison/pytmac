@@ -29,7 +29,6 @@ def main(security_checks_yaml, output_json_report):
             for result in results:
                 insecure_resources.append(result)
         logging.info("Finished security check %s", security_check)
-
     logging.info("Prioritising insecure resources")
     insecure_resources.sort(key=lambda k: k["severity"])
 
@@ -61,7 +60,6 @@ def do_check(output_json_report, check_details):
     resources = {}
     for resource_scope in check_details["resource_scope"]:
         resources = resources | output_json_report[resource_scope]
-
     insecure_resources = []
 
     for resource in resources:

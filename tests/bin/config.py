@@ -4,8 +4,8 @@ import logging
 import json
 from bin import get_config
 
-RESOURCES_FILE = "tests/docs/resources.yaml"
-CONFIG_FILE = "tests/docs/config.yaml"
+RESOURCES_FILE = "tests/docs/test_resources.yaml"
+CONFIG_FILE = "tests/docs/test_config.yaml"
 DEFAULTS_FILE = "docs/defaults.yaml"
 SECURITY_CHECKS_FILE = ""
 SWAGGER_FILE = os.environ.get("SWAGGER_FILE")
@@ -16,8 +16,8 @@ BACKUP_DEFAULTS_FILE = DEFAULTS_FILE.replace(".yaml", ".bak.yaml")
 BACKUP_SWAGGER_FILE = SWAGGER_FILE.replace(".json", ".bak.json")
 
 # Load config
-config_yaml = get_config.config("demo")
-resources_yaml = get_config.resources("demo")
+config_yaml = get_config.config(CONFIG_FILE)
+resources_yaml = get_config.resources(RESOURCES_FILE)
 defaults_yaml = get_config.defaults("demo")
 swagger_json = get_config.swagger("demo")
 
@@ -96,6 +96,7 @@ def update_resources(resource_block, contents):
         resource_file_update.seek(0)
         yaml.dump(resources_yaml, resource_file_update)
 
+        return resources_yaml
 
 def delete_config(config_field):
     """
@@ -160,3 +161,5 @@ def update_default_value(resource_type, resource_field, resource_value):
         defaults_yaml[resource_type][resource_field] = resource_value
         default_file_update.seek(0)
         yaml.dump(defaults_yaml, default_file_update)
+
+    return defaults_yaml
