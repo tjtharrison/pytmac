@@ -2,11 +2,7 @@
 Module used to initiate and collate security findings from the json report generated in the main
 document function.
 """
-import json
 import logging
-import os
-
-import yaml
 
 
 def main(security_checks_yaml, output_json_report):

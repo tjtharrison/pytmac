@@ -1,10 +1,13 @@
+"""
+Modules to load the configuration files for tmac from provided data files.
+"""
 import json
 import logging
 import sys
 
 import yaml
 
-from bin import input_validator as input_validator
+from bin import input_validator
 
 
 def get_contents(file_name):
@@ -261,7 +264,10 @@ default_security_checks = {
     },
     "broken_access_control": {
         "name": "A01:2021-Broken Access Control",
-        "description": "OWASP top 10 #1: Checks for combination of controls that indicate lack of mitigation against this type of attack",
+        "description": (
+            "OWASP top 10 #1: Checks for combination of controls that "
+            "indicate lack of mitigation against this type of attack"
+        ),
         "remediation": "Review non-compliant controls and remediate",
         "severity": 1,
         "resource_scope": ["systems", "containers"],
@@ -404,15 +410,23 @@ default_security_checks = {
     },
     "spoofing_users": {
         "name": "STRIDE - Spoofing",
-        "description": "A spoofing attack is a situation in which a person or program successfully identifies as another by falsifying data, to gain an illegitimate advantage",
-        "remediation": "Ensure multiple methods of authentication are required for a user to verify their identity",
+        "description": (
+            "A spoofing attack is a situation in which a person or program successfully"
+            " identifies as another by falsifying data, to gain an illegitimate advantage"
+        ),
+        "remediation": ("Ensure multiple methods of authentication are required for a"
+                        " user to verify their identity"
+        ),
         "severity": 1,
         "resource_scope": ["users"],
         "check_query": [' not resources[resource]["uses_mfa"] '],
     },
     "repudiation_user": {
         "name": "STRIDE - Repudiation",
-        "description": "Repudiation is the ability to associate actions taken on a system with a specific user",
+        "description": (
+            "Repudiation is the ability to associate actions"
+            " taken on a system with a specific user"
+        ),
         "remediation": "Ensure users do not use shared accounts",
         "severity": 1,
         "resource_scope": ["users"],
@@ -420,8 +434,14 @@ default_security_checks = {
     },
     "repudiation_system": {
         "name": "STRIDE - Repudiation",
-        "description": "Repudiation is the ability to associate actions taken on a system with a specific user",
-        "remediation": "Ensure logging contains identifiable information about the actor (Eg username, ip address)",
+        "description": (
+            "Repudiation is the ability to associate "
+            "actions taken on a system with a specific user"
+        ),
+        "remediation": (
+            "Ensure logging contains identifiable information"
+            " about the actor (Eg username, ip address)"
+        ),
         "severity": 1,
         "resource_scope": ["systems"],
         "check_query": [
@@ -491,23 +511,6 @@ def defaults(file):
     if not input_validator.defaults(default_yaml):
         logging.error("Defaults validation failed!")
         sys.exit()
-
-    return default_yaml
-
-
-def defaults(file):
-    """
-    Function to return a list of defaults to be included in the package
-    :return: List of resources
-    """
-    if file == "demo":
-        default_yaml = demo_defaults
-    else:
-        with open(file, "r", encoding="UTF-8") as default_file:
-            try:
-                default_yaml = yaml.safe_load(default_file)
-            except yaml.YAMLError as error_message:
-                logging.error("Failed to load DEFAULTS_FILE: %s", error_message)
 
     return default_yaml
 
