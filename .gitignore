@@ -4,3 +4,6 @@ __pycache__
 **.bak.yaml
 **.bak.json
 tests/reports/*
+build/*
+*.egg-info
+tmac

@@ -2,14 +2,10 @@
 Module used to initiate and collate security findings from the json report generated in the main
 document function.
 """
-import json
 import logging
-import os
-
-import yaml
 
 
-def main(output_json_report):
+def main(security_checks_yaml, output_json_report):
     """
     Function to collect responses from required security scans and return to be written to the final
     report.
@@ -18,14 +14,6 @@ def main(output_json_report):
     included in the final report.
     :return: List of insecure resources.
     """
-    # Load security checks
-    with open(
-        os.environ.get("SECURITY_CHECKS_FILE"), "r", encoding="UTF-8"
-    ) as security_checks_file:
-        try:
-            security_checks_yaml = yaml.safe_load(security_checks_file)
-        except yaml.YAMLError as error_message:
-            logging.error("Failed to load SECURITY_CHECKS_FILE: %s", error_message)
 
     insecure_resources = []
 
@@ -37,7 +25,6 @@ def main(output_json_report):
             for result in results:
                 insecure_resources.append(result)
         logging.info("Finished security check %s", security_check)
-
     logging.info("Prioritising insecure resources")
     insecure_resources.sort(key=lambda k: k["severity"])
 
@@ -69,7 +56,6 @@ def do_check(output_json_report, check_details):
     resources = {}
     for resource_scope in check_details["resource_scope"]:
         resources = resources | output_json_report[resource_scope]
-
     insecure_resources = []
 
     for resource in resources:

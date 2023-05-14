@@ -178,19 +178,19 @@ def swagger(swagger_json):
     :param swagger_json: Json structure containing swagger file contents
     :return: True/False
     """
-    if os.environ.get("ENABLE_SWAGGER"):
-        # Validate paths exist
-        if len(swagger_json["paths"]) < 1:
-            logging.error("No paths provided in swagger.json")
-            return False
+    swagger_json = json.loads(swagger_json)
+    # Validate paths exist
+    if len(swagger_json["paths"]) < 1:
+        logging.error("No paths provided in swagger.json")
+        return False
 
-        for swagger_path in swagger_json["paths"]:
-            try:
-                path_description = swagger_json["paths"][swagger_path][
-                    str(list(swagger_json["paths"][swagger_path].keys())[0])
-                ]["description"]
-                logging.debug(json.dumps({"path_description": path_description}))
-            except KeyError:
-                logging.error("description not set on swagger path %s", swagger_path)
-                return False
+    for swagger_path in swagger_json["paths"]:
+        try:
+            path_description = swagger_json["paths"][swagger_path][
+                str(list(swagger_json["paths"][swagger_path].keys())[0])
+            ]["description"]
+            logging.debug(json.dumps({"path_description": path_description}))
+        except KeyError:
+            logging.error("description not set on swagger path %s", swagger_path)
+            return False
     return True

@@ -1,6 +1,9 @@
+#!/usr/bin/env python3
+
 """
-Python based programatic threat modelling tool tmacs
+Python based programmatic threat modelling tool tmacs
 """
+import argparse
 import json
 import logging
 import os
@@ -10,16 +13,12 @@ from datetime import date
 
 import yaml
 
-try:
-    print(len(os.environ.get("GITHUB_WORKSPACE")))
-except TypeError:
-    # Not GITHUB, load dotenv
-    import dotenv  # pylint: disable=unused-import
-    from dotenv import load_dotenv  # pylint: disable=unused-import
+from _version import __version__
+from bin import get_config as get_config
+from bin import input_validator as input_validator
+from bin import resource_validator as resource_validator
 
-    load_dotenv()
-
-from bin import input_validator, resource_validator
+VERSION = __version__
 
 # Configure logging
 logging.basicConfig(
@@ -35,65 +34,98 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 
+# Use argparse to add arguments
+parser = argparse.ArgumentParser(
+    prog="tmacs",
+    description="Python based programmatic threat modelling tool",
+)
+parser.add_argument(
+    "--version", action="store_true", help="Option to print the current version only"
+)
+parser.add_argument(
+    "--demo",
+    action="store_true",
+    help="Run tmac in demo mode using the demo config and resources",
+)
+parser.add_argument(
+    "--output-dir",
+    action="store",
+    default="reports",
+    help="[Default: reports] Set the directory for report output",
+)
+parser.add_argument(
+    "--resources-file",
+    action="store",
+    default="None",
+    help="The path to the resources file",
+)
+parser.add_argument(
+    "--config-file",
+    action="store",
+    default="None",
+    help="The path to the config file",
+)
+parser.add_argument(
+    "--defaults-file",
+    action="store",
+    default="None",
+    help="The path to the defaults file",
+)
+parser.add_argument(
+    "--security-checks-file",
+    action="store",
+    default="Default",
+    help="[Default: security_checks.yaml] The path to the security-checks file",
+)
+parser.add_argument(
+    "--swagger-file",
+    action="store",
+    default="None",
+    help="[Default: None] The path to the swagger file (optional)",
+)
 
-def main():
+args = parser.parse_args()
+
+
+def main(
+    resources_yaml,
+    config_yaml,
+    defaults_yaml,
+    security_checks_yaml,
+    output_dir,
+    swagger_json="",
+):
     """
     Main function used to open up provided config and resource files, generating DFD and output
     report
     :return: True
     """
-
-    # Load resources
-    with open(
-        os.environ.get("RESOURCES_FILE"), "r", encoding="UTF-8"
-    ) as resources_file:
-        try:
-            resources_yaml = yaml.safe_load(resources_file)
-        except yaml.YAMLError as error_message:
-            logging.error("Failed to load RESOURCES_FILE: %s", error_message)
-
-    # Load config
-
-    with open(os.environ.get("CONFIG_FILE"), "r", encoding="UTF-8") as config_file:
-        try:
-            config_yaml = yaml.safe_load(config_file)
-        except yaml.YAMLError as error_message:
-            logging.error("Failed to load CONFIG_FILE: %s", error_message)
-
-    # Load defaults
-    with open(os.environ.get("DEFAULTS_FILE"), "r", encoding="UTF-8") as defaults_file:
-        try:
-            defaults_yaml = yaml.safe_load(defaults_file)
-        except yaml.YAMLError as error_message:
-            logging.error("Failed to load DEFAULTS_FILE: %s", error_message)
-
-    # Lets do some config validation
+    # Validate configuration
     if not input_validator.config(config_yaml):
         logging.error("Config validation failed!")
-        sys.exit()
+        sys.exit(1)
+
+    # Validate resources
     if not input_validator.resources(resources_yaml):
         logging.error("Resources validation failed!")
-        sys.exit()
+        sys.exit(1)
+
+    # Validate defaults
     if not input_validator.defaults(defaults_yaml):
         logging.error("Defaults validation failed!")
-        sys.exit()
-    else:
-        logging.info("All files validated successfully")
+        sys.exit(1)
 
-    resources = resources_yaml["resources"]
-
-    # Load swagger if enabled
-    if os.environ.get("ENABLE_SWAGGER").lower() == "true":
-        # Load specified swagger file
-        with open(
-            os.environ.get("SWAGGER_FILE"), "r", encoding="UTF-8"
-        ) as swagger_file:
-            swagger_json = json.loads(swagger_file.read())
-
+    # Validate swagger
+    if len(swagger_json) > 0:
         if not input_validator.swagger(swagger_json):
             logging.error("Swagger validation failed!")
             sys.exit(1)
 
+    resources = resources_yaml["resources"]
+    # Load swagger if enabled
+    if len(swagger_json) > 0:
+        swagger_json = json.loads(swagger_json)
+        # Load swagger file
         swagger_paths = list(swagger_json["paths"].keys())
         for swagger_path in swagger_paths:
             swagger_path_detail = {
@@ -135,7 +167,7 @@ def main():
                     resources_yaml["resources"][
                         config_yaml["swagger_resource_type"]
                     ].append(swagger_path_detail)
-    output_file_dir = os.environ.get("OUTPUT_DIR")
+    output_file_dir = output_dir
     output_file_name = "report-" + str(date.today())
 
     with open(
@@ -363,7 +395,9 @@ def main():
             yaml.dump(output_yaml_report, output_yaml)
 
             # Insecure resources
-            insecure_resources = resource_validator.main(output_yaml_report)
+            insecure_resources = resource_validator.main(
+                security_checks_yaml, output_yaml_report
+            )
             if len(insecure_resources) > 0:
                 # Writing some auto threat modelling
                 output_file.write(
@@ -393,4 +427,65 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if args.version:
+        print(VERSION)
+    elif args.demo:
+        logging.info("Running in demonstration mode")
+        resources_input = get_config.resources("demo")
+        config_input = get_config.config("demo")
+        defaults_input = get_config.defaults("demo")
+        security_checks_input = get_config.security_checks("default")
+        swagger_input = get_config.swagger("demo")
+    else:
+        if str(args.resources_file) != "None":
+            if args.resources_file == "test":
+                resources_input = get_config.resources("demo")
+            else:
+                resources_input = get_config.resources(args.resources_file)
+        else:
+            logging.error("--resource-file is required, see --help for details")
+            sys.exit(1)
+
+        if str(args.config_file) != "None":
+            if args.config_file == "test":
+                config_input = get_config.config("demo")
+            else:
+                config_input = get_config.config(args.config_file)
+        else:
+            logging.error("--config-file is required, see --help for details")
+            sys.exit(1)
+
+        if str(args.defaults_file) != "None":
+            if args.defaults_file == "test":
+                defaults_input = get_config.defaults("demo")
+            else:
+                defaults_input = get_config.defaults(args.defaults_file)
+        else:
+            logging.error("--defaults-file is required, see --help for details")
+            sys.exit(1)
+
+        if str(args.security_checks_file) != "Default":
+            if args.security_checks_file == "test":
+                security_checks_input = get_config.security_checks("default")
+            else:
+                security_checks_input = get_config.config(args.security_checks_file)
+        else:
+            security_checks_input = get_config.security_checks("default")
+
+        if str(args.swagger_file) != "None":
+            if args.swagger_file == "test":
+                swagger_input = get_config.swagger("demo")
+            else:
+                swagger_input = get_config.swagger(args.swagger_file)
+        else:
+            swagger_input = "None"
+
+        logging.info("Requires input")
+    main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        args.output_dir,
+        swagger_input,
+    )

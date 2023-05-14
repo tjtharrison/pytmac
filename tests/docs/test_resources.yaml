@@ -1,23 +1,33 @@
 resources:
-  containers:
-  - description: Testing Container
-    name: test_container
-    network: test_network
+  containers: null
   databases:
   - description: Testing database
     name: test_database
-    network: test_network
+    network: office_network
   networks:
-  - name: test_network
+  - name: office_network
+  - name: home_network
   res_links:
   - description: Test connection from user to system
     destination: test_system
     source: test_user
+  - description: /api/user/add accessed from the VPN server
+    destination: /api/user/add
+    source: test_system
+  - description: /api/user accessed from the VPN server
+    destination: /api/user
+    source: test_system
+  - description: /api/user/add and adds data in the staging database
+    destination: staging
+    source: /api/user/add
+  - description: /api/user gets data from the staging database
+    destination: staging
+    source: /api/user
   systems:
-  - description: Test System
+  - description: Testing system
     name: test_system
-    network: test_network
+    network: office_network
   users:
   - description: Testing user
     name: test_user
-    network: test_network
+    network: home_network

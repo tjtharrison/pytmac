@@ -19,8 +19,7 @@ jobs:
       - name: "Code format"
         run: |
           pip3 install isort pylint black
-          python3 -m isort "$(find . -name "*.py" -not -path "./tests/*")"
-          python3 -m black "$(find . -name "*.py" -not -path "./tests/*")"
+          find . -name "*.py" -not -path "./tests/*" -exec python3 -m isort {} \; -exec python3 -m black {} \;
       - name: "Commit linted files"
         uses: "stefanzweifel/git-auto-commit-action@v4"
         with:

@@ -1,27 +1,34 @@
-import json
+import logging
 import os
-import yaml
 from datetime import date
 
-from bin import resource_validator
+import pytest
+import yaml
+
 import tests.bin.config as config
 import tests.bin.dirs as dirs
+import tmac
+from bin import get_config as get_config
+from bin import resource_validator as resource_validator
 
-import main
+RESOURCES_FILE = "tests/docs/test_resources.yaml"
+CONFIG_FILE = "tests/docs/test_config.yaml"
+DEFAULTS_FILE = "docs/defaults.yaml"
+OUTPUT_DIR = "tests/reports"
+SECURITY_CHECKS_FILE = "docs/security_checks.yaml"
+SWAGGER_FILE = "docs/swagger.json"
 
-import pytest
-
-OUTPUT_REPORT_DIRECTORY = os.environ.get("OUTPUT_DIR")
-OUTPUT_REPORT_FILE = OUTPUT_REPORT_DIRECTORY + "/report-" + str(date.today()) + ".yaml"
-
-RESOURCES_FILE = os.environ.get("RESOURCES_FILE")
-CONFIG_FILE = os.environ.get("CONFIG_FILE")
-DEFAULTS_FILE = os.environ.get("DEFAULTS_FILE")
-SECURITY_CHECKS_FILE = os.environ.get("SECURITY_CHECKS_FILE")
+OUTPUT_REPORT_FILE = OUTPUT_DIR + "/report-" + str(date.today()) + ".yaml"
 
 BACKUP_RESOURCES_FILE = RESOURCES_FILE.replace(".yaml", ".bak.yaml")
 BACKUP_CONFIG_FILE = CONFIG_FILE.replace(".yaml", ".bak.yaml")
 BACKUP_DEFAULTS_FILE = DEFAULTS_FILE.replace(".yaml", ".bak.yaml")
+
+security_checks_input = get_config.security_checks(SECURITY_CHECKS_FILE)
+resources_input = get_config.resources(RESOURCES_FILE)
+config_input = get_config.config(CONFIG_FILE)
+defaults_input = get_config.defaults(DEFAULTS_FILE)
+swagger_input = get_config.swagger(SWAGGER_FILE)
 
 # Load security checks
 with open(
@@ -53,13 +60,20 @@ def test_user_owned_device():
 
     new_resource = {
         "name": "test_user2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing user2",
         "config": {"company_user": True, "company_device": False},
     }
 
-    config.update_resources("users", new_resource)
-    main.main()
+    resources_input = config.update_resources("users", new_resource)
+    tmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        OUTPUT_DIR,
+        swagger_input,
+    )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -97,15 +111,22 @@ def test_broken_access_control():
     """
     new_resource = {
         "name": "test_system",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing system with no authentication",
         "config": {
             "requires_authentication": False,
         },
     }
 
-    config.update_resources("systems", new_resource)
-    main.main()
+    resources_input = config.update_resources("systems", new_resource)
+    tmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        OUTPUT_DIR,
+        swagger_input,
+    )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -144,15 +165,22 @@ def test_cryptographic_failures():
 
     new_resource = {
         "name": "test_database2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing database with no authentication",
         "config": {
             "authentication_required": False,
         },
     }
 
-    config.update_resources("databases", new_resource)
-    main.main()
+    resources_input = config.update_resources("databases", new_resource)
+    tmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        OUTPUT_DIR,
+        swagger_input,
+    )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -190,15 +218,22 @@ def test_sql_injection():
     """
     new_resource = {
         "name": "test_system2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing system with no input_validation",
         "config": {
             "input_sanitization": False,
         },
     }
 
-    config.update_resources("systems", new_resource)
-    main.main()
+    resources_input = config.update_resources("systems", new_resource)
+    tmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        OUTPUT_DIR,
+        swagger_input,
+    )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -237,15 +272,22 @@ def test_insecure_design():
 
     new_resource = {
         "name": "test_system2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing system with no dependabot_used",
         "config": {
             "dependabot_used": False,
         },
     }
 
-    config.update_resources("systems", new_resource)
-    main.main()
+    resources_input = config.update_resources("systems", new_resource)
+    tmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        OUTPUT_DIR,
+        swagger_input,
+    )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -284,15 +326,22 @@ def test_security_misconfig():
 
     new_resource = {
         "name": "test_system2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing system with no automatic_updates",
         "config": {
             "automatic_updates": False,
         },
     }
 
-    config.update_resources("systems", new_resource)
-    main.main()
+    resources_input = config.update_resources("systems", new_resource)
+    tmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        OUTPUT_DIR,
+        swagger_input,
+    )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -331,15 +380,22 @@ def test_auth_failures():
 
     new_resource = {
         "name": "test_system2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing system with no sessions_stored_securely",
         "config": {
             "delayed_login_failures": False,
         },
     }
 
-    config.update_resources("systems", new_resource)
-    main.main()
+    resources_input = config.update_resources("systems", new_resource)
+    tmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        OUTPUT_DIR,
+        swagger_input,
+    )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -378,15 +434,22 @@ def test_integrity_failure():
 
     new_resource = {
         "name": "test_system2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing system with no code_scan_in_pipeline",
         "config": {
             "code_scan_in_pipeline": False,
         },
     }
 
-    config.update_resources("systems", new_resource)
-    main.main()
+    resources_input = config.update_resources("systems", new_resource)
+    tmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        OUTPUT_DIR,
+        swagger_input,
+    )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -425,15 +488,22 @@ def test_logging_monitoring_failure():
 
     new_resource = {
         "name": "test_system2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing system with no tested_recovery_process",
         "config": {
             "tested_recovery_process": False,
         },
     }
 
-    config.update_resources("systems", new_resource)
-    main.main()
+    resources_input = config.update_resources("systems", new_resource)
+    tmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        OUTPUT_DIR,
+        swagger_input,
+    )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -473,15 +543,22 @@ def test_ssrf():
 
     new_resource = {
         "name": "test_system2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing system with no least_privileged_network",
         "config": {
             "least_privileged_network": False,
         },
     }
 
-    config.update_resources("systems", new_resource)
-    main.main()
+    resources_input = config.update_resources("systems", new_resource)
+    tmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        OUTPUT_DIR,
+        swagger_input,
+    )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
@@ -517,15 +594,22 @@ def test_spoofing_users():
 
     new_resource = {
         "name": "test_system2",
-        "network": "test_network",
+        "network": "home_network",
         "description": "Testing system with no uses_mfa",
         "config": {
             "uses_mfa": False,
         },
     }
 
-    config.update_resources("users", new_resource)
-    main.main()
+    resources_input = config.update_resources("users", new_resource)
+    tmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        OUTPUT_DIR,
+        swagger_input,
+    )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
         try:
