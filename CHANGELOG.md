@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v3.0.0 (2023-05-14)
+### Feature
+* Renamed tmac to pytmac ([`1d1c83f`](https://github.com/tjtharrison/pytmac/commit/1d1c83fefb42b4d7e04f71556fccee14f4d3c1e9))
+
+### Fix
+* Fixed linting ([`f9dcb4f`](https://github.com/tjtharrison/pytmac/commit/f9dcb4f58fc101ce31af2d1b5d7bcecee07cb1bd))
+
+### Breaking
+* Renamed tmac to pytmac ([`1d1c83f`](https://github.com/tjtharrison/pytmac/commit/1d1c83fefb42b4d7e04f71556fccee14f4d3c1e9))
+
 ## v2.0.2 (2023-05-14)
 ### Fix
 * Add missing secrets from workflow for pypi ([`9ae7441`](https://github.com/tjtharrison/tmac/commit/9ae74419686151699b3df5bfe89d8634a2831485))
