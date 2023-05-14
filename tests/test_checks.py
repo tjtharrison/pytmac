@@ -72,8 +72,8 @@ def test_user_owned_device():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
         OUTPUT_DIR,
+        swagger_input,
     )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -125,8 +125,8 @@ def test_broken_access_control():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
         OUTPUT_DIR,
+        swagger_input,
     )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -179,8 +179,8 @@ def test_cryptographic_failures():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
         OUTPUT_DIR,
+        swagger_input,
     )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -232,8 +232,8 @@ def test_sql_injection():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
         OUTPUT_DIR,
+        swagger_input,
     )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -286,8 +286,8 @@ def test_insecure_design():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
         OUTPUT_DIR,
+        swagger_input,
     )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -340,8 +340,8 @@ def test_security_misconfig():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
         OUTPUT_DIR,
+        swagger_input,
     )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -394,8 +394,8 @@ def test_auth_failures():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
         OUTPUT_DIR,
+        swagger_input,
     )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -448,8 +448,8 @@ def test_integrity_failure():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
         OUTPUT_DIR,
+        swagger_input,
     )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -502,8 +502,8 @@ def test_logging_monitoring_failure():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
         OUTPUT_DIR,
+        swagger_input,
     )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -557,8 +557,8 @@ def test_ssrf():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
         OUTPUT_DIR,
+        swagger_input,
     )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:
@@ -608,8 +608,8 @@ def test_spoofing_users():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
         OUTPUT_DIR,
+        swagger_input,
     )
 
     with open(OUTPUT_REPORT_FILE, "r", encoding="UTF-8") as output_report_file:

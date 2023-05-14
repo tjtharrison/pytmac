@@ -24,9 +24,7 @@ resources:
     destination: staging
     source: /api/user
   systems:
-  - config:
-      db_op: false
-    description: Testing system
+  - description: Testing system
     name: test_system
     network: office_network
   users:

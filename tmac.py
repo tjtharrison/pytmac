@@ -85,21 +85,41 @@ parser.add_argument(
     help="[Default: None] The path to the swagger file (optional)",
 )
 
-
 args = parser.parse_args()
 
-def main(resources_yaml, config_yaml, defaults_yaml, security_checks_yaml, swagger_json, output_dir):
+def main(resources_yaml, config_yaml, defaults_yaml, security_checks_yaml, output_dir, swagger_json=""):
     """
     Main function used to open up provided config and resource files, generating DFD and output
     report
     :return: True
     """
+    # Validate configuration
+    if not input_validator.config(config_yaml):
+        logging.error("Config validation failed!")
+        sys.exit(1)
+
+    # Validate resources
+    if not input_validator.resources(resources_yaml):
+        logging.error("Resources validation failed!")
+        sys.exit(1)
+
+    # Validate defaults
+    if not input_validator.defaults(defaults_yaml):
+        logging.error("Defaults validation failed!")
+        sys.exit(1)
+
+    # Validate swagger
+    if len(swagger_json) > 0:
+        if not input_validator.swagger(swagger_json):
+            logging.error("Swagger validation failed!")
+            sys.exit(1)
+
+
     resources = resources_yaml["resources"]
     # Load swagger if enabled
-    if args.swagger_file != "None":
-
+    if len(swagger_json) > 0:
+        swagger_json = json.loads(swagger_json)
         # Load swagger file
-        swagger_json = get_config.swagger(args.swagger_file)
         swagger_paths = list(swagger_json["paths"].keys())
         for swagger_path in swagger_paths:
             swagger_path_detail = {
@@ -453,4 +473,4 @@ if __name__ == "__main__":
             swagger_input = "None"
 
         logging.info("Requires input")
-    main(resources_input, config_input, defaults_input, security_checks_input, swagger_input, args.output_dir)
+    main(resources_input, config_input, defaults_input, security_checks_input, args.output_dir, swagger_input)

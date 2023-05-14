@@ -45,8 +45,8 @@ def test_report_contents():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
         OUTPUT_DIR,
+        swagger_input,
     )
 
     with open(OUTPUT_REPORT_FILE, "r") as markdown_file:

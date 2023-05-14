@@ -120,6 +120,7 @@ def delete_config(config_field):
         except Exception as error_message:
             print(str(error_message))
 
+        return config_yaml_all
 
 def delete_resource(resource_field):
     """
@@ -147,7 +148,7 @@ def delete_resource(resource_field):
         except Exception as error_message:
             logging.error("Failed to rewrite file: %s", str(error_message))
             return False
-    return True
+    return resource_yaml_all
 
 
 def update_default_value(resource_type, resource_field, resource_value):

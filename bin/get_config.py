@@ -130,6 +130,7 @@ def swagger(file):
     Function to get and return swagger file contents
     :return: List of resources
     """
+    print(file)
     if file == "demo":
         swagger_json = demo_swagger_json
     else:

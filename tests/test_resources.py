@@ -52,8 +52,7 @@ def test_default_setting_user():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
-        OUTPUT_DIR,
+OUTPUT_DIR,        swagger_input,
     )
 
     # Load defaults
@@ -89,8 +88,7 @@ def test_override_setting_user():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
-        OUTPUT_DIR,
+OUTPUT_DIR,        swagger_input,
     )
 
     # Load defaults
@@ -123,8 +121,7 @@ def test_default_setting_networks():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
-        OUTPUT_DIR,
+OUTPUT_DIR,        swagger_input,
     )
 
     # Load defaults
@@ -156,8 +153,7 @@ def test_override_setting_network():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
-        OUTPUT_DIR,
+OUTPUT_DIR,        swagger_input,
     )
 
     # Load defaults
@@ -190,8 +186,7 @@ def test_default_setting_databases():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
-        OUTPUT_DIR,
+OUTPUT_DIR,        swagger_input,
     )
 
     # Load defaults
@@ -228,8 +223,7 @@ def test_override_setting_database():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
-        OUTPUT_DIR,
+OUTPUT_DIR,        swagger_input,
     )
 
     # Load defaults
@@ -262,8 +256,7 @@ def test_default_setting_systems():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
-        OUTPUT_DIR,
+OUTPUT_DIR,        swagger_input,
     )
 
     # Load defaults
@@ -300,8 +293,7 @@ def test_override_setting_system():
         config_input,
         defaults_input,
         security_checks_input,
-        swagger_input,
-        OUTPUT_DIR,
+OUTPUT_DIR,        swagger_input,
     )
 
     # Load defaults
