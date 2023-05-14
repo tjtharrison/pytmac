@@ -1,7 +1,9 @@
 import json
 import os
 from datetime import date
+
 import pytest
+
 import tests.bin.dirs as dirs
 from bin import get_config as get_config
 

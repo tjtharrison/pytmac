@@ -3,19 +3,20 @@
 """
 Python based programmatic threat modelling tool tmacs
 """
+import argparse
 import json
 import logging
 import os
 import sys
 from copy import deepcopy
 from datetime import date
-import argparse
-from bin import input_validator as input_validator, \
-    resource_validator as resource_validator, \
-    get_config as get_config
+
 import yaml
 
 from _version import __version__
+from bin import get_config as get_config
+from bin import input_validator as input_validator
+from bin import resource_validator as resource_validator
 
 VERSION = __version__
 

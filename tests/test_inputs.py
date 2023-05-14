@@ -1,16 +1,15 @@
 import json
+import logging
 import os
 from datetime import date
-import logging
-import tmac
-import tests.bin.config as config
-import tests.bin.dirs as dirs
-from bin import get_config as get_config
-import yaml
 
 import pytest
+import yaml
 
-
+import tests.bin.config as config
+import tests.bin.dirs as dirs
+import tmac
+from bin import get_config as get_config
 
 RESOURCES_FILE = "tests/docs/test_resources.yaml"
 CONFIG_FILE = "tests/docs/test_config.yaml"

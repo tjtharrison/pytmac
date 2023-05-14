@@ -1,8 +1,11 @@
-import yaml
-import logging
 import json
+import logging
 import sys
+
+import yaml
+
 from bin import input_validator as input_validator
+
 
 def get_contents(file_name):
     """

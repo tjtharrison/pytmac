@@ -1,14 +1,15 @@
 import json
+import logging
 import os
 from datetime import date
-import yaml
-import tmac
-import tests.bin.config as config
-import tests.bin.dirs as dirs
-from bin import get_config as get_config
-import logging
 
 import pytest
+import yaml
+
+import tests.bin.config as config
+import tests.bin.dirs as dirs
+import tmac
+from bin import get_config as get_config
 
 OUTPUT_REPORT_DIRECTORY = os.environ.get("OUTPUT_DIR")
 OUTPUT_REPORT_FILE = OUTPUT_REPORT_DIRECTORY + "/report-" + str(date.today()) + ".yaml"

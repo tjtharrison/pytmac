@@ -1,7 +1,9 @@
-import yaml
-import os
-import logging
 import json
+import logging
+import os
+
+import yaml
+
 from bin import get_config
 
 RESOURCES_FILE = "tests/docs/test_resources.yaml"

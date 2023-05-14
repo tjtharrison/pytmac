@@ -1,16 +1,15 @@
-import os
-import yaml
-from datetime import date
 import logging
-from bin import resource_validator as resource_validator
-from bin import get_config as get_config
-import tests.bin.config as config
-import tests.bin.dirs as dirs
-
-import tmac
+import os
+from datetime import date
 
 import pytest
+import yaml
 
+import tests.bin.config as config
+import tests.bin.dirs as dirs
+import tmac
+from bin import get_config as get_config
+from bin import resource_validator as resource_validator
 
 RESOURCES_FILE = "tests/docs/test_resources.yaml"
 CONFIG_FILE = "tests/docs/test_config.yaml"
