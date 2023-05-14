@@ -8,7 +8,7 @@ import yaml
 
 import tests.bin.config as config
 import tests.bin.dirs as dirs
-import tmac
+import pytmac
 from bin import get_config as get_config
 
 RESOURCES_FILE = "tests/docs/test_resources.yaml"
@@ -49,7 +49,7 @@ def test_default_setting_user():
     :return: True/False
     """
 
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,

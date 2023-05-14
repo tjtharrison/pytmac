@@ -8,7 +8,7 @@ import yaml
 
 import tests.bin.config as config
 import tests.bin.dirs as dirs
-import tmac
+import pytmac
 from bin import get_config as get_config
 
 RESOURCES_FILE = "tests/docs/test_resources.yaml"
@@ -49,7 +49,7 @@ def my_fixture():
 
 def test_config_good(caplog):
     caplog.set_level(logging.ERROR)
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,
@@ -69,7 +69,7 @@ def test_config_no_title(caplog):
 
     config_input = config.delete_config("title")
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -98,7 +98,7 @@ def test_config_no_description(caplog):
     config_input = config.delete_config("description")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -127,7 +127,7 @@ def test_config_no_swagger_resource_type(caplog):
     config_input = config.delete_config("swagger_resource_type")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -156,7 +156,7 @@ def test_config_no_swagger_default_network(caplog):
     config_input = config.delete_config("swagger_default_network")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -185,7 +185,7 @@ def test_resources_top_level_networks_missing(caplog):
     resources_input = config.delete_resource("networks")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -209,7 +209,7 @@ def test_resources_top_level_users_missing(caplog):
     resources_input = config.delete_resource("users")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -233,7 +233,7 @@ def test_resources_top_level_databases_missing(caplog):
     resources_input = config.delete_resource("databases")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -257,7 +257,7 @@ def test_resources_top_level_systems_missing(caplog):
     resources_input = config.delete_resource("systems")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -281,7 +281,7 @@ def test_resources_networks_name(caplog):
     resources_input = config.delete_resource("networks.name")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -306,7 +306,7 @@ def test_resources_user_name(caplog):
     resources_input = config.delete_resource("users.name")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -331,7 +331,7 @@ def test_resources_user_network(caplog):
     resources_input = config.delete_resource("users.network")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -356,7 +356,7 @@ def test_resources_user_description(caplog):
     resources_input = config.delete_resource("users.description")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -381,7 +381,7 @@ def test_resources_database_description(caplog):
     resources_input = config.delete_resource("databases.description")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -406,7 +406,7 @@ def test_resources_database_name(caplog):
     resources_input = config.delete_resource("databases.name")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -431,7 +431,7 @@ def test_resources_database_network(caplog):
     resources_input = config.delete_resource("databases.network")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -456,7 +456,7 @@ def test_resources_system_name(caplog):
     resources_input = config.delete_resource("systems.name")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -481,7 +481,7 @@ def test_resources_system_network(caplog):
     resources_input = config.delete_resource("systems.network")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -506,7 +506,7 @@ def test_resources_system_description(caplog):
     resources_input = config.delete_resource("systems.description")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -531,7 +531,7 @@ def test_resources_res_link_description(caplog):
     resources_input = config.delete_resource("res_links.description")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -556,7 +556,7 @@ def test_resources_res_link_source(caplog):
     resources_input = config.delete_resource("res_links.source")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -581,7 +581,7 @@ def test_resources_res_link_destination(caplog):
     resources_input = config.delete_resource("res_links.destination")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -606,7 +606,7 @@ def test_defaults_top_level_systems_missing(caplog):
     resources_input = config.delete_resource("systems")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -627,7 +627,7 @@ def test_defaults_top_level_users_missing(caplog):
     resources_input = config.delete_resource("users")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -648,7 +648,7 @@ def test_defaults_top_level_databases_missing(caplog):
     resources_input = config.delete_resource("databases")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -669,7 +669,7 @@ def test_defaults_top_level_networks_missing(caplog):
     resources_input = config.delete_resource("networks")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-        tmac.main(
+        pytmac.main(
             resources_input,
             config_input,
             defaults_input,
@@ -695,7 +695,7 @@ def test_defaults_top_level_networks_missing(caplog):
 #         swagger_file_update.truncate()
 #
 #     with pytest.raises(SystemExit) as pytest_wrapped_e:
-#             tmac.main(
+#             pypytmac.main(
 #         resources_input,
 #         config_input,
 #         defaults_input,
@@ -723,7 +723,7 @@ def test_defaults_top_level_networks_missing(caplog):
 #         swagger_file_update.truncate()
 #
 #     with pytest.raises(SystemExit) as pytest_wrapped_e:
-#             tmac.main(
+#             pypytmac.main(
 #         resources_input,
 #         config_input,
 #         defaults_input,

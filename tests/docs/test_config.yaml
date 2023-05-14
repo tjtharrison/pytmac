@@ -1,6 +1,6 @@
 description:
-- This is an example of how tmac can be used to threat model your workload
+- This is an example of how pytmac can be used to threat model your workload
 - It can handle multiple paragraphs in the description
 swagger_default_network: office_network
 swagger_resource_type: systems
-title: tmac
+title: pytmac

@@ -45,7 +45,7 @@ parser.add_argument(
 parser.add_argument(
     "--demo",
     action="store_true",
-    help="Run tmac in demo mode using the demo config and resources",
+    help="Run pytmac in demo mode using the demo config and resources",
 )
 parser.add_argument(
     "--output-dir",

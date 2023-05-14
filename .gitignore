@@ -6,4 +6,4 @@ __pycache__
 tests/reports/*
 build/*
 *.egg-info
-tmac
+pytmac

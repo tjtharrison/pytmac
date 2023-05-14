@@ -8,7 +8,7 @@ import yaml
 
 import tests.bin.config as config
 import tests.bin.dirs as dirs
-import tmac
+import pytmac
 from bin import get_config as get_config
 
 OUTPUT_REPORT_DIRECTORY = os.environ.get("OUTPUT_DIR")
@@ -49,7 +49,7 @@ def test_default_setting_user():
 
     defaults_input = config.update_default_value("users", "company_user", False)
 
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,
@@ -86,7 +86,7 @@ def test_override_setting_user():
     }
 
     resources_input = config.update_resources("users", new_resource)
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,
@@ -120,7 +120,7 @@ def test_default_setting_networks():
 
     defaults_input = config.update_default_value("networks", "has_wifi", True)
 
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,
@@ -153,7 +153,7 @@ def test_override_setting_network():
 
     resources_input = config.update_resources("networks", new_resource)
     print(resources_input)
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,
@@ -187,7 +187,7 @@ def test_default_setting_databases():
 
     defaults_input = config.update_default_value("databases", "databases", True)
 
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,
@@ -225,7 +225,7 @@ def test_override_setting_database():
 
     resources_input = config.update_resources("databases", new_resource)
     print(resources_input)
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,
@@ -259,7 +259,7 @@ def test_default_setting_systems():
 
     defaults_input = config.update_default_value("systems", "is_hardened", False)
 
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,
@@ -297,7 +297,7 @@ def test_override_setting_system():
 
     resources_input = config.update_resources("systems", new_resource)
 
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,

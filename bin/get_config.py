@@ -1,5 +1,5 @@
 """
-Modules to load the configuration files for tmac from provided data files.
+Modules to load the configuration files for pytmac from provided data files.
 """
 import json
 import logging
@@ -27,9 +27,9 @@ def get_contents(file_name):
 
 # Load files for demonstration
 demo_config = {
-    "title": "tmac",
+    "title": "pytmac",
     "description": [
-        "This is an example of how tmac can be used to threat model your workload",
+        "This is an example of how pytmac can be used to threat model your workload",
         "It can handle multiple paragraphs in the description",
     ],
     "swagger_resource_type": "containers",

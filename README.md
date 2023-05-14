@@ -1,8 +1,8 @@
-# tmac
+# pytmac
 
-Python based threat modelling as code tool (T.M.A.C).
+Python based threat modelling as code tool (Python T.M.A.C).
 
-tmac generates a report of a designated workload given a combination of manually created resources, configured checks 
+pytmac generates a report of a designated workload given a combination of manually created resources, configured checks 
 and custom checks.
 
 ## Resources
@@ -176,7 +176,7 @@ resources:
 
 ## Security Checks
 
-Security checks have been included to cover use cases for the Owasp top 10, however you may want to extend tmac with custom checks can be written and added to `./docs/security_checks.yaml`. These files should be written as below, the 
+Security checks have been included to cover use cases for the Owasp top 10, however you may want to extend pytmac with custom checks can be written and added to `./docs/security_checks.yaml`. These files should be written as below, the 
 checks are iterated over and executed individually, all fields are required.
 
 Severity should be used as a combination of Risk vs Likelihood, any security findings are prioritised by severity in the report output. 
@@ -195,7 +195,7 @@ user_owned_device:
 
 ## Outputs
 
-The primary output of tmac is a generated Markdown report, including a DFD (Data Flow Diagram) generated from the 
+The primary output of pytmac is a generated Markdown report, including a DFD (Data Flow Diagram) generated from the 
 provided resources, and a programmatically generated list of security concerns using fields from the configuration
 (including overrides).
 
