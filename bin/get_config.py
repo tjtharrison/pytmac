@@ -414,8 +414,9 @@ default_security_checks = {
             "A spoofing attack is a situation in which a person or program successfully"
             " identifies as another by falsifying data, to gain an illegitimate advantage"
         ),
-        "remediation": ("Ensure multiple methods of authentication are required for a"
-                        " user to verify their identity"
+        "remediation": (
+            "Ensure multiple methods of authentication are required for a"
+            " user to verify their identity"
         ),
         "severity": 1,
         "resource_scope": ["users"],
