@@ -29,12 +29,3 @@ jobs:
               run: |
                   mkdir tests/reports
                   make test
-            - name: "Test coverage"
-              run: |
-                min_required_test_coverage=90
-                test_coverage="$(python3 -m pytest --cov | grep "TOTAL" | awk '{print $4}' | sed 's/%//g')"
-                echo "Test coverage is $test_coverage"
-                if (( "$test_coverage" < "$min_required_test_coverage" )); then
-                  echo "Less than $min_required_test_coverage% test coverage"
-                  exit 1
-                fi

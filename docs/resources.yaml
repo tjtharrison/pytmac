@@ -7,6 +7,8 @@ resources:
     - name: user1
       network: home_network
       description: Database Administrator
+      config:
+        company_device: false
   databases:
     - name: staging
       network: office_network
