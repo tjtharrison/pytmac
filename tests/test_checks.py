@@ -7,7 +7,7 @@ import yaml
 
 import tests.bin.config as config
 import tests.bin.dirs as dirs
-import tmac
+import pytmac
 from bin import get_config as get_config
 from bin import resource_validator as resource_validator
 
@@ -66,7 +66,7 @@ def test_user_owned_device():
     }
 
     resources_input = config.update_resources("users", new_resource)
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,
@@ -119,7 +119,7 @@ def test_broken_access_control():
     }
 
     resources_input = config.update_resources("systems", new_resource)
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,
@@ -173,7 +173,7 @@ def test_cryptographic_failures():
     }
 
     resources_input = config.update_resources("databases", new_resource)
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,
@@ -226,7 +226,7 @@ def test_sql_injection():
     }
 
     resources_input = config.update_resources("systems", new_resource)
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,
@@ -280,7 +280,7 @@ def test_insecure_design():
     }
 
     resources_input = config.update_resources("systems", new_resource)
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,
@@ -334,7 +334,7 @@ def test_security_misconfig():
     }
 
     resources_input = config.update_resources("systems", new_resource)
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,
@@ -388,7 +388,7 @@ def test_auth_failures():
     }
 
     resources_input = config.update_resources("systems", new_resource)
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,
@@ -442,7 +442,7 @@ def test_integrity_failure():
     }
 
     resources_input = config.update_resources("systems", new_resource)
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,
@@ -496,7 +496,7 @@ def test_logging_monitoring_failure():
     }
 
     resources_input = config.update_resources("systems", new_resource)
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,
@@ -551,7 +551,7 @@ def test_ssrf():
     }
 
     resources_input = config.update_resources("systems", new_resource)
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,
@@ -602,7 +602,7 @@ def test_spoofing_users():
     }
 
     resources_input = config.update_resources("users", new_resource)
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,

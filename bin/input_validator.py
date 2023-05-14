@@ -1,5 +1,5 @@
 """
-Functions that validate the input files provided by the tmac user.
+Functions that validate the input files provided by the pytmac user.
 """
 import json
 import logging

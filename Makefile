@@ -1,5 +1,5 @@
 demo:
-	python3 tmac.py --demo
+	python3 pytmac.py --demo
 	plantuml -tsvg reports/report-$$(date +%F).md
 
 test:

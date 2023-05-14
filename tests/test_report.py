@@ -11,7 +11,7 @@ OUTPUT_REPORT_DIRECTORY = os.environ.get("OUTPUT_DIR")
 OUTPUT_REPORT_FILE = OUTPUT_REPORT_DIRECTORY + "/report-" + str(date.today()) + ".md"
 CONFIG_FILE = os.environ.get("CONFIG_FILE")
 
-import tmac
+import pytmac
 
 RESOURCES_FILE = "tests/docs/test_resources.yaml"
 CONFIG_FILE = "tests/docs/test_config.yaml"
@@ -44,7 +44,7 @@ def test_report_contents():
     :return: True/False
     """
     output_valid = True
-    tmac.main(
+    pytmac.main(
         resources_input,
         config_input,
         defaults_input,
@@ -83,12 +83,12 @@ def test_report_contents():
 
     for line in new_list:
         print(line)
-        if line["name"] == "# tmac" and line["level"] == 0:
+        if line["name"] == "# pytmac" and line["level"] == 0:
             title_correct = True
 
         if (
             line["name"]
-            == "This is an example of how tmac can be used to threat model your workload"
+            == "This is an example of how pytmac can be used to threat model your workload"
             and line["level"] == 0
         ):
             description_correct = True
