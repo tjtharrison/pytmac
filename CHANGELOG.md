@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.0.1 (2023-05-14)
+### Fix
+* Fixed _version ([`aee9ed9`](https://github.com/tjtharrison/tmac/commit/aee9ed9c6bf5d7ec179ca4abcf6714769aeab792))
+
 ## v2.0.0 (2023-05-14)
 ### Feature
 * Added required parameters to script ([`a56926e`](https://github.com/tjtharrison/tmac/commit/a56926e2a7969a3185c9192daf1cf7e8fa99af55))
