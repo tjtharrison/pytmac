@@ -20,8 +20,8 @@ jobs:
         run: |
           pip3 install isort pylint black
           for file in $(find . -name "*.py" -not -path "./tests/*"); do
-              python3 -m isort $file
-              python3 -m black $file 
+              python3 -m isort "$file"
+              python3 -m black "c$file"
           done
       - name: "Commit linted files"
         uses: "stefanzweifel/git-auto-commit-action@v4"
