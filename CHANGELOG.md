@@ -2,6 +2,15 @@
 
 <!--next-version-placeholder-->
 
+## v2.0.0 (2023-05-14)
+### Feature
+* Added required parameters to script ([`a56926e`](https://github.com/tjtharrison/tmac/commit/a56926e2a7969a3185c9192daf1cf7e8fa99af55))
+* Added demo mode ([`a43b4f7`](https://github.com/tjtharrison/tmac/commit/a43b4f79ae7f54b1dccfea4c2e00fabefd3ba3f4))
+* Started adding command arguments ([`5f7b4e5`](https://github.com/tjtharrison/tmac/commit/5f7b4e524b37e7b3a01fed6722a3a99815a029b2))
+
+### Breaking
+* Added required parameters to script ([`a56926e`](https://github.com/tjtharrison/tmac/commit/a56926e2a7969a3185c9192daf1cf7e8fa99af55))
+
 ## v1.1.0 (2023-04-03)
 ### Feature
 * Started replacing severity with risk and likelihood ([`4d1978d`](https://github.com/tjtharrison/tmac/commit/4d1978d07c12ff6958ae6a9c9606ab9343ece9b0))
