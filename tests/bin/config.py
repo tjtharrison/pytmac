@@ -100,6 +100,7 @@ def update_resources(resource_block, contents):
 
         return resources_yaml
 
+
 def delete_config(config_field):
     """
     Delete value from config file
@@ -123,6 +124,7 @@ def delete_config(config_field):
             print(str(error_message))
 
         return config_yaml_all
+
 
 def delete_resource(resource_field):
     """

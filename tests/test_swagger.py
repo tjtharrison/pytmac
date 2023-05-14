@@ -30,6 +30,7 @@ config_input = get_config.config(CONFIG_FILE)
 defaults_input = get_config.defaults(DEFAULTS_FILE)
 swagger_input = get_config.swagger(SWAGGER_FILE)
 
+
 @pytest.fixture(autouse=True)
 def my_fixture():
     """
@@ -54,7 +55,7 @@ def test_default_setting_user():
         defaults_input,
         security_checks_input,
         OUTPUT_DIR,
-        swagger_input
+        swagger_input,
     )
 
     # Load output_report_file

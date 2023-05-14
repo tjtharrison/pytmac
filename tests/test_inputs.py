@@ -209,14 +209,14 @@ def test_resources_top_level_users_missing(caplog):
     resources_input = config.delete_resource("users")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
     assert caplog.record_tuples == [
         (
             "root",
@@ -233,14 +233,14 @@ def test_resources_top_level_databases_missing(caplog):
     resources_input = config.delete_resource("databases")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
     assert caplog.record_tuples == [
         (
             "root",
@@ -257,14 +257,14 @@ def test_resources_top_level_systems_missing(caplog):
     resources_input = config.delete_resource("systems")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
     assert caplog.record_tuples == [
         (
             "root",
@@ -281,14 +281,14 @@ def test_resources_networks_name(caplog):
     resources_input = config.delete_resource("networks.name")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
 
     assert caplog.record_tuples == [
         (
@@ -306,14 +306,14 @@ def test_resources_user_name(caplog):
     resources_input = config.delete_resource("users.name")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
 
     assert caplog.record_tuples == [
         (
@@ -331,14 +331,14 @@ def test_resources_user_network(caplog):
     resources_input = config.delete_resource("users.network")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
 
     assert caplog.record_tuples == [
         (
@@ -356,14 +356,14 @@ def test_resources_user_description(caplog):
     resources_input = config.delete_resource("users.description")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
 
     assert caplog.record_tuples == [
         (
@@ -381,14 +381,14 @@ def test_resources_database_description(caplog):
     resources_input = config.delete_resource("databases.description")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
 
     assert caplog.record_tuples == [
         (
@@ -406,14 +406,14 @@ def test_resources_database_name(caplog):
     resources_input = config.delete_resource("databases.name")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
 
     assert caplog.record_tuples == [
         (
@@ -431,14 +431,14 @@ def test_resources_database_network(caplog):
     resources_input = config.delete_resource("databases.network")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
 
     assert caplog.record_tuples == [
         (
@@ -456,14 +456,14 @@ def test_resources_system_name(caplog):
     resources_input = config.delete_resource("systems.name")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
 
     assert caplog.record_tuples == [
         (
@@ -481,14 +481,14 @@ def test_resources_system_network(caplog):
     resources_input = config.delete_resource("systems.network")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
 
     assert caplog.record_tuples == [
         (
@@ -506,14 +506,14 @@ def test_resources_system_description(caplog):
     resources_input = config.delete_resource("systems.description")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
 
     assert caplog.record_tuples == [
         (
@@ -531,14 +531,14 @@ def test_resources_res_link_description(caplog):
     resources_input = config.delete_resource("res_links.description")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
 
     assert caplog.record_tuples == [
         (
@@ -556,14 +556,14 @@ def test_resources_res_link_source(caplog):
     resources_input = config.delete_resource("res_links.source")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
 
     assert caplog.record_tuples == [
         (
@@ -581,14 +581,14 @@ def test_resources_res_link_destination(caplog):
     resources_input = config.delete_resource("res_links.destination")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
 
     assert caplog.record_tuples == [
         (
@@ -606,14 +606,14 @@ def test_defaults_top_level_systems_missing(caplog):
     resources_input = config.delete_resource("systems")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
 
     assert caplog.record_tuples == [
         ("root", logging.ERROR, "systems not found in resources"),
@@ -627,14 +627,14 @@ def test_defaults_top_level_users_missing(caplog):
     resources_input = config.delete_resource("users")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
 
     assert caplog.record_tuples == [
         ("root", logging.ERROR, "users not found in resources"),
@@ -648,14 +648,14 @@ def test_defaults_top_level_databases_missing(caplog):
     resources_input = config.delete_resource("databases")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
 
     assert caplog.record_tuples == [
         ("root", logging.ERROR, "databases not found in resources"),
@@ -669,14 +669,14 @@ def test_defaults_top_level_networks_missing(caplog):
     resources_input = config.delete_resource("networks")
 
     with pytest.raises(SystemExit) as pytest_wrapped_e:
-            tmac.main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        OUTPUT_DIR,
-        swagger_input,
-    )
+        tmac.main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            OUTPUT_DIR,
+            swagger_input,
+        )
 
     assert caplog.record_tuples == [
         ("root", logging.ERROR, "networks not found in resources"),

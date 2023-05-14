@@ -27,6 +27,7 @@ config_input = get_config.config(CONFIG_FILE)
 defaults_input = get_config.defaults(DEFAULTS_FILE)
 swagger_input = get_config.swagger(SWAGGER_FILE)
 
+
 @pytest.fixture(autouse=True)
 def my_fixture():
     """
@@ -53,7 +54,8 @@ def test_default_setting_user():
         config_input,
         defaults_input,
         security_checks_input,
-OUTPUT_DIR,        swagger_input,
+        OUTPUT_DIR,
+        swagger_input,
     )
 
     # Load defaults
@@ -89,7 +91,8 @@ def test_override_setting_user():
         config_input,
         defaults_input,
         security_checks_input,
-OUTPUT_DIR,        swagger_input,
+        OUTPUT_DIR,
+        swagger_input,
     )
 
     # Load defaults
@@ -122,7 +125,8 @@ def test_default_setting_networks():
         config_input,
         defaults_input,
         security_checks_input,
-OUTPUT_DIR,        swagger_input,
+        OUTPUT_DIR,
+        swagger_input,
     )
 
     # Load defaults
@@ -154,7 +158,8 @@ def test_override_setting_network():
         config_input,
         defaults_input,
         security_checks_input,
-OUTPUT_DIR,        swagger_input,
+        OUTPUT_DIR,
+        swagger_input,
     )
 
     # Load defaults
@@ -187,7 +192,8 @@ def test_default_setting_databases():
         config_input,
         defaults_input,
         security_checks_input,
-OUTPUT_DIR,        swagger_input,
+        OUTPUT_DIR,
+        swagger_input,
     )
 
     # Load defaults
@@ -224,7 +230,8 @@ def test_override_setting_database():
         config_input,
         defaults_input,
         security_checks_input,
-OUTPUT_DIR,        swagger_input,
+        OUTPUT_DIR,
+        swagger_input,
     )
 
     # Load defaults
@@ -257,7 +264,8 @@ def test_default_setting_systems():
         config_input,
         defaults_input,
         security_checks_input,
-OUTPUT_DIR,        swagger_input,
+        OUTPUT_DIR,
+        swagger_input,
     )
 
     # Load defaults
@@ -294,7 +302,8 @@ def test_override_setting_system():
         config_input,
         defaults_input,
         security_checks_input,
-OUTPUT_DIR,        swagger_input,
+        OUTPUT_DIR,
+        swagger_input,
     )
 
     # Load defaults

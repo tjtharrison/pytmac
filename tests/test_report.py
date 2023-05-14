@@ -27,6 +27,7 @@ config_input = get_config.config(CONFIG_FILE)
 defaults_input = get_config.defaults(DEFAULTS_FILE)
 swagger_input = get_config.swagger(SWAGGER_FILE)
 
+
 @pytest.fixture(autouse=True)
 def my_fixture():
     """
@@ -35,6 +36,7 @@ def my_fixture():
     """
     dirs.create()
     yield
+
 
 def test_report_contents():
     """
@@ -84,7 +86,11 @@ def test_report_contents():
         if line["name"] == "# tmac" and line["level"] == 0:
             title_correct = True
 
-        if line["name"] == "This is an example of how tmac can be used to threat model your workload" and line["level"] == 0:
+        if (
+            line["name"]
+            == "This is an example of how tmac can be used to threat model your workload"
+            and line["level"] == 0
+        ):
             description_correct = True
 
         if line["name"] == "```plantuml" and line["level"] == 0:
@@ -94,51 +100,48 @@ def test_report_contents():
             mermaid_suffix_correct = True
 
         if (
-                line["name"] == "@startuml report-" + str(date.today())
-                and line["level"] == 0
+            line["name"] == "@startuml report-" + str(date.today())
+            and line["level"] == 0
         ):
             mermaid_type_correct = True
 
         if (
-                line["name"] == 'Boundary(bhome_network, "home_network") {'
-                and line["level"] == 0
+            line["name"] == 'Boundary(bhome_network, "home_network") {'
+            and line["level"] == 0
         ):
             boundary_correct = True
 
         if (
-                line["name"] == 'Person(test_user, "test_user", "Testing user")'
-                and line["level"] == 1
+            line["name"] == 'Person(test_user, "test_user", "Testing user")'
+            and line["level"] == 1
         ):
             person_correct = True
 
         if (
-                line["name"]
-                == 'SystemDb(test_database,"test_database ", "Testing database")'
-                and line["level"] == 1
+            line["name"]
+            == 'SystemDb(test_database,"test_database ", "Testing database")'
+            and line["level"] == 1
         ):
             db_correct = True
 
         if (
-                line["name"] ==
-                'System(test_system,"test_system ", "Testing system")'
-                and line["level"] == 1
+            line["name"] == 'System(test_system,"test_system ", "Testing system")'
+            and line["level"] == 1
         ):
             system_correct = True
 
         if (
-                line["name"]
-                == 'BiRel(test_user,test_system, "Test connection from user to system")'
-                and line["level"] == 0
+            line["name"]
+            == 'BiRel(test_user,test_system, "Test connection from user to system")'
+            and line["level"] == 0
         ):
             relationship_correct = True
 
         if (
-                line["name"]
-                == "![Diagram](./report-" + str(date.today()) + ".svg)"
-                and line["level"] == 0
+            line["name"] == "![Diagram](./report-" + str(date.today()) + ".svg)"
+            and line["level"] == 0
         ):
             diagram_correct = True
-
 
     for check in [
         mermaid_type_correct,
@@ -151,7 +154,7 @@ def test_report_contents():
         db_correct,
         system_correct,
         relationship_correct,
-        diagram_correct
+        diagram_correct,
     ]:
         if check == False:
             print(str(check) + " has failed")

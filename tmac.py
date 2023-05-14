@@ -40,14 +40,12 @@ parser = argparse.ArgumentParser(
     description="Python based programmatic threat modelling tool",
 )
 parser.add_argument(
-    "--version",
-    action="store_true",
-    help="Option to print the current version only"
+    "--version", action="store_true", help="Option to print the current version only"
 )
 parser.add_argument(
     "--demo",
     action="store_true",
-    help="Run tmac in demo mode using the demo config and resources"
+    help="Run tmac in demo mode using the demo config and resources",
 )
 parser.add_argument(
     "--output-dir",
@@ -88,7 +86,15 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-def main(resources_yaml, config_yaml, defaults_yaml, security_checks_yaml, output_dir, swagger_json=""):
+
+def main(
+    resources_yaml,
+    config_yaml,
+    defaults_yaml,
+    security_checks_yaml,
+    output_dir,
+    swagger_json="",
+):
     """
     Main function used to open up provided config and resource files, generating DFD and output
     report
@@ -114,7 +120,6 @@ def main(resources_yaml, config_yaml, defaults_yaml, security_checks_yaml, outpu
         if not input_validator.swagger(swagger_json):
             logging.error("Swagger validation failed!")
             sys.exit(1)
-
 
     resources = resources_yaml["resources"]
     # Load swagger if enabled
@@ -390,7 +395,9 @@ def main(resources_yaml, config_yaml, defaults_yaml, security_checks_yaml, outpu
             yaml.dump(output_yaml_report, output_yaml)
 
             # Insecure resources
-            insecure_resources = resource_validator.main(security_checks_yaml, output_yaml_report)
+            insecure_resources = resource_validator.main(
+                security_checks_yaml, output_yaml_report
+            )
             if len(insecure_resources) > 0:
                 # Writing some auto threat modelling
                 output_file.write(
@@ -474,4 +481,11 @@ if __name__ == "__main__":
             swagger_input = "None"
 
         logging.info("Requires input")
-    main(resources_input, config_input, defaults_input, security_checks_input, args.output_dir, swagger_input)
+    main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        args.output_dir,
+        swagger_input,
+    )
