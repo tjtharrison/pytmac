@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.0.2 (2023-05-14)
+### Fix
+* Add missing secrets from workflow for pypi ([`9ae7441`](https://github.com/tjtharrison/tmac/commit/9ae74419686151699b3df5bfe89d8634a2831485))
+
 ## v2.0.1 (2023-05-14)
 ### Fix
 * Fixed _version ([`aee9ed9`](https://github.com/tjtharrison/tmac/commit/aee9ed9c6bf5d7ec179ca4abcf6714769aeab792))
