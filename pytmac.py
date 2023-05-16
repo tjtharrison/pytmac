@@ -14,9 +14,7 @@ from datetime import date
 import yaml
 
 from _version import __version__
-from bin import get_config as get_config
-from bin import input_validator as input_validator
-from bin import resource_validator as resource_validator
+from bin import get_config, input_validator, resource_validator
 
 VERSION = __version__
 
@@ -50,8 +48,8 @@ parser.add_argument(
 parser.add_argument(
     "--output-dir",
     action="store",
-    default="reports",
-    help="[Default: reports] Set the directory for report output",
+    default=".",
+    help="[Default: current ] Set the directory for report output",
 )
 parser.add_argument(
     "--resources-file",
@@ -121,6 +119,11 @@ def main(
             logging.error("Swagger validation failed!")
             sys.exit(1)
 
+    # Validate output directory exists
+    if not os.path.exists(output_dir):
+        logging.error("Output directory (%s) does not exist!", output_dir)
+        sys.exit(1)
+
     resources = resources_yaml["resources"]
     # Load swagger if enabled
     if len(swagger_json) > 0:
@@ -145,24 +148,16 @@ def main(
                     config_yaml["swagger_resource_type"]
                 ].append(swagger_path_detail)
             else:
-                if (
-                    type(
-                        resources_yaml["resources"][
-                            config_yaml["swagger_resource_type"]
-                        ]
-                    )
-                    == dict
+                if isinstance(
+                    resources_yaml["resources"][config_yaml["swagger_resource_type"]],
+                    dict,
                 ):
                     resources_yaml["resources"][
                         config_yaml["swagger_resource_type"]
                     ] | (swagger_path_detail)
-                elif (
-                    type(
-                        resources_yaml["resources"][
-                            config_yaml["swagger_resource_type"]
-                        ]
-                    )
-                    == list
+                elif isinstance(
+                    resources_yaml["resources"][config_yaml["swagger_resource_type"]],
+                    list,
                 ):
                     resources_yaml["resources"][
                         config_yaml["swagger_resource_type"]
