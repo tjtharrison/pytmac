@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v3.1.1 (2023-05-16)
+### Fix
+* Linting ([`7cc305b`](https://github.com/tjtharrison/pytmac/commit/7cc305b1579b62b35926be6f2544c9289e6dea72))
+* Fixing default output directory ([`cc79e5b`](https://github.com/tjtharrison/pytmac/commit/cc79e5b9fc1bb0a6b1b0b18c44e2b954f80c9ce9))
+
 ## v3.1.0 (2023-05-16)
 ### Feature
 * Fixed demo mode to read from example yaml files ([`8f9b073`](https://github.com/tjtharrison/pytmac/commit/8f9b07305eebdfbe29240e63f2fd7971b5470dac))
