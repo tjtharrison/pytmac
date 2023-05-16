@@ -25,6 +25,7 @@ setup(
     long_description_content_type="text/markdown",
     install_requires=required,
     scripts=["pytmac", "_version.py"],
-    packages=["bin"],
+    packages=["bin", "docs"],
     package_data={"docs": ["*"]},
+    exclude_package_data={"docs": ["*bak*"]},
 )
