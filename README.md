@@ -5,6 +5,11 @@
 ![Workflow Unit Tests](https://github.com/tjtharrison/pytmac/actions/workflows/pr-tests.yaml/badge.svg)
 ![Workflow CodeQL](https://github.com/tjtharrison/pytmac/actions/workflows/pr-codeql.yaml/badge.svg)
 
+[![PyPI version](https://badge.fury.io/py/pytmac.svg)](https://badge.fury.io/py/pytmac)
+[![PyPI download month](https://img.shields.io/pypi/dm/pytmac.svg)](https://pypi.python.org/pypi/pytmac/)
+[![PyPI download week](https://img.shields.io/pypi/dw/pytmac.svg)](https://pypi.python.org/pypi/pytmac/)
+[![PyPI download day](https://img.shields.io/pypi/dd/pytmac.svg)](https://pypi.python.org/pypi/pytmac/)
+
 # pytmac
 
 Python based threat modelling as code tool (Python T.M.A.C).
