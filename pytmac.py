@@ -14,9 +14,7 @@ from datetime import date
 import yaml
 
 from _version import __version__
-from bin import get_config
-from bin import input_validator
-from bin import resource_validator
+from bin import get_config, input_validator, resource_validator
 
 VERSION = __version__
 
@@ -150,26 +148,16 @@ def main(
                     config_yaml["swagger_resource_type"]
                 ].append(swagger_path_detail)
             else:
-                if (
-                    isinstance(
-                        resources_yaml["resources"][
-                            config_yaml["swagger_resource_type"]
-                        ]
-                        ,
-                        dict
-                    )
+                if isinstance(
+                    resources_yaml["resources"][config_yaml["swagger_resource_type"]],
+                    dict,
                 ):
                     resources_yaml["resources"][
                         config_yaml["swagger_resource_type"]
                     ] | (swagger_path_detail)
-                elif (
-                    isinstance(
-                        resources_yaml["resources"][
-                            config_yaml["swagger_resource_type"]
-                        ]
-                        ,
-                        list
-                    )
+                elif isinstance(
+                    resources_yaml["resources"][config_yaml["swagger_resource_type"]],
+                    list,
                 ):
                     resources_yaml["resources"][
                         config_yaml["swagger_resource_type"]
