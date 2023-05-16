@@ -36,7 +36,7 @@ logging.basicConfig(
 
 # Use argparse to add arguments
 parser = argparse.ArgumentParser(
-    prog="tmacs",
+    prog="pytmac",
     description="Python based programmatic threat modelling tool",
 )
 parser.add_argument(
