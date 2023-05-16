@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v3.1.0 (2023-05-16)
+### Feature
+* Fixed demo mode to read from example yaml files ([`8f9b073`](https://github.com/tjtharrison/pytmac/commit/8f9b07305eebdfbe29240e63f2fd7971b5470dac))
+
+### Documentation
+* Added status badges to README ([`ca2de7d`](https://github.com/tjtharrison/pytmac/commit/ca2de7d02809bd7c6092066b8d7e268e1a5f6410))
+
 ## v3.0.0 (2023-05-14)
 ### Feature
 * Renamed tmac to pytmac ([`1d1c83f`](https://github.com/tjtharrison/pytmac/commit/1d1c83fefb42b4d7e04f71556fccee14f4d3c1e9))
