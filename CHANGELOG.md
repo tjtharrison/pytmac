@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v3.1.2 (2023-05-16)
+### Fix
+* Fixed docs for demo ([`a2a6cf4`](https://github.com/tjtharrison/pytmac/commit/a2a6cf429f7b5f0fe7e3c1831c0fd0a9e987e368))
+
 ## v3.1.1 (2023-05-16)
 ### Fix
 * Linting ([`7cc305b`](https://github.com/tjtharrison/pytmac/commit/7cc305b1579b62b35926be6f2544c9289e6dea72))
