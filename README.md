@@ -55,7 +55,7 @@ To generate an example report based on some pre-defined resources, run the follo
 pytmac --demo
 ```
 
-This will write to a file called `./reports/report-[today-date].md` which can be viewed in a markdown viewer.
+This will write to a file called `report-[today-date].md` which can be viewed in a markdown viewer.
 
 # Configuration
 
