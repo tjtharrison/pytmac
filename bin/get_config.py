@@ -3,12 +3,14 @@ Modules to load the configuration files for pytmac from provided data files.
 """
 import json
 import logging
-import sys
 import os
+import sys
+
 import yaml
 
 from bin import input_validator
-docs_dir = os.path.join(os.path.dirname(__file__), '../', 'docs')
+
+docs_dir = os.path.join(os.path.dirname(__file__), "../", "docs")
 
 
 def resources(file):
