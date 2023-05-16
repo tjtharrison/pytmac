@@ -50,8 +50,8 @@ parser.add_argument(
 parser.add_argument(
     "--output-dir",
     action="store",
-    default="reports",
-    help="[Default: reports] Set the directory for report output",
+    default=".",
+    help="[Default: current ] Set the directory for report output",
 )
 parser.add_argument(
     "--resources-file",
@@ -120,6 +120,11 @@ def main(
         if not input_validator.swagger(swagger_json):
             logging.error("Swagger validation failed!")
             sys.exit(1)
+
+    # Validate output directory exists
+    if not os.path.exists(output_dir):
+        logging.error("Output directory (%s) does not exist!", output_dir)
+        sys.exit(1)
 
     resources = resources_yaml["resources"]
     # Load swagger if enabled
