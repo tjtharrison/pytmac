@@ -9,170 +9,68 @@
 
 Python based threat modelling as code tool (Python T.M.A.C).
 
-pytmac generates a report of a designated workload given a combination of manually created resources, configured checks 
-and custom checks.
+# Installation
+
+pytmac is available via PyPi, and can be installed with pip:
+
+```
+pip install pytmac
+```
+
+# Usage
+
+Once installed, pytmac can be called from the command line with an array of arguments which are described in the help page:
+
+```
+pytmac --help
+
+options:
+  -h, --help            show this help message and exit
+  --version             Option to print the current version only
+  --demo                Run pytmac in demo mode using the demo config and resources
+  --output-dir OUTPUT_DIR
+                        [Default: reports] Set the directory for report output
+  --resources-file RESOURCES_FILE
+                        The path to the resources file
+  --config-file CONFIG_FILE
+                        The path to the config file
+  --defaults-file DEFAULTS_FILE
+                        The path to the defaults file
+  --security-checks-file SECURITY_CHECKS_FILE
+                        [Default: security_checks.yaml] The path to the security-checks file
+  --swagger-file SWAGGER_FILE
+                        [Default: None] The path to the swagger file (optional)
+```
+
+## Demonstration
+
+To generate an example report based on some pre-defined resources, run the following command:
+
+```
+pytmac --demo
+```
+
+This will write to a file called `./reports/report-[today-date].md` which can be viewed in a markdown viewer.
+
+# Configuration
 
 ## Resources
 
-Manual resources can be added to `./docs/resources.yaml` and should be in the following format.
+Resources are defined as any asset that is part of the system being modelled under the following categories:
+
+- Databases
+- Networks
+- Systems
+- Users
+
+Resources are provided to pytmac in a yaml file, which can be passed with the `--resources-file` argument. 
+
+An example of a `resources.yaml` can be found in the pytmac repository at `./docs/resources.yaml`.
+
+Resource config defines characteristics of a given resource. Default settings for a given resource type can be set in 
+the resource yaml as follows (following the same format for a resource type).
 
 ```
----
-resources:
-  networks:
-    - name: office_network
-    - name: home_network
-  users:
-    - name: user1
-      network: home_network
-      description: Database Administrator
-  databases:
-    - name: staging
-      network: office_network
-      description: Staging database
-  systems:
-    - name: vpn_server
-      network: office_network
-      description: VPN Server
-      config:
-        db_op: false
-  containers:
-  res_links:
-    - source: user1
-      destination: vpn_server
-      description: User connects to VPN into office_network
-    - source: vpn_server
-      destination: "/api/user/add"
-      description: "/api/user/add accessed from the VPN server"
-    - source: vpn_server
-      destination: "/api/user"
-      description: "/api/user accessed from the VPN server"
-    - source: "/api/user/add"
-      destination: staging
-      description: "/api/user/add and adds data in the staging database"
-    - source: "/api/user"
-      destination: staging
-      description: "/api/user gets data from the staging database"
-```
-
-The above yaml content will be processed and generate the following DFD (Data Flow Diagram) in PlantUML.
-
-```
-@startuml report-2023-03-25
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
-!include https://raw.githubusercontent.com/geret1/plantuml-schemas/main/stride.puml
-
-Boundary(boffice_network, "office_network") {
-	SystemDb(staging,"staging ", "Staging database")
-	System(vpn_server,"vpn_server ", "VPN Server")
-	Container(_api_user_add,"/api/user/add ", "Receive requests from client to write users to database.")
-	Container(_api_user,"/api/user ", "Endpoint to list all users from Database")
-}
-Boundary(bhome_network, "home_network") {
-	Person(user1, "user1", "Database Administrator")
-}
-BiRel(user1,vpn_server, "User connects to VPN into office_network")
-BiRel(vpn_server,_api_user_add, "/api/user/add accessed from the VPN server")
-BiRel(vpn_server,_api_user, "/api/user accessed from the VPN server")
-BiRel(_api_user_add,staging, "/api/user/add and adds data in the staging database")
-BiRel(_api_user,staging, "/api/user gets data from the staging database")
-@enduml
-```
-
-
-## Configuration
-
-Configuration defines characteristics of a given resource. Default settings for a given resource type can be set in 
-`./docs/defaults.yaml` as follows (following the same format for a resource type).
-
-These settings will be applied to all resources generated. 
-
-```
-databases:
-  audit_logging_alerts: true
-  audit_logging_enabled: true
-  audit_logging_monitored: true
-  audit_logging_tamper_proof: true
-  audit_logging_to_siem: true
-  authentication_required: true
-  automatic_updates: true
-  cleanup_tasks_configured: true
-  contains_pii: true
-  database_os: MySQL
-  default_accounts_enabled: true
-  firewall_restricted: true
-  has_scheduled_backup: true
-  incident_response_runbooks: true
-  is_encrypted: true
-  is_hardened: true
-  is_replica: true
-  least_privileged_access: true
-  least_privileged_network: true
-  least_privileged_users: true
-  passwords_hashed: true
-  requires_encrypted_connections: true
-  secure_logging_enabled: true
-  tested_recovery_process: true
-networks:
-  has_wifi: false
-  is_cloud: false
-  is_public: false
-systems:
-  access_logging_enabled: true
-  allows_manual_changes: true
-  audit_logging_alerts: true
-  audit_logging_enabled: true
-  audit_logging_includes_user_details: true
-  audit_logging_monitored: true
-  audit_logging_tamper_proof: true
-  audit_logging_to_siem: true
-  authentication_required: true
-  automatic_updates: true
-  code_review_required: true
-  code_scan_in_pipeline: true
-  cors_minimal_required_usage: true
-  db_op: true
-  default_accounts_enabled: true
-  delayed_login_failures: true
-  dependabot_used: true
-  dependency_signing_required: true
-  has_secure_password_policy: true
-  has_waf: true
-  incident_response_runbooks: true
-  input_sanitization: true
-  input_validation: true
-  ip_restrictions: true
-  is_hardened: true
-  least_privileged_access: true
-  least_privileged_network: true
-  login_failures_logged: true
-  mfa_enabled: true
-  password_username_incorrect_same_message: true
-  public_facing: true
-  requires_authentication: true
-  requires_encryption: true
-  secret_scanning_used: true
-  secure_logging_enabled: true
-  security_scan_on_artifact_storage: true
-  security_scan_on_build: true
-  sessions_stored_securely: true
-  stateful_sessions_invalidated: true
-  tested_recovery_process: true
-users:
-  company_device: true
-  company_user: true
-  uses_mfa: true
-  uses_own_login: true
-
-```
-
-Overides can be set on a per-resource basis, by appending `configs` nested dictionary to the resources.yaml. The yaml 
-below is based on having `"is_cloud": false` as a default setting - It will create two networks, one with is_cloud set
-to `false` (the default), the other (`aws_public_subnet`) will have `is_cloud` set to `true`.
-
-
-```
----
 resources:
   networks:
     - name: office_network
@@ -180,6 +78,14 @@ resources:
       - config:
         is_cloud: true
 ```
+
+## Defaults
+
+Defaults are defined as any setting that is common across all resources. These are provided to pytmac in a yaml file, which can be passed with the `--defaults-file` argument.
+
+An example of a `defaults.yaml` can be found in the pytmac repository at `./docs/defaults.yaml`.
+
+Defaults can be overridden by resource config, and are applied to all resources unless overridden.
 
 ## Security Checks
 
