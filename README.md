@@ -19,10 +19,10 @@ Python based threat modelling as code tool (Python T.M.A.C).
 pytmac is available via PyPi, and can be installed with pip:
 
 ```
-pip install pytmac
+pip3 install pytmac
 ```
 
-In order for 
+In order for DFD diagrams to be generated, [plantuml](https://plantuml.com/) must be installed on the system. If it is not installed, pytmac will continue to execute but the output will not include a DFD diagram.
 
 # Usage
 
