@@ -7,3 +7,8 @@ tests/reports/*
 build/*
 *.egg-info
 pytmac
+
+# Exclusions for demo output generated in dir
+report-*.md
+report-*.yaml
+report-*.svg

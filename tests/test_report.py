@@ -164,15 +164,55 @@ def test_report_contents():
 
     assert True
 
+# Test if svg is generated and valid
+def test_report_svg():
+    """
+    Function to verify the report svg is generated and valid
+    :return: True/False
+    """
+    output_valid = True
+    pytmac.main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        OUTPUT_DIR,
+        swagger_input,
+    )
 
-#### Need to test insecure resource
-# def test_insecure_resource_table():
+    with open(OUTPUT_REPORT_FILE, "r") as markdown_file:
+        markdown_file_contents = markdown_file.readlines()
 
-#### Need to test multiple insecure resource sorting (by severity)
-# def test_multiple_insecure_order():
+    new_list = []
 
-### Need to validate defaults input (min required)
+    for line in markdown_file_contents:
+        line = line.replace("\n", "")
+        if len(line) > 0:
+            new_list.append(
+                {
+                    "name": line.replace("\t", ""),
+                    "level": line.count("\t"),
+                }
+            )
 
-### Need to validate config input (min required)
+    # Set some checks to `False` to be corrected if values present  and correct
+    diagram_correct = False
 
-### Need to validate resources input (min required)
+    for line in new_list:
+        print(line)
+        if (
+            line["name"] == "![Diagram](./report-" + str(date.today()) + ".svg)"
+            and line["level"] == 0
+        ):
+            diagram_correct = True
+
+    for check in [
+        diagram_correct,
+    ]:
+        if check == False:
+            print("SVG generation test has failed")
+            assert False
+        else:
+            print("PASS - " + str(check))
+
+    assert True

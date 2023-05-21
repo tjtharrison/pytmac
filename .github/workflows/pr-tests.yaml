@@ -25,6 +25,8 @@ jobs:
             - name: "Install requirements"
               run: |
                   pip3 install -r requirements.txt
+                  sudo apt-get update
+                  sudo apt-get -y install plantuml
             - name: "Unit tests"
               run: |
                   mkdir tests/reports
