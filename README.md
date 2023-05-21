@@ -22,6 +22,8 @@ pytmac is available via PyPi, and can be installed with pip:
 pip install pytmac
 ```
 
+In order for 
+
 # Usage
 
 Once installed, pytmac can be called from the command line with an array of arguments which are described in the help page:

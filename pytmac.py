@@ -7,6 +7,7 @@ import argparse
 import json
 import logging
 import os
+import subprocess
 import sys
 from copy import deepcopy
 from datetime import date
@@ -162,6 +163,17 @@ def main(
                     resources_yaml["resources"][
                         config_yaml["swagger_resource_type"]
                     ].append(swagger_path_detail)
+
+    # Check if plantuml is callable
+    try:
+        # Check if plantuml executable is available
+        subprocess.run(["plantuml", "-version"], stdout=subprocess.DEVNULL)
+        logging.info("Plantuml executable found, will generate diagrams")
+        plantuml_available = True
+    except FileNotFoundError:
+        plantuml_available = False
+        logging.error("Plantuml executable not found, unable to generate diagram")
+
     output_file_dir = output_dir
     output_file_name = "report-" + str(date.today())
 
@@ -384,7 +396,8 @@ def main(
             output_file.write("@enduml\n")
             output_file.write("```\n")
             output_file.write("\n")
-            output_file.write("![Diagram](./" + output_file_name + ".svg)")
+            if plantuml_available:
+                output_file.write("![Diagram](./" + output_file_name + ".svg)")
 
             # Print final json
             yaml.dump(output_yaml_report, output_yaml)
@@ -418,6 +431,15 @@ def main(
                         + "\n"
                     )
                     output_file.write(response_detail)
+
+    if plantuml_available:
+        # Generate diagram
+        subprocess.run(
+            ["plantuml", "-tsvg", output_file_name + ".md"],
+            stdout=subprocess.DEVNULL,
+        )
+        logging.info("DFD diagram generated")
+
     return True
 
 
