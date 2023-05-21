@@ -115,7 +115,6 @@ def main(
         sys.exit(1)
 
     # Validate swagger
-    print(swagger_json)
     if swagger_json != "None":
         if not input_validator.swagger(swagger_json):
             logging.error("Swagger validation failed!")
