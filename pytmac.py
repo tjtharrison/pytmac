@@ -115,7 +115,7 @@ def main(
         sys.exit(1)
 
     # Validate swagger
-    if len(swagger_json) > 0:
+    if swagger_json != "None":
         if not input_validator.swagger(swagger_json):
             logging.error("Swagger validation failed!")
             sys.exit(1)
@@ -127,7 +127,7 @@ def main(
 
     resources = resources_yaml["resources"]
     # Load swagger if enabled
-    if len(swagger_json) > 0:
+    if swagger_json != "None":
         swagger_json = json.loads(swagger_json)
         # Load swagger file
         swagger_paths = list(swagger_json["paths"].keys())
@@ -498,6 +498,7 @@ if __name__ == "__main__":
             swagger_input = "None"
 
         logging.info("Requires input")
+
     main(
         resources_input,
         config_input,
