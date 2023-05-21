@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v3.2.1 (2023-05-21)
+### Fix
+* Removed debug print ([`8632681`](https://github.com/tjtharrison/pytmac/commit/8632681eeb8c93a776892ad868b58ab42a0ffcc3))
+* Fixed swagger_json not provided ([`c136690`](https://github.com/tjtharrison/pytmac/commit/c13669054e8301c6811f3df337ad174600e6356d))
+
+### Documentation
+* Updated docs on release process ([`ef86114`](https://github.com/tjtharrison/pytmac/commit/ef861142f30a6cab07b3209a75c31a1645f4f240))
+
 ## v3.2.0 (2023-05-21)
 ### Feature
 * Moved plantuml generation into main function ([`a7590a8`](https://github.com/tjtharrison/pytmac/commit/a7590a8302cb2f891a47ffad2d28cb7d3d2e200e))
