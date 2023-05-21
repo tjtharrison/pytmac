@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v3.2.0 (2023-05-21)
+### Feature
+* Moved plantuml generation into main function ([`a7590a8`](https://github.com/tjtharrison/pytmac/commit/a7590a8302cb2f891a47ffad2d28cb7d3d2e200e))
+
+### Documentation
+* Updated plantuml in README ([`4552383`](https://github.com/tjtharrison/pytmac/commit/4552383ac161baaf1b6cdb32c54c4eb05e6a322e))
+
 ## v3.1.2 (2023-05-16)
 ### Fix
 * Fixed docs for demo ([`a2a6cf4`](https://github.com/tjtharrison/pytmac/commit/a2a6cf429f7b5f0fe7e3c1831c0fd0a9e987e368))
