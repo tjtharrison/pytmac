@@ -96,3 +96,18 @@ def swagger(file):
             logging.error("Failed to load SWAGGER_FILE: %s", error_message)
 
     return swagger_json
+
+def settings():
+    """
+    Function to get and return settings file contents from .pytmac file
+
+    :return: settings file contents
+    """
+
+    with open(".pytmac", "r", encoding="UTF-8") as settings_file:
+        try:
+            settings_yaml = yaml.safe_load(settings_file)
+        except yaml.YAMLError as error_message:
+            logging.error("Failed to load SECURITY_CHECKS_FILE: %s", error_message)
+
+    return settings_yaml
