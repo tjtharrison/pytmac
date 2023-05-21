@@ -121,3 +121,15 @@ provided resources, and a programmatically generated list of security concerns u
 
 Additionally, a yaml report is generated of all resources and their config - To ease reviewing the findings during a 
 threat modelling session.
+
+# Release Details
+
+This project uses [semantic versioning](https://semver.org/) for releases, which are determined and managed by [python-semantic-release](https://python-semantic-release.readthedocs.io/en/latest/). 
+
+Python-semantic-release relies on conventional commits being used for all commit messages to determine the next version number / semantic release type (major/minor/patch).
+
+Once the new version number has been determined, a new release is created on github, and the new version is published to PyPi.
+
+## gpush
+
+You can use my other project [gpush](https://github.com/tjtharrison/gpush) to ensure you always push commits with the correct format for this project, otherwise, details on commit message structure can be found on the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) website.
