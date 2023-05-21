@@ -478,7 +478,11 @@ if __name__ == "__main__":
                 config_source_file = args.config_file
             else:
                 config_source_file = settings_input["config_file"]
-            config_input = get_config.resources(config_source_file)
+
+            try:
+                config_input = get_config.config(config_source_file)
+            except Exception as error_message:
+                error_response_list.append("Error loading config file: " + str(error_message))
         else:
             error_response_list.append("config-file is required")
 
@@ -487,7 +491,10 @@ if __name__ == "__main__":
                 defaults_source_file = args.defaults_file
             else:
                 defaults_source_file = settings_input["defaults_file"]
-            defaults_input = get_config.resources(defaults_source_file)
+            try:
+                defaults_input = get_config.defaults(defaults_source_file)
+            except Exception as error_message:
+                error_response_list.append("Error loading defaults file: " + str(error_message))
         else:
             error_response_list.append("defaults-file is required")
 
@@ -496,7 +503,7 @@ if __name__ == "__main__":
                 sec_source_file = args.security_checks_file
             else:
                 sec_source_file = settings_input["security_checks_file"]
-            security_checks_input = get_config.resources(sec_source_file)
+            security_checks_input = get_config.security_checks(sec_source_file)
         else:
             security_checks_input = get_config.security_checks("default")
 
@@ -508,8 +515,6 @@ if __name__ == "__main__":
         if len(error_response_list) > 0:
             logging.error("Error loading configuration files: " + ", ".join(error_response_list) + ". See --help for details")
             exit(1)
-
-
 
         main(
             resources_input,
