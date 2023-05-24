@@ -22,7 +22,7 @@ jobs:
           find . -name "*.py" -not -path "./tests/*" -exec python3 -m isort {} \; -exec python3 -m black {} \;
       - name: "Docstring linting"
         run: |
-          results=$(find . -name "*.py" -not -path "./tests/*" -exec darglint --docstring-style sphinx {} \;)
+          results=$(find . -name "*.py" -not -path "./tests/*" -exec darglint {} \;)
   
           if [[ -z "$results" ]]; then
             echo "All docstrings are valid"
