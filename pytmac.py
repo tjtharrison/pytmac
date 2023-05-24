@@ -472,7 +472,7 @@ if __name__ == "__main__":
 
         error_response_list = []
         if str(args.resources_file) != "None" or (
-                settings_file_exists and "resource_file" in settings_input
+            settings_file_exists and "resource_file" in settings_input
         ):
             if str(args.resources_file) != "None":
                 logging.info("Using resources file from command line")
@@ -486,7 +486,7 @@ if __name__ == "__main__":
             )
 
         if str(args.config_file) != "None" or (
-                settings_file_exists and "config_file" in settings_input
+            settings_file_exists and "config_file" in settings_input
         ):
             if str(args.config_file) != "None":
                 logging.info("Using config file from command line")
@@ -504,7 +504,7 @@ if __name__ == "__main__":
             error_response_list.append("config-file is required")
 
         if str(args.defaults_file) != "None" or (
-                settings_file_exists and "defaults_file" in settings_input
+            settings_file_exists and "defaults_file" in settings_input
         ):
             if str(args.defaults_file) != "None":
                 logging.info("Using defaults file from command line")
@@ -521,7 +521,7 @@ if __name__ == "__main__":
             error_response_list.append("defaults-file is required")
 
         if str(args.security_checks_file) != "Default" or (
-                settings_file_exists and "security_checks_file" in settings_input
+            settings_file_exists and "security_checks_file" in settings_input
         ):
             if str(args.security_checks_file) != "Default":
                 logging.info("Using security checks file from command line")
