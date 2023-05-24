@@ -85,7 +85,9 @@ def security_checks(file):
             try:
                 security_checks_yaml = yaml.safe_load(security_checks_file)
             except yaml.YAMLError as error_message:
-                raise yaml.YAMLError("Failed to load SECURITY_CHECKS_FILE: %s", error_message)
+                raise yaml.YAMLError(
+                    "Failed to load SECURITY_CHECKS_FILE: %s", error_message
+                )
 
     except FileNotFoundError:
         raise FileNotFoundError("No security_checks file found at " + file)
@@ -112,6 +114,7 @@ def swagger(file):
         raise FileNotFoundError("No swagger.json file found at " + file)
     return swagger_json
 
+
 def settings():
     """
     Function to get and return settings file contents from .pytmac file
@@ -123,7 +126,9 @@ def settings():
             try:
                 settings_yaml = yaml.safe_load(settings_file)
             except yaml.YAMLError as error_message:
-                raise yaml.YAMLError("Failed to load SECURITY_CHECKS_FILE: %s", error_message)
+                raise yaml.YAMLError(
+                    "Failed to load SECURITY_CHECKS_FILE: %s", error_message
+                )
     except FileNotFoundError:
         raise FileNotFoundError("No .pytmac file found in current directory")
 
