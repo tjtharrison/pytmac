@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v3.3.1 (2023-05-24)
+### Fix
+* Removed test invalid docstring ([`e560a6d`](https://github.com/tjtharrison/pytmac/commit/e560a6d605c5850d09dd8d7690f44de067d3b68e))
+
 ## v3.3.0 (2023-05-24)
 ### Feature
 * Added logging for cli overrides on settings ([`5a3d325`](https://github.com/tjtharrison/pytmac/commit/5a3d3254101fd9d806b6832f87ddf597338c1dd8))
