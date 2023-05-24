@@ -25,7 +25,7 @@ jobs:
           results=$(find . -name "*.py" -not -path "./tests/*" -exec darglint --docstring-style sphinx {} \;)
   
           if [[ -z "$results" ]]; then
-            echo "All docstrings are valid
+            echo "All docstrings are valid"
           else
             echo "Invalid docstrings found:"
             echo "$results"
