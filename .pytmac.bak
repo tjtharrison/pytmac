@@ -1,0 +1,3 @@
+resource_file: "docs/resources.yaml"
+config_file: "docs/config.yaml"
+defaults_file: "docs/defaults.yaml"
