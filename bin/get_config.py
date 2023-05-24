@@ -19,6 +19,7 @@ def resources(file):
 
     :param file: File to load resources from
     :raises FileNotFoundError: If file is not found
+    :raises YAMLError: If file is not valid YAML
 
     :return: List of resources
     """
@@ -43,6 +44,7 @@ def config(file):
 
     :param file: File to load resources from
     :raises FileNotFoundError: If file is not found
+    :raises YAMLError: If file is not valid YAML
 
     :return: List of resources
     """
@@ -67,6 +69,7 @@ def defaults(file):
 
     :param file: File to load resources from
     :raises FileNotFoundError: If file is not found
+    :raises YAMLError: If file is not valid YAML
 
     :return: List of resources
     """
@@ -91,6 +94,7 @@ def security_checks(file):
 
     :param file: File to load resources from
     :raises FileNotFoundError: If file is not found
+    :raises YAMLError: If file is not valid YAML
 
     :return: List of resources
     """
@@ -118,6 +122,7 @@ def swagger(file):
 
     :param file: File to load resources from
     :raises FileNotFoundError: If file is not found
+    :raises Exception: If file is not valid JSON
 
     :return: List of resources
     """
@@ -140,6 +145,10 @@ def swagger(file):
 def settings():
     """
     Function to get and return settings file contents from .pytmac file
+
+    :raises FileNotFoundError: If file is not found
+    :raises YAMLError: If file is not valid YAML
+
     :return: settings file contents
     """
     try:
