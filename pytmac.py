@@ -97,6 +97,13 @@ def main(
     """
     Main function used to open up provided config and resource files, generating DFD and output
     report
+    :param resources_yaml: The resources yaml file
+    :param config_yaml: The config yaml file
+    :param defaults_yaml: The defaults yaml file
+    :param security_checks_yaml: The security checks yaml file
+    :param output_dir: The output directory
+    :param swagger_json: The swagger json file
+
     :return: True
     """
     # Validate configuration

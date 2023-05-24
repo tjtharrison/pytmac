@@ -9,9 +9,9 @@ def main(security_checks_yaml, output_json_report):
     """
     Function to collect responses from required security scans and return to be written to the final
     report.
-
+    :param security_checks_yaml: A json document containing all security checks to be run.
     :param output_json_report: A json document containing all resources and configuration settings
-    included in the final report.
+
     :return: List of insecure resources.
     """
 

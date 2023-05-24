@@ -16,6 +16,9 @@ docs_dir = os.path.join(os.path.dirname(__file__), "../", "docs")
 def resources(file):
     """
     Function to return a list of resources to be included in the package
+
+    :param file: File to load resources from
+
     :return: List of resources
     """
     if file == "demo":
@@ -32,6 +35,9 @@ def resources(file):
 def config(file):
     """
     Function to return a list of config to be included in the package
+
+    :param file: File to load resources from
+
     :return: List of resources
     """
     if file == "demo":
@@ -49,6 +55,9 @@ def config(file):
 def defaults(file):
     """
     Function to return a list of defaults to be included in the package
+
+    :param file: File to load resources from
+
     :return: List of resources
     """
     if file == "demo":
@@ -66,6 +75,9 @@ def defaults(file):
 def security_checks(file):
     """
     Function to return a list of security_checks to be included in the package
+
+    :param file: File to load resources from
+
     :return: List of resources
     """
     if file == "default":
@@ -83,6 +95,9 @@ def security_checks(file):
 def swagger(file):
     """
     Function to get and return swagger file contents
+
+    :param file: File to load resources from
+
     :return: List of resources
     """
 

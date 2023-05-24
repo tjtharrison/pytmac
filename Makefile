@@ -10,3 +10,4 @@ lint:
 dev:
 	pip3 uninstall pytmac -y
 	pip3 install .
+
