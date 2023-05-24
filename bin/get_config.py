@@ -18,6 +18,7 @@ def resources(file):
     Function to return a list of resources to be included in the package
 
     :param file: File to load resources from
+    :raises FileNotFoundError: If file is not found
 
     :return: List of resources
     """
@@ -41,6 +42,7 @@ def config(file):
     Function to return a list of config to be included in the package
 
     :param file: File to load resources from
+    :raises FileNotFoundError: If file is not found
 
     :return: List of resources
     """
@@ -64,6 +66,7 @@ def defaults(file):
     Function to return a list of defaults to be included in the package
 
     :param file: File to load resources from
+    :raises FileNotFoundError: If file is not found
 
     :return: List of resources
     """
@@ -87,6 +90,7 @@ def security_checks(file):
     Function to return a list of security_checks to be included in the package
 
     :param file: File to load resources from
+    :raises FileNotFoundError: If file is not found
 
     :return: List of resources
     """
@@ -113,6 +117,7 @@ def swagger(file):
     Function to get and return swagger file contents
 
     :param file: File to load resources from
+    :raises FileNotFoundError: If file is not found
 
     :return: List of resources
     """
