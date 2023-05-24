@@ -2,6 +2,15 @@
 
 <!--next-version-placeholder-->
 
+## v3.3.0 (2023-05-24)
+### Feature
+* Added logging for cli overrides on settings ([`5a3d325`](https://github.com/tjtharrison/pytmac/commit/5a3d3254101fd9d806b6832f87ddf597338c1dd8))
+* Added error handling for settings file ([`4d8806d`](https://github.com/tjtharrison/pytmac/commit/4d8806d297c5cbefd4b2c5dfc293389ba97f9710))
+* Added concept of settings file ([`cec7aa1`](https://github.com/tjtharrison/pytmac/commit/cec7aa1599f605c74f52704a5ed5fa865cbf8560))
+
+### Documentation
+* Updated docs for .pytmac file ([`546bcb1`](https://github.com/tjtharrison/pytmac/commit/546bcb128ee67ee6303405e40af1c0ee5897da53))
+
 ## v3.2.1 (2023-05-21)
 ### Fix
 * Removed debug print ([`8632681`](https://github.com/tjtharrison/pytmac/commit/8632681eeb8c93a776892ad868b58ab42a0ffcc3))
