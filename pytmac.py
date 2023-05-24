@@ -466,6 +466,7 @@ if __name__ == "__main__":
         error_response_list = []
         if str(args.resources_file) != "None" or (settings_file_exists and "resource_file" in settings_input):
             if str(args.resources_file) != "None":
+                logging.info("Using resources file from command line")
                 resource_source_file = args.resources_file
             else:
                 resource_source_file = settings_input["resource_file"]
@@ -475,6 +476,7 @@ if __name__ == "__main__":
 
         if str(args.config_file) != "None" or (settings_file_exists and "config_file" in settings_input):
             if str(args.config_file) != "None":
+                logging.info("Using config file from command line")
                 config_source_file = args.config_file
             else:
                 config_source_file = settings_input["config_file"]
@@ -487,7 +489,8 @@ if __name__ == "__main__":
             error_response_list.append("config-file is required")
 
         if str(args.defaults_file) != "None" or (settings_file_exists and "defaults_file" in settings_input):
-            if str(args.config_file) != "None":
+            if str(args.defaults_file) != "None":
+                logging.info("Using defaults file from command line")
                 defaults_source_file = args.defaults_file
             else:
                 defaults_source_file = settings_input["defaults_file"]
@@ -500,6 +503,7 @@ if __name__ == "__main__":
 
         if str(args.security_checks_file) != "Default" or (settings_file_exists and "security_checks_file" in settings_input):
             if str(args.security_checks_file) != "Default":
+                logging.info("Using security checks file from command line")
                 sec_source_file = args.security_checks_file
             else:
                 sec_source_file = settings_input["security_checks_file"]
@@ -508,6 +512,7 @@ if __name__ == "__main__":
             security_checks_input = get_config.security_checks("default")
 
         if str(args.swagger_file) != "None":
+            logging.info("Using swagger file from command line")
             swagger_input = get_config.swagger(args.swagger_file)
         else:
             swagger_input = "None"
