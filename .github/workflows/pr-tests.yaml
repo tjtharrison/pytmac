@@ -3,31 +3,31 @@ on:
     pull_request:
         branches:
             - "main"
-        paths:
-          - "**.py"
     workflow_dispatch:
 
 permissions: read-all
 
 jobs:
     unit-tests:
-        runs-on: "ubuntu-latest"
-        strategy:
-            matrix:
-                python-version: [ "3.9", "3.10", "3.11" ]
-        steps:
-            - name: "Checkout code"
-              uses: "actions/checkout@v3"
-            - name: "Setup Python ${{ matrix.python-version }}"
-              uses: "actions/setup-python@v4"
-              with:
-                  python-version: "${{ matrix.python-version }}"
-            - name: "Install requirements"
-              run: |
-                  pip3 install -r requirements.txt
-                  sudo apt-get update
-                  sudo apt-get -y install plantuml
-            - name: "Unit tests"
-              run: |
-                  mkdir tests/reports
-                  make test
+      # Only run when pull request contains Python files
+      if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.changed_files, '.py') }}
+      runs-on: "ubuntu-latest"
+      strategy:
+          matrix:
+              python-version: [ "3.9", "3.10", "3.11" ]
+      steps:
+          - name: "Checkout code"
+            uses: "actions/checkout@v3"
+          - name: "Setup Python ${{ matrix.python-version }}"
+            uses: "actions/setup-python@v4"
+            with:
+                python-version: "${{ matrix.python-version }}"
+          - name: "Install requirements"
+            run: |
+                pip3 install -r requirements.txt
+                sudo apt-get update
+                sudo apt-get -y install plantuml
+          - name: "Unit tests"
+            run: |
+                mkdir tests/reports
+                make test

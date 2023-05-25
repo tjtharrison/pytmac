@@ -3,14 +3,14 @@ name: "CodeQL"
 on:
   pull_request:
     branches: [ "main" ]
-    paths:
-      - "**.py"
   schedule:
     - cron: '27 3 * * 1'
 
 permissions: read-all
 
 jobs:
+  # Only run when pull request contains Python files
+  if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.changed_files, '.py') }}
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
