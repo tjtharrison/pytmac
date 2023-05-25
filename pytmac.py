@@ -87,12 +87,12 @@ args = parser.parse_args()
 
 
 def main(
-        resources_yaml,
-        config_yaml,
-        defaults_yaml,
-        security_checks_yaml,
-        output_dir,
-        swagger_json="",
+    resources_yaml,
+    config_yaml,
+    defaults_yaml,
+    security_checks_yaml,
+    output_dir,
+    swagger_json="",
 ):
     """
     Main function used to open up provided config and resource files, generating DFD and output
@@ -148,8 +148,8 @@ def main(
             }
             # Append swagger endpoint to default swagger_resource_type resources
             if (
-                    resources_yaml["resources"][config_yaml["swagger_resource_type"]]
-                    == None
+                resources_yaml["resources"][config_yaml["swagger_resource_type"]]
+                == None
             ):
                 resources_yaml["resources"][config_yaml["swagger_resource_type"]] = []
                 resources_yaml["resources"][
@@ -157,15 +157,15 @@ def main(
                 ].append(swagger_path_detail)
             else:
                 if isinstance(
-                        resources_yaml["resources"][config_yaml["swagger_resource_type"]],
-                        dict,
+                    resources_yaml["resources"][config_yaml["swagger_resource_type"]],
+                    dict,
                 ):
                     resources_yaml["resources"][
                         config_yaml["swagger_resource_type"]
                     ] | (swagger_path_detail)
                 elif isinstance(
-                        resources_yaml["resources"][config_yaml["swagger_resource_type"]],
-                        list,
+                    resources_yaml["resources"][config_yaml["swagger_resource_type"]],
+                    list,
                 ):
                     resources_yaml["resources"][
                         config_yaml["swagger_resource_type"]
@@ -185,11 +185,11 @@ def main(
     output_file_name = "report-" + str(date.today())
 
     with open(
-            output_file_dir + "/" + output_file_name + ".md", "w+", encoding="UTF-8"
+        output_file_dir + "/" + output_file_name + ".md", "w+", encoding="UTF-8"
     ) as output_file:
         # Build out json report
         with open(
-                output_file_dir + "/" + output_file_name + ".yaml", "w", encoding="UTF-8"
+            output_file_dir + "/" + output_file_name + ".yaml", "w", encoding="UTF-8"
         ) as output_yaml:
             # Start empty json for output report
             output_yaml_report = {}
@@ -422,20 +422,20 @@ def main(
                 )
                 for response in insecure_resources:
                     response_detail = (
-                            "| "
-                            + response["name"]
-                            + " | "
-                            + response["resource"]
-                            + " | "
-                            + response["description"]
-                            + " | "
-                            + response["remediation"]
-                            + " | "
-                            + response["check_query"]
-                            + " | "
-                            + str(response["severity"])
-                            + " | "
-                            + "\n"
+                        "| "
+                        + response["name"]
+                        + " | "
+                        + response["resource"]
+                        + " | "
+                        + response["description"]
+                        + " | "
+                        + response["remediation"]
+                        + " | "
+                        + response["check_query"]
+                        + " | "
+                        + str(response["severity"])
+                        + " | "
+                        + "\n"
                     )
                     output_file.write(response_detail)
 
@@ -472,7 +472,7 @@ if __name__ == "__main__":
 
         error_response_list = []
         if str(args.resources_file) != "None" or (
-                settings_file_exists and "resource_file" in settings_input
+            settings_file_exists and "resource_file" in settings_input
         ):
             if str(args.resources_file) != "None":
                 logging.info("Using resources file from command line")
@@ -486,7 +486,7 @@ if __name__ == "__main__":
             )
 
         if str(args.config_file) != "None" or (
-                settings_file_exists and "config_file" in settings_input
+            settings_file_exists and "config_file" in settings_input
         ):
             if str(args.config_file) != "None":
                 logging.info("Using config file from command line")
@@ -504,7 +504,7 @@ if __name__ == "__main__":
             error_response_list.append("config-file is required")
 
         if str(args.defaults_file) != "None" or (
-                settings_file_exists and "defaults_file" in settings_input
+            settings_file_exists and "defaults_file" in settings_input
         ):
             if str(args.defaults_file) != "None":
                 logging.info("Using defaults file from command line")
@@ -521,7 +521,7 @@ if __name__ == "__main__":
             error_response_list.append("defaults-file is required")
 
         if str(args.security_checks_file) != "Default" or (
-                settings_file_exists and "security_checks_file" in settings_input
+            settings_file_exists and "security_checks_file" in settings_input
         ):
             if str(args.security_checks_file) != "Default":
                 logging.info("Using security checks file from command line")
