@@ -12,6 +12,7 @@ import sys
 from copy import deepcopy
 from datetime import date
 
+import inquirer as inquirer
 import yaml
 
 from _version import __version__
@@ -81,6 +82,11 @@ parser.add_argument(
     action="store",
     default="None",
     help="[Default: None] The path to the swagger file (optional)",
+)
+parser.add_argument(
+    "--init",
+    action="store_true",
+    help="Enable directory initialisation mode",
 )
 
 args = parser.parse_args()
@@ -453,6 +459,40 @@ def main(
 if __name__ == "__main__":
     if args.version:
         print(VERSION)
+    elif args.init:
+        print("Okay lets get your directory setup for pytmac!")
+        project_name = input("First, what shall we name your project? ")
+        project_description = input("What is your project about? ")
+        config_directory = input(
+            "Where shall we store your configuration files? (default: ./docs) "
+        ) or "docs"
+
+        print("Checking for local directory")
+        if not os.path.exists(config_directory):
+            print("Creating local directory")
+            os.makedirs(config_directory)
+
+        #### Load demo config file and update with user input
+        config_input = get_config.config("demo")
+        config_input["title"] = project_name
+        config_input["description"] = [project_description]
+
+        print("Creating config file")
+        config_file = config_directory + "/config.yaml"
+        try:
+            with open(config_file, "w", encoding="UTF-8") as config_file_update:
+                yaml.dump(config_input, config_file_update)
+        except OSError:
+            logging.error("Unable to write to %s", config_file)
+            sys.exit(1)
+
+        # questions = [inquirer.Checkbox(
+        #     'interests',
+        #     message="What are you interested in?",
+        #     choices=['Computers', 'Books', 'Science', 'Nature', 'Fantasy', 'History'],
+        # )]
+        # answers = inquirer.prompt(questions)  # returns a dict
+        # print(answers['interests'])
     elif args.demo:
         logging.info("Running in demonstration mode")
         resources_input = get_config.resources("demo")
