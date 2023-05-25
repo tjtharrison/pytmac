@@ -28,7 +28,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: "Code format"
-        if: ${{ steps.changed-files.outputs.python_changed == "true }}"
+        if: ${{ steps.changed-files.outputs.python_changed }} == "true "
         run: |
           pip3 install isort pylint black darglint
           find . -name "*.py" -not -path "./tests/*" -exec python3 -m isort {} \; -exec python3 -m black {} \;
