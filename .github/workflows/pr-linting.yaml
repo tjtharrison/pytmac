@@ -16,12 +16,19 @@ jobs:
       - name: "Checkout code"
         uses: "actions/checkout@v3"
       - name: "Get changed files"
+        id: changed-files
         run: |
-          gh pr view ${{ github.event.number }} --json files > changed_files.json
-          cat changed_files.json
+          changed_files=$(gh pr view ${{ github.event.number }} --json files)
+          
+          if [[ $(echo changed_files | jq -r '.files[] | select(.path | contains(".py")) | .path') > 0 ]]; then
+              echo "python_changed=true" >> "$GITHUB_OUTPUT"
+          else
+              echo "python_changed=false" >> "$GITHUB_OUTPUT"
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: "Code format"
+        if: ${{ steps.changed-files.outputs.python_changed == "true }}"
         run: |
           pip3 install isort pylint black darglint
           find . -name "*.py" -not -path "./tests/*" -exec python3 -m isort {} \; -exec python3 -m black {} \;
