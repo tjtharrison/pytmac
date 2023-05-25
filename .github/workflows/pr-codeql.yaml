@@ -9,9 +9,9 @@ on:
 permissions: read-all
 
 jobs:
-  # Only run when pull request contains Python files
-  if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.changed_files, '.py') }}
   analyze:
+    # Only run when pull request contains Python files
+    if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.changed_files, '.py') }}
     name: Analyze
     runs-on: ubuntu-latest
     permissions:
