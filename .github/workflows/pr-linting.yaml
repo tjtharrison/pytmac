@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: "Get changed files"
         run: |
-          gh pr view ${{ github.event.number }} --json changed_files > changed_files.json
+          gh pr view ${{ github.event.number }} --json files > changed_files.json
           cat changed_files.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
