@@ -3,6 +3,8 @@ on:
     pull_request:
         branches:
             - "main"
+        paths:
+          - "**.py"
     workflow_dispatch:
 
 permissions: read-all
@@ -10,8 +12,6 @@ permissions: read-all
 jobs:
     unit-tests:
       name: Unit Tests
-      # Only run when pull request contains Python files
-      if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.changed_files, '.py') }}
       runs-on: "ubuntu-latest"
       strategy:
           matrix:

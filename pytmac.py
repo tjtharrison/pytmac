@@ -87,12 +87,12 @@ args = parser.parse_args()
 
 
 def main(
-    resources_yaml,
-    config_yaml,
-    defaults_yaml,
-    security_checks_yaml,
-    output_dir,
-    swagger_json="",
+        resources_yaml,
+        config_yaml,
+        defaults_yaml,
+        security_checks_yaml,
+        output_dir,
+        swagger_json="",
 ):
     """
     Main function used to open up provided config and resource files, generating DFD and output
@@ -148,8 +148,8 @@ def main(
             }
             # Append swagger endpoint to default swagger_resource_type resources
             if (
-                resources_yaml["resources"][config_yaml["swagger_resource_type"]]
-                == None
+                    resources_yaml["resources"][config_yaml["swagger_resource_type"]]
+                    == None
             ):
                 resources_yaml["resources"][config_yaml["swagger_resource_type"]] = []
                 resources_yaml["resources"][
@@ -157,15 +157,15 @@ def main(
                 ].append(swagger_path_detail)
             else:
                 if isinstance(
-                    resources_yaml["resources"][config_yaml["swagger_resource_type"]],
-                    dict,
+                        resources_yaml["resources"][config_yaml["swagger_resource_type"]],
+                        dict,
                 ):
                     resources_yaml["resources"][
                         config_yaml["swagger_resource_type"]
                     ] | (swagger_path_detail)
                 elif isinstance(
-                    resources_yaml["resources"][config_yaml["swagger_resource_type"]],
-                    list,
+                        resources_yaml["resources"][config_yaml["swagger_resource_type"]],
+                        list,
                 ):
                     resources_yaml["resources"][
                         config_yaml["swagger_resource_type"]
@@ -185,11 +185,11 @@ def main(
     output_file_name = "report-" + str(date.today())
 
     with open(
-        output_file_dir + "/" + output_file_name + ".md", "w+", encoding="UTF-8"
+            output_file_dir + "/" + output_file_name + ".md", "w+", encoding="UTF-8"
     ) as output_file:
         # Build out json report
         with open(
-            output_file_dir + "/" + output_file_name + ".yaml", "w", encoding="UTF-8"
+                output_file_dir + "/" + output_file_name + ".yaml", "w", encoding="UTF-8"
         ) as output_yaml:
             # Start empty json for output report
             output_yaml_report = {}
@@ -422,20 +422,20 @@ def main(
                 )
                 for response in insecure_resources:
                     response_detail = (
-                        "| "
-                        + response["name"]
-                        + " | "
-                        + response["resource"]
-                        + " | "
-                        + response["description"]
-                        + " | "
-                        + response["remediation"]
-                        + " | "
-                        + response["check_query"]
-                        + " | "
-                        + str(response["severity"])
-                        + " | "
-                        + "\n"
+                            "| "
+                            + response["name"]
+                            + " | "
+                            + response["resource"]
+                            + " | "
+                            + response["description"]
+                            + " | "
+                            + response["remediation"]
+                            + " | "
+                            + response["check_query"]
+                            + " | "
+                            + str(response["severity"])
+                            + " | "
+                            + "\n"
                     )
                     output_file.write(response_detail)
 
@@ -461,56 +461,96 @@ if __name__ == "__main__":
         security_checks_input = get_config.security_checks("default")
         swagger_input = get_config.swagger("demo")
     else:
-        if str(args.resources_file) != "None":
-            if args.resources_file == "test":
-                resources_input = get_config.resources("demo")
-            else:
-                resources_input = get_config.resources(args.resources_file)
+        # Check if .pytmac file exists
+        if os.path.isfile(".pytmac"):
+            settings_file_exists = True
+            logging.info("Found .pytmac settings file")
+            settings_input = get_config.settings()
         else:
-            logging.error("--resource-file is required, see --help for details")
-            sys.exit(1)
+            settings_file_exists = False
+            logging.info("No settings file found")
 
-        if str(args.config_file) != "None":
-            if args.config_file == "test":
-                config_input = get_config.config("demo")
+        error_response_list = []
+        if str(args.resources_file) != "None" or (
+                settings_file_exists and "resource_file" in settings_input
+        ):
+            if str(args.resources_file) != "None":
+                logging.info("Using resources file from command line")
+                resource_source_file = args.resources_file
             else:
-                config_input = get_config.config(args.config_file)
+                resource_source_file = settings_input["resource_file"]
+            resources_input = get_config.resources(resource_source_file)
         else:
-            logging.error("--config-file is required, see --help for details")
-            sys.exit(1)
+            error_response_list.append(
+                "resource-file is required, see --help for details"
+            )
 
-        if str(args.defaults_file) != "None":
-            if args.defaults_file == "test":
-                defaults_input = get_config.defaults("demo")
+        if str(args.config_file) != "None" or (
+                settings_file_exists and "config_file" in settings_input
+        ):
+            if str(args.config_file) != "None":
+                logging.info("Using config file from command line")
+                config_source_file = args.config_file
             else:
-                defaults_input = get_config.defaults(args.defaults_file)
+                config_source_file = settings_input["config_file"]
+
+            try:
+                config_input = get_config.config(config_source_file)
+            except Exception as error_message:
+                error_response_list.append(
+                    "Error loading config file: " + str(error_message)
+                )
         else:
-            logging.error("--defaults-file is required, see --help for details")
-            sys.exit(1)
+            error_response_list.append("config-file is required")
 
-        if str(args.security_checks_file) != "Default":
-            if args.security_checks_file == "test":
-                security_checks_input = get_config.security_checks("default")
+        if str(args.defaults_file) != "None" or (
+                settings_file_exists and "defaults_file" in settings_input
+        ):
+            if str(args.defaults_file) != "None":
+                logging.info("Using defaults file from command line")
+                defaults_source_file = args.defaults_file
             else:
-                security_checks_input = get_config.config(args.security_checks_file)
+                defaults_source_file = settings_input["defaults_file"]
+            try:
+                defaults_input = get_config.defaults(defaults_source_file)
+            except Exception as error_message:
+                error_response_list.append(
+                    "Error loading defaults file: " + str(error_message)
+                )
+        else:
+            error_response_list.append("defaults-file is required")
+
+        if str(args.security_checks_file) != "Default" or (
+                settings_file_exists and "security_checks_file" in settings_input
+        ):
+            if str(args.security_checks_file) != "Default":
+                logging.info("Using security checks file from command line")
+                sec_source_file = args.security_checks_file
+            else:
+                sec_source_file = settings_input["security_checks_file"]
+            security_checks_input = get_config.security_checks(sec_source_file)
         else:
             security_checks_input = get_config.security_checks("default")
 
         if str(args.swagger_file) != "None":
-            if args.swagger_file == "test":
-                swagger_input = get_config.swagger("demo")
-            else:
-                swagger_input = get_config.swagger(args.swagger_file)
+            logging.info("Using swagger file from command line")
+            swagger_input = get_config.swagger(args.swagger_file)
         else:
             swagger_input = "None"
 
-        logging.info("Requires input")
+        if len(error_response_list) > 0:
+            logging.error(
+                "Error loading configuration files: "
+                + ", ".join(error_response_list)
+                + ". See --help for details"
+            )
+            exit(1)
 
-    main(
-        resources_input,
-        config_input,
-        defaults_input,
-        security_checks_input,
-        args.output_dir,
-        swagger_input,
-    )
+        main(
+            resources_input,
+            config_input,
+            defaults_input,
+            security_checks_input,
+            args.output_dir,
+            swagger_input,
+        )
