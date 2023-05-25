@@ -107,7 +107,9 @@ def security_checks(file):
                 )
 
     except FileNotFoundError as error_message:
-        raise FileNotFoundError("No security_checks file found at " + file) from error_message
+        raise FileNotFoundError(
+            "No security_checks file found at " + file
+        ) from error_message
 
     return security_checks_yaml
 
@@ -131,9 +133,13 @@ def swagger(file):
             try:
                 swagger_json = json.loads(swagger_file.read())
             except Exception as error_message:
-                raise Exception("Failed to load SWAGGER_FILE: " + error_message) from error_message
+                raise Exception(
+                    "Failed to load SWAGGER_FILE: " + error_message
+                ) from error_message
     except FileNotFoundError as error_message:
-        raise FileNotFoundError("No swagger.json file found at " + file) from error_message
+        raise FileNotFoundError(
+            "No swagger.json file found at " + file
+        ) from error_message
 
     return swagger_json
 
@@ -156,6 +162,8 @@ def settings():
                     "Failed to load SECURITY_CHECKS_FILE: " + error_message
                 )
     except FileNotFoundError as error_message:
-        raise FileNotFoundError("No .pytmac file found in current directory") from error_message
+        raise FileNotFoundError(
+            "No .pytmac file found in current directory"
+        ) from error_message
 
     return settings_yaml
