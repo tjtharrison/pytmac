@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v3.3.2 (2023-05-25)
+### Fix
+* More manual linting ([`2882252`](https://github.com/tjtharrison/pytmac/commit/2882252f02360fb90a80e00504f475c70900cac0))
+* Restoring settings file setting that got removed during pr tennis ([`71fc617`](https://github.com/tjtharrison/pytmac/commit/71fc6172850e94ff4117960f589f6ca77071c14c))
+
 ## v3.3.1 (2023-05-24)
 ### Fix
 * Removed test invalid docstring ([`e560a6d`](https://github.com/tjtharrison/pytmac/commit/e560a6d605c5850d09dd8d7690f44de067d3b68e))
