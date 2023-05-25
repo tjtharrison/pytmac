@@ -149,7 +149,7 @@ def main(
             # Append swagger endpoint to default swagger_resource_type resources
             if (
                 resources_yaml["resources"][config_yaml["swagger_resource_type"]]
-                == None
+                is None
             ):
                 resources_yaml["resources"][config_yaml["swagger_resource_type"]] = []
                 resources_yaml["resources"][
@@ -463,16 +463,16 @@ if __name__ == "__main__":
     else:
         # Check if .pytmac file exists
         if os.path.isfile(".pytmac"):
-            settings_file_exists = True
+            SETTINGS_FILE_EXISTS = True
             logging.info("Found .pytmac settings file")
             settings_input = get_config.settings()
         else:
-            settings_file_exists = False
+            SETTINGS_FILE_EXISTS = False
             logging.info("No settings file found")
 
         error_response_list = []
         if str(args.resources_file) != "None" or (
-            settings_file_exists and "resource_file" in settings_input
+            SETTINGS_FILE_EXISTS and "resource_file" in settings_input
         ):
             if str(args.resources_file) != "None":
                 logging.info("Using resources file from command line")
@@ -486,7 +486,7 @@ if __name__ == "__main__":
             )
 
         if str(args.config_file) != "None" or (
-            settings_file_exists and "config_file" in settings_input
+            SETTINGS_FILE_EXISTS and "config_file" in settings_input
         ):
             if str(args.config_file) != "None":
                 logging.info("Using config file from command line")
@@ -504,7 +504,7 @@ if __name__ == "__main__":
             error_response_list.append("config-file is required")
 
         if str(args.defaults_file) != "None" or (
-            settings_file_exists and "defaults_file" in settings_input
+            SETTINGS_FILE_EXISTS and "defaults_file" in settings_input
         ):
             if str(args.defaults_file) != "None":
                 logging.info("Using defaults file from command line")
@@ -521,7 +521,7 @@ if __name__ == "__main__":
             error_response_list.append("defaults-file is required")
 
         if str(args.security_checks_file) != "Default" or (
-            settings_file_exists and "security_checks_file" in settings_input
+            SETTINGS_FILE_EXISTS and "security_checks_file" in settings_input
         ):
             if str(args.security_checks_file) != "Default":
                 logging.info("Using security checks file from command line")
@@ -534,9 +534,9 @@ if __name__ == "__main__":
 
         if str(args.swagger_file) != "None":
             logging.info("Using swagger file from command line")
-            swagger_input = get_config.swagger(args.swagger_file)
+            SWAGGER_INPUT = get_config.swagger(args.swagger_file)
         else:
-            swagger_input = "None"
+            SWAGGER_INPUT = "None"
 
         if len(error_response_list) > 0:
             logging.error(
@@ -544,7 +544,7 @@ if __name__ == "__main__":
                 + ", ".join(error_response_list)
                 + ". See --help for details"
             )
-            exit(1)
+            sys.exit(1)
 
         main(
             resources_input,
@@ -552,5 +552,5 @@ if __name__ == "__main__":
             defaults_input,
             security_checks_input,
             args.output_dir,
-            swagger_input,
+            SWAGGER_INPUT,
         )
