@@ -3,14 +3,13 @@ on:
   pull_request:
     branches:
       - "main"
-
+    paths:
+      - ".github/workflows/**
 permissions: read-all
 
 jobs:
   actionlint:
     name: Action Linting
-    # Only run when pull request contains Python files
-    if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.changed_files, '.yaml') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
