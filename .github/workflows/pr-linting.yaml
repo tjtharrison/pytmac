@@ -11,10 +11,12 @@ permissions:
 jobs:
   code-linting:
     name: Code Linting
-    # Only run when pull request contains Python files
-    if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.changed_files, '.py') }}
     runs-on: "ubuntu-latest"
     steps:
+      - name: "Get changed files"
+        run: |
+          gh pr view ${{ github.event.number }} --json changed_files > changed_files.json
+          cat changed_files.json
       - name: "Checkout code"
         uses: "actions/checkout@v3"
       - name: "Code format"
