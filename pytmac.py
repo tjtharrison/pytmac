@@ -501,6 +501,9 @@ if __name__ == "__main__":
 
         # Add some resources
         networks = []
+        users = []
+        databases = []
+        systems = []
         while True:
             if len(networks) > 0:
                 more_networks = input(
@@ -524,9 +527,6 @@ if __name__ == "__main__":
                 ).replace(" ", "_").lower()
                 networks.append(network_name)
 
-        users = []
-        databases = []
-        systems = []
         for network in networks:
             # Add some users
             while True:
@@ -582,7 +582,6 @@ if __name__ == "__main__":
                 else:
                     print("Please enter either yes or no. " + more_systems + " entered")
 
-
         all_resources = {
             "resources": {
                 "networks": networks,
@@ -601,7 +600,6 @@ if __name__ == "__main__":
         except yaml.YAMLError:
             logging.error("Unable to write resources file")
             sys.exit(1)
-
 
         # Return summary
         init.return_summary(project_config)
