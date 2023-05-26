@@ -202,8 +202,12 @@ def main(
             output_yaml_report = {}
             # Write intro into markdown
             output_file.write("# " + config_yaml["title"] + "\n")
-            for description_line in config_yaml["description"]:
-                output_file.write(description_line + "\n\n")
+            if type(config_yaml["description"]) == list:
+                for description_line in config_yaml["description"]:
+                    output_file.write(description_line + "\n")
+            else:
+                output_file.write(config_yaml["description"])
+            output_file.write("\n\n")
 
             # Write wrapper for DFD
             output_file.write("# Data Flow Diagram\n")
@@ -654,6 +658,19 @@ if __name__ == "__main__":
             sys.exit(1)
         except yaml.YAMLError:
             logging.error("Unable to write resources file")
+            sys.exit(1)
+
+        # Create .pytmac file
+        try:
+            with open(".pytmac", "w", encoding="utf-8") as settings_file:
+                settings_file.write("resource_file: \"" + project_config["config_directory"] + "/resources.yaml\"")
+                settings_file.write("\n")
+                settings_file.write("config_file: \"" + project_config["config_directory"] + "/config.yaml\"")
+                settings_file.write("\n")
+                settings_file.write("defaults_file: \"" + project_config["config_directory"] + "/defaults.yaml\"")
+                settings_file.write("\n")
+        except OSError:
+            logging.error("Unable to write settings file")
             sys.exit(1)
 
         # Return summary
