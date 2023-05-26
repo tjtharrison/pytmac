@@ -11,6 +11,7 @@ import subprocess
 import sys
 from copy import deepcopy
 from datetime import date
+from bin import init
 
 import inquirer as inquirer
 import yaml
@@ -460,31 +461,83 @@ if __name__ == "__main__":
     if args.version:
         print(VERSION)
     elif args.init:
-        print("Okay lets get your directory setup for pytmac!")
-        project_name = input("First, what shall we name your project? ")
-        project_description = input("What is your project about? ")
-        config_directory = input(
-            "Where shall we store your configuration files? (default: ./docs) "
-        ) or "docs"
 
-        print("Checking for local directory")
-        if not os.path.exists(config_directory):
-            print("Creating local directory")
-            os.makedirs(config_directory)
+        # # Get config inputs from user
+        # try:
+        #     project_config = init.get_inputs()
+        # except KeyboardInterrupt:
+        #     print("\n\nOkay, maybe later!")
+        #     sys.exit(1)
+        #
+        # # Create config file directory
+        # try:
+        #     init.create_directory(project_config["config_directory"])
+        # except OSError:
+        #     logging.error("Unable to create %s", project_config["config_directory"])
+        #     sys.exit(1)
+        #
+        # # Create config file
+        # try:
+        #     init.create_config_file(project_config)
+        # except OSError as error_message:
+        #     print("Unable to get demo config file: " + str(error_message))
+        #     sys.exit(1)
+        # except KeyError as error_message:
+        #     print("Values provided are not valid" + str(error_message))
+        #     sys.exit(1)
+        # except yaml.YAMLError as error_message:
+        #     print("Unable to write config file: " +  str(error_message))
+        #     sys.exit(1)
+        #
+        # # Create defaults file
+        # try:
+        #     init.create_defaults_file(project_config)
+        # except OSError:
+        #     logging.error("Unable to write defaults file")
+        #     sys.exit(1)
+        # except yaml.YAMLError:
+        #     logging.error("Unable to write defaults file")
+        #     sys.exit(1)
 
-        #### Load demo config file and update with user input
-        config_input = get_config.config("demo")
-        config_input["title"] = project_name
-        config_input["description"] = [project_description]
+        # Add some resources
+        networks = []
+        while True:
+            if len(networks) > 0:
+                more_networks = input(
+                    "Do you have any more networks to add? (yes/no) "
+                ).lower()
+                if more_networks == "yes":
+                    network_name = input(
+                        "Please enter the name of your next network? "
+                    ).replace(" ", "_")
+                    networks.append(
+                        {"name": network_name}
+                    )
+                elif more_networks == "no":
+                    print("Moving on then..")
+                    break
+                else:
+                    print(
+                        "Please enter either yes or no. " + more_networks + " entered"
+                    )
+            else:
+                network_name = input(
+                    "Please enter the name of your first network? "
+                ).replace(" ", "_")
+                networks.append(
+                    {"name": network_name}
+                )
 
-        print("Creating config file")
-        config_file = config_directory + "/config.yaml"
-        try:
-            with open(config_file, "w", encoding="UTF-8") as config_file_update:
-                yaml.dump(config_input, config_file_update)
-        except OSError:
-            logging.error("Unable to write to %s", config_file)
-            sys.exit(1)
+
+
+        all_resources = {
+            "networks": networks
+        }
+
+        print(str(all_resources))
+
+        # Return summary
+        # init.return_summary(project_config)
 
         # questions = [inquirer.Checkbox(
         #     'interests',
