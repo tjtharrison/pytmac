@@ -513,7 +513,9 @@ if __name__ == "__main__":
                     network_name = input(
                         "Please enter the name of your next network? "
                     ).replace(" ", "_").lower()
-                    networks.append(network_name)
+                    networks.append({
+                        "name": network_name
+                    })
                 elif more_networks == "no":
                     print("Moving on then..")
                     break
@@ -525,9 +527,12 @@ if __name__ == "__main__":
                 network_name = input(
                     "Please enter the name of your first network? "
                 ).replace(" ", "_").lower()
-                networks.append(network_name)
+                networks.append({
+                    "name": network_name
+                })
 
         for network in networks:
+            network = network["name"]
             # Add some users
             while True:
                 more_users = input("Do you have any more users to add on network " + network +  " ? (yes/no) ").lower()
@@ -591,9 +596,59 @@ if __name__ == "__main__":
             }
         }
 
+        # Get all resources
+        all_resource_names = []
+        for key in all_resources["resources"]:
+            if key != "networks":
+                for resource in all_resources["resources"][key]:
+                    all_resource_names.append(resource["name"])
+
+
+        # Create some links between resources
+        links = []
+        while True:
+            more_links = input("Do you have any more links to add? (yes/no) ").lower()
+            if more_links == "yes":
+                questions = [
+                    inquirer.List(
+                        "source",
+                        message="What is the source?",
+                        choices=all_resource_names,
+                    ),
+                    inquirer.List(
+                        "destination",
+                        message="What is the destination?",
+                        choices=all_resource_names,
+                    ),
+                ]
+                answers = inquirer.prompt(questions)
+
+                link_desription = input("Please enter a description for the link between " + answers["source"] + " and " + answers["destination"] + " ? ")
+
+                links.append({
+                    "source": answers["source"],
+                    "destination": answers["destination"],
+                    "description": link_desription
+                })
+            elif more_links == "no":
+                break
+            else:
+                print("Please enter either yes or no. " + more_links + " entered")
+
+        final_resources = {
+            "resources": {
+                "networks": networks,
+                "users": users,
+                "databases": databases,
+                "systems": systems,
+                "res_links": links,
+                "containers": []
+            }
+        }
+
         # Write resources to file
         try:
-            init.create_resources_file(project_config, all_resources)
+            init.create_resources_file(project_config, final_resources)
         except OSError:
             logging.error("Unable to write resources file")
             sys.exit(1)
