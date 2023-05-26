@@ -90,14 +90,36 @@ def return_summary(project_config):
     """
     Returns a summary of the project configuration
 
-    :param project_config:
+    :param project_config: User provided input for project.
     :return: True if summary was returned
     """
 
-    print("\n",
+    print("\n".join([
+        "",
         "Great! Project " + project_config["project_name"] + " created! 🫡",
+        "Config files stored in " + project_config["config_directory"] + " 📁",
         "You can now run pytmac with `pytmac` 🚀",
         "You can also run `pytmac --help` for more options 📚",
-        "\n",
-          "Happy threat modelling! 🕵️"
-    )
+        "",
+        "Happy threat modelling! 🕵️"
+    ]))
+
+def create_resources_file(project_config, all_resources):
+    """
+    Creates a resources file for the project
+
+    :param project_config:  User provided input for project.
+    :param all_resources: json file with all resources
+    :return: True if resources file was created
+    """
+
+    resources_file = project_config["config_directory"] + "/resources.yaml"
+    try:
+        with open(resources_file, "w", encoding="UTF-8") as resources_file_update:
+            yaml.dump(all_resources, resources_file_update)
+    except OSError as error_message:
+        raise OSError from error_message
+    except yaml.YAMLError as error_message:
+        raise yaml.YAMLError from error_message
+
+    return True

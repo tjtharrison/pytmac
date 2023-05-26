@@ -462,42 +462,42 @@ if __name__ == "__main__":
         print(VERSION)
     elif args.init:
 
-        # # Get config inputs from user
-        # try:
-        #     project_config = init.get_inputs()
-        # except KeyboardInterrupt:
-        #     print("\n\nOkay, maybe later!")
-        #     sys.exit(1)
-        #
-        # # Create config file directory
-        # try:
-        #     init.create_directory(project_config["config_directory"])
-        # except OSError:
-        #     logging.error("Unable to create %s", project_config["config_directory"])
-        #     sys.exit(1)
-        #
-        # # Create config file
-        # try:
-        #     init.create_config_file(project_config)
-        # except OSError as error_message:
-        #     print("Unable to get demo config file: " + str(error_message))
-        #     sys.exit(1)
-        # except KeyError as error_message:
-        #     print("Values provided are not valid" + str(error_message))
-        #     sys.exit(1)
-        # except yaml.YAMLError as error_message:
-        #     print("Unable to write config file: " +  str(error_message))
-        #     sys.exit(1)
-        #
-        # # Create defaults file
-        # try:
-        #     init.create_defaults_file(project_config)
-        # except OSError:
-        #     logging.error("Unable to write defaults file")
-        #     sys.exit(1)
-        # except yaml.YAMLError:
-        #     logging.error("Unable to write defaults file")
-        #     sys.exit(1)
+        # Get config inputs from user
+        try:
+            project_config = init.get_inputs()
+        except KeyboardInterrupt:
+            print("\n\nOkay, maybe later!")
+            sys.exit(1)
+
+        # Create config file directory
+        try:
+            init.create_directory(project_config["config_directory"])
+        except OSError:
+            logging.error("Unable to create %s", project_config["config_directory"])
+            sys.exit(1)
+
+        # Create config file
+        try:
+            init.create_config_file(project_config)
+        except OSError as error_message:
+            print("Unable to get demo config file: " + str(error_message))
+            sys.exit(1)
+        except KeyError as error_message:
+            print("Values provided are not valid" + str(error_message))
+            sys.exit(1)
+        except yaml.YAMLError as error_message:
+            print("Unable to write config file: " + str(error_message))
+            sys.exit(1)
+
+        # Create defaults file
+        try:
+            init.create_defaults_file(project_config)
+        except OSError:
+            logging.error("Unable to write defaults file")
+            sys.exit(1)
+        except yaml.YAMLError:
+            logging.error("Unable to write defaults file")
+            sys.exit(1)
 
         # Add some resources
         networks = []
@@ -509,10 +509,8 @@ if __name__ == "__main__":
                 if more_networks == "yes":
                     network_name = input(
                         "Please enter the name of your next network? "
-                    ).replace(" ", "_")
-                    networks.append(
-                        {"name": network_name}
-                    )
+                    ).replace(" ", "_").lower()
+                    networks.append(network_name)
                 elif more_networks == "no":
                     print("Moving on then..")
                     break
@@ -523,29 +521,91 @@ if __name__ == "__main__":
             else:
                 network_name = input(
                     "Please enter the name of your first network? "
-                ).replace(" ", "_")
-                networks.append(
-                    {"name": network_name}
-                )
+                ).replace(" ", "_").lower()
+                networks.append(network_name)
 
+        users = []
+        databases = []
+        systems = []
+        for network in networks:
+            # Add some users
+            while True:
+                more_users = input("Do you have any more users to add on network " + network +  " ? (yes/no) ").lower()
+                if more_users == "yes":
+                    user_name = input("Please enter the name of your user? ").replace(" ", "_").lower()
+                    user_description = input("Please enter a description for " + user_name + " ? ")
+                    users.append(
+                        {
+                            "name": user_name,
+                            "description": user_description,
+                            "network": network
+                        }
+                    )
+                elif more_users == "no":
+                    break
+                else:
+                    print("Please enter either yes or no. " + more_users + " entered")
+
+            # Add some databases
+            while True:
+                more_databases = input("Do you have any more databases to add on network " + network +  " ? (yes/no) ").lower()
+                if more_databases == "yes":
+                    database_name = input("Please enter the name of your database? ").replace(" ", "_").lower()
+                    database_description = input("Please enter a description for " + database_name + " ? ")
+                    databases.append(
+                        {
+                            "name": database_name,
+                            "description": database_name,
+                            "network": network
+                        }
+                    )
+                elif more_databases == "no":
+                    break
+                else:
+                    print("Please enter either yes or no. " + more_databases + " entered")
+
+            # Add some systems
+            while True:
+                more_systems = input("Do you have any more systems to add on network " + network +  " ? (yes/no) ").lower()
+                if more_systems == "yes":
+                    system_name = input("Please enter the name of your system? ").replace(" ", "_").lower()
+                    system_description = input("Please enter a description for " + system_name + " ? ")
+                    systems.append(
+                        {
+                            "name": system_name,
+                            "description": system_description,
+                            "network": network
+                        }
+                    )
+                elif more_systems == "no":
+                    break
+                else:
+                    print("Please enter either yes or no. " + more_systems + " entered")
 
 
         all_resources = {
-            "networks": networks
+            "resources": {
+                "networks": networks,
+                "users": users,
+                "databases": databases,
+                "systems": systems
+            }
         }
 
-        print(str(all_resources))
+        # Write resources to file
+        try:
+            init.create_resources_file(project_config, all_resources)
+        except OSError:
+            logging.error("Unable to write resources file")
+            sys.exit(1)
+        except yaml.YAMLError:
+            logging.error("Unable to write resources file")
+            sys.exit(1)
+
 
         # Return summary
-        # init.return_summary(project_config)
+        init.return_summary(project_config)
 
-        # questions = [inquirer.Checkbox(
-        #     'interests',
-        #     message="What are you interested in?",
-        #     choices=['Computers', 'Books', 'Science', 'Nature', 'Fantasy', 'History'],
-        # )]
-        # answers = inquirer.prompt(questions)  # returns a dict
-        # print(answers['interests'])
     elif args.demo:
         logging.info("Running in demonstration mode")
         resources_input = get_config.resources("demo")
