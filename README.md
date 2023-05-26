@@ -30,23 +30,6 @@ Once installed, pytmac can be called from the command line with an array of argu
 
 ```
 pytmac --help
-
-options:
-  -h, --help            show this help message and exit
-  --version             Option to print the current version only
-  --demo                Run pytmac in demo mode using the demo config and resources
-  --output-dir OUTPUT_DIR
-                        [Default: reports] Set the directory for report output
-  --resources-file RESOURCES_FILE
-                        The path to the resources file
-  --config-file CONFIG_FILE
-                        The path to the config file
-  --defaults-file DEFAULTS_FILE
-                        The path to the defaults file
-  --security-checks-file SECURITY_CHECKS_FILE
-                        [Default: security_checks.yaml] The path to the security-checks file
-  --swagger-file SWAGGER_FILE
-                        [Default: None] The path to the swagger file (optional)
 ```
 
 ## Demonstration
@@ -60,6 +43,16 @@ pytmac --demo
 This will write to a file called `report-[today-date].md` which can be viewed in a markdown viewer.
 
 # Configuration
+
+## Init mode
+
+pytmac can be run in init mode to generate configuration files using a combination of inputs provided and default project settings. This can be done with the following command:
+
+```bash
+pytmac --init
+```
+
+Once the initialisation has completed, you should review the generated files and make any changes required (Primary focus should be on the defaults file as this will globally define security settings for all generated resources in your project.
 
 ## Config file
 

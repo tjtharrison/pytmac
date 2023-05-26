@@ -464,8 +464,8 @@ def main(
 if __name__ == "__main__":
     if args.version:
         print(VERSION)
+        sys.exit(0)
     elif args.init:
-
         # Get config inputs from user
         try:
             project_config = init.get_inputs()
@@ -675,6 +675,7 @@ if __name__ == "__main__":
 
         # Return summary
         init.return_summary(project_config)
+        sys.exit(0)
 
     elif args.demo:
         logging.info("Running in demonstration mode")
@@ -682,7 +683,7 @@ if __name__ == "__main__":
         config_input = get_config.config("demo")
         defaults_input = get_config.defaults("demo")
         security_checks_input = get_config.security_checks("default")
-        swagger_input = get_config.swagger("demo")
+        SWAGGER_INPUT = get_config.swagger("demo")
     else:
         # Check if .pytmac file exists
         if os.path.isfile(".pytmac"):
@@ -769,11 +770,11 @@ if __name__ == "__main__":
             )
             sys.exit(1)
 
-        main(
-            resources_input,
-            config_input,
-            defaults_input,
-            security_checks_input,
-            args.output_dir,
-            SWAGGER_INPUT,
-        )
+    main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        args.output_dir,
+        SWAGGER_INPUT,
+    )
