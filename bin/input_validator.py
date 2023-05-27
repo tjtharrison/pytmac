@@ -114,20 +114,6 @@ def resources(resources_json):
         )
         return False
 
-    # Validate containers fields
-    try:
-        for container in resources_json["resources"]["containers"]:
-            name = container["name"]
-            network = container["network"]
-            description = container["description"]
-            logging.debug(
-                json.dumps(
-                    {"name": name, "network": network, "description": description}
-                )
-            )
-    except TypeError:
-        logging.debug("Containers not specified")
-
     # Validate res_link fields
     try:
         for res_link in resources_json["resources"]["res_links"]:

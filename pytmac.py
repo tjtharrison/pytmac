@@ -227,7 +227,6 @@ def main(
             output_yaml_report["databases"] = {}
             output_yaml_report["users"] = {}
             output_yaml_report["systems"] = {}
-            output_yaml_report["containers"] = {}
             # Process network resources as top wrapper
             for network in resources["networks"]:
                 # Build out network config in output
@@ -361,45 +360,6 @@ def main(
                             + "\n"
                         )
 
-                # Look for containers in network
-                try:
-                    for container in resources["containers"]:
-                        if container["network"] == network["name"]:
-                            output_yaml_report["containers"][
-                                container["name"]
-                            ] = deepcopy(defaults_yaml["systems"])
-                            # Look for override config for system
-                            try:
-                                logging.info("Overrides set for %s", container["name"])
-                                for config_setting in container["config"]:
-                                    logging.info(
-                                        "Setting "
-                                        + config_setting
-                                        + " on "
-                                        + container["name"]
-                                    )
-                                    output_yaml_report["containers"][container["name"]][
-                                        config_setting
-                                    ] = container["config"][config_setting]
-                            except KeyError:
-                                # No overrides set, nothing to do
-                                logging.info("No overrides for %s", container["name"])
-
-                            output_file.write(
-                                "\t"
-                                + "Container("
-                                + container["name"].replace("/", "_")
-                                + ","
-                                + '"'
-                                + container["name"]
-                                + ' ", "'
-                                + container["description"]
-                                + '")'
-                                + "\n"
-                            )
-                except TypeError:
-                    logging.debug("No containers found")
-                output_file.write("}" + "\n")
             # Process links between resources
             for res_links in resources["res_links"]:
                 output_file.write(
@@ -565,7 +525,6 @@ if __name__ == "__main__":
                 "databases": databases,
                 "systems": systems,
                 "res_links": links,
-                "containers": [],
             }
         }
 

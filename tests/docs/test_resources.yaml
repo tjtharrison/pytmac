@@ -1,5 +1,4 @@
 resources:
-  containers: null
   databases:
   - description: Testing database
     name: test_database

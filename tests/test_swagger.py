@@ -81,6 +81,4 @@ def test_default_setting_user():
 
 # Test Swagger to system
 
-# Test Swagger to containers
-
 # Test Swagger to Database (Should fail)
