@@ -3,8 +3,8 @@ This file contains functions for creating a new pytmac project
 """
 import os
 
-import yaml
 import inquirer
+import yaml
 
 from bin import get_config
 
@@ -164,6 +164,7 @@ def create_resources_file(project_config, all_resources):
 
     return True
 
+
 def get_networks():
     """
     Gets networks for project configuration
@@ -188,9 +189,7 @@ def get_networks():
                 print("Moving on then..")
                 break
             else:
-                print(
-                    "Please enter either yes or no. " + more_networks + " entered"
-                )
+                print("Please enter either yes or no. " + more_networks + " entered")
         else:
             network_name = (
                 input("Please enter the name of your first network? ")
@@ -205,7 +204,7 @@ def get_networks():
 def get_users(network, users):
     """
     Gets users for project configuration
-    
+
     :param network: Name of network
     :param users: List of users already added
     :return: List of users
@@ -213,15 +212,11 @@ def get_users(network, users):
 
     while True:
         more_users = input(
-            "Do you have any more users to add on network "
-            + network
-            + " ? (yes/no) "
+            "Do you have any more users to add on network " + network + " ? (yes/no) "
         ).lower()
         if more_users == "yes":
             user_name = (
-                input("Please enter the name of your user? ")
-                .replace(" ", "_")
-                .lower()
+                input("Please enter the name of your user? ").replace(" ", "_").lower()
             )
             user_description = input(
                 "Please enter a description for " + user_name + " ? "
@@ -240,10 +235,11 @@ def get_users(network, users):
 
         return users
 
+
 def get_databases(network, databases):
     """
     Gets databases for project configuration
-    
+
     :param network: Name of network
     :param databases: List of databases already added
     :return: list of databases
@@ -274,9 +270,7 @@ def get_databases(network, databases):
         elif more_databases == "no":
             break
         else:
-            print(
-                "Please enter either yes or no. " + more_databases + " entered"
-            )
+            print("Please enter either yes or no. " + more_databases + " entered")
 
     return databases
 
@@ -292,9 +286,7 @@ def get_systems(network, systems):
 
     while True:
         more_systems = input(
-            "Do you have any more systems to add on network "
-            + network
-            + " ? (yes/no) "
+            "Do you have any more systems to add on network " + network + " ? (yes/no) "
         ).lower()
         if more_systems == "yes":
             system_name = (
@@ -384,6 +376,7 @@ def get_links(all_resource_names):
 
     return links
 
+
 def create_settings_file(project_config):
     """
     Creates settings file for project
@@ -401,15 +394,11 @@ def create_settings_file(project_config):
             )
         settings_file.write("\n")
         settings_file.write(
-            'config_file: "'
-            + project_config["config_directory"]
-            + '/config.yaml"'
+            'config_file: "' + project_config["config_directory"] + '/config.yaml"'
         )
         settings_file.write("\n")
         settings_file.write(
-            'defaults_file: "'
-            + project_config["config_directory"]
-            + '/defaults.yaml"'
+            'defaults_file: "' + project_config["config_directory"] + '/defaults.yaml"'
         )
         settings_file.write("\n")
     except OSError as error_message:
