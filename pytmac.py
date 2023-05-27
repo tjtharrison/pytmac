@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
-"""
-Python based programmatic threat modelling tool tmacs
-"""
+"""Python based programmatic threat modelling tool tmacs."""
 import argparse
 import json
 import logging
@@ -101,8 +99,8 @@ def main(
     swagger_json="",
 ):
     """
-    Main function used to open up provided config and resource files, generating DFD and output
-    report
+    Primary function used to open up provided config and resource files, generating DFD and output.
+
     :param resources_yaml: The resources yaml file
     :param config_yaml: The config yaml file
     :param defaults_yaml: The defaults yaml file

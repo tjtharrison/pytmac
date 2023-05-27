@@ -1,6 +1,4 @@
-"""
-Modules to load the configuration files for pytmac from provided data files.
-"""
+"""Modules to load the configuration files for pytmac from provided data files."""
 import json
 import os
 
@@ -11,7 +9,7 @@ docs_dir = os.path.join(os.path.dirname(__file__), "../", "docs")
 
 def resources(file):
     """
-    Function to return a list of resources to be included in the package
+    Return a list of resources to be included in the package.
 
     :param file: File to load resources from
     :raises FileNotFoundError: If file is not found
@@ -36,7 +34,7 @@ def resources(file):
 
 def config(file):
     """
-    Function to return a list of config to be included in the package
+    Return a list of config to be included in the package.
 
     :param file: File to load resources from
     :raises FileNotFoundError: If file is not found
@@ -61,7 +59,7 @@ def config(file):
 
 def defaults(file):
     """
-    Function to return a list of defaults to be included in the package
+    Return a list of defaults to be included in the package.
 
     :param file: File to load resources from
     :raises FileNotFoundError: If file is not found
@@ -86,7 +84,7 @@ def defaults(file):
 
 def security_checks(file):
     """
-    Function to return a list of security_checks to be included in the package
+    Return a list of security_checks to be included in the package.
 
     :param file: File to load resources from
     :raises FileNotFoundError: If file is not found
@@ -116,7 +114,7 @@ def security_checks(file):
 
 def swagger(file):
     """
-    Function to get and return swagger file contents
+    Get and return swagger file contents.
 
     :param file: File to load resources from
     :raises FileNotFoundError: If file is not found
