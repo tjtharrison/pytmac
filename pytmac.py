@@ -12,10 +12,11 @@ import sys
 from copy import deepcopy
 from datetime import date
 
+import inquirer
 import yaml
 
 from _version import __version__
-from bin import get_config, input_validator, resource_validator
+from bin import get_config, init, input_validator, resource_validator
 
 VERSION = __version__
 
@@ -81,6 +82,11 @@ parser.add_argument(
     action="store",
     default="None",
     help="[Default: None] The path to the swagger file (optional)",
+)
+parser.add_argument(
+    "--init",
+    action="store_true",
+    help="Enable directory initialisation mode",
 )
 
 args = parser.parse_args()
@@ -195,18 +201,24 @@ def main(
             output_yaml_report = {}
             # Write intro into markdown
             output_file.write("# " + config_yaml["title"] + "\n")
-            for description_line in config_yaml["description"]:
-                output_file.write(description_line + "\n\n")
+            if type(config_yaml["description"]) == list:
+                for description_line in config_yaml["description"]:
+                    output_file.write(description_line + "\n")
+            else:
+                output_file.write(config_yaml["description"])
+            output_file.write("\n\n")
 
             # Write wrapper for DFD
             output_file.write("# Data Flow Diagram\n")
             output_file.write("```plantuml\n")
             output_file.write("@startuml " + output_file_name + "\n")
             output_file.write(
-                "!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml\n"
+                "!include https://raw.githubusercontent.com/"
+                "plantuml-stdlib/C4-PlantUML/master/C4_Container.puml\n"
             )
             output_file.write(
-                "!include https://raw.githubusercontent.com/geret1/plantuml-schemas/main/stride.puml\n"
+                "!include https://raw.githubusercontent.com/"
+                "geret1/plantuml-schemas/main/stride.puml\n"
             )
             output_file.write("\n")
 
@@ -453,13 +465,138 @@ def main(
 if __name__ == "__main__":
     if args.version:
         print(VERSION)
+        sys.exit(0)
+    elif args.init:
+        # Get config inputs from user
+        try:
+            project_config = init.get_inputs()
+        except KeyboardInterrupt:
+            print("\n\nOkay, maybe later!")
+            sys.exit(1)
+
+        # Create config file directory
+        try:
+            init.create_directory(project_config["config_directory"])
+        except OSError:
+            logging.error("Unable to create %s", project_config["config_directory"])
+            sys.exit(1)
+
+        # Create config file
+        try:
+            init.create_config_file(project_config)
+        except OSError as error_message:
+            print("Unable to get demo config file: " + str(error_message))
+            sys.exit(1)
+        except KeyError as error_message:
+            print("Values provided are not valid" + str(error_message))
+            sys.exit(1)
+        except yaml.YAMLError as error_message:
+            print("Unable to write config file: " + str(error_message))
+            sys.exit(1)
+
+        # Create defaults file
+        try:
+            init.create_defaults_file(project_config)
+        except OSError:
+            logging.error("Unable to write defaults file")
+            sys.exit(1)
+        except yaml.YAMLError:
+            logging.error("Unable to write defaults file")
+            sys.exit(1)
+
+        # Set lists to blank
+        users = []
+        databases = []
+        systems = []
+        # Get networks
+        try:
+            networks = init.get_networks()
+        except KeyboardInterrupt:
+            print("\n\nOkay, maybe later!")
+            sys.exit(1)
+
+        for network in networks:
+            network = network["name"]
+
+            # Add some users
+            try:
+                users = init.get_users(network, users)
+            except KeyboardInterrupt:
+                print("\n\nOkay, maybe later!")
+                sys.exit(1)
+
+            # Add some databases
+            try:
+                databases = init.get_databases(network, databases)
+            except KeyboardInterrupt:
+                print("\n\nOkay, maybe later!")
+                sys.exit(1)
+
+            # Add some systems
+            try:
+                systems = init.get_systems(network, systems)
+            except KeyboardInterrupt:
+                print("\n\nOkay, maybe later!")
+                sys.exit(1)
+
+        all_resources = {
+            "resources": {
+                "networks": networks,
+                "users": users,
+                "databases": databases,
+                "systems": systems,
+            }
+        }
+
+        # Get all resources
+        all_resource_names = init.get_resource_names(all_resources)
+
+        # Create some links between resources
+        try:
+            links = init.get_links(all_resource_names)
+        except KeyboardInterrupt:
+            print("\n\nOkay, maybe later!")
+            sys.exit(1)
+
+        final_resources = {
+            "resources": {
+                "networks": networks,
+                "users": users,
+                "databases": databases,
+                "systems": systems,
+                "res_links": links,
+                "containers": [],
+            }
+        }
+
+        # Write resources to file
+        try:
+            init.create_resources_file(project_config, final_resources)
+        except OSError:
+            logging.error("Unable to write resources file")
+            sys.exit(1)
+        except yaml.YAMLError:
+            logging.error("Unable to write resources file")
+            sys.exit(1)
+
+        # Create .pytmac file
+        try:
+            init.create_settings_file(project_config)
+        except OSError:
+            logging.error("Unable to write settings file")
+            sys.exit(1)
+
+        # Return summary
+        init.return_summary(project_config)
+        sys.exit(0)
+
     elif args.demo:
         logging.info("Running in demonstration mode")
         resources_input = get_config.resources("demo")
         config_input = get_config.config("demo")
         defaults_input = get_config.defaults("demo")
         security_checks_input = get_config.security_checks("default")
-        swagger_input = get_config.swagger("demo")
+        SWAGGER_INPUT = get_config.swagger("demo")
     else:
         # Check if .pytmac file exists
         if os.path.isfile(".pytmac"):
@@ -546,11 +683,11 @@ if __name__ == "__main__":
             )
             sys.exit(1)
 
-        main(
-            resources_input,
-            config_input,
-            defaults_input,
-            security_checks_input,
-            args.output_dir,
-            SWAGGER_INPUT,
-        )
+    main(
+        resources_input,
+        config_input,
+        defaults_input,
+        security_checks_input,
+        args.output_dir,
+        SWAGGER_INPUT,
+    )
