@@ -13,7 +13,7 @@ from copy import deepcopy
 from datetime import date
 from bin import init
 
-import inquirer as inquirer
+import inquirer
 import yaml
 
 from _version import __version__
@@ -214,10 +214,12 @@ def main(
             output_file.write("```plantuml\n")
             output_file.write("@startuml " + output_file_name + "\n")
             output_file.write(
-                "!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml\n"
+                "!include https://raw.githubusercontent.com/"
+                "plantuml-stdlib/C4-PlantUML/master/C4_Container.puml\n"
             )
             output_file.write(
-                "!include https://raw.githubusercontent.com/geret1/plantuml-schemas/main/stride.puml\n"
+                "!include https://raw.githubusercontent.com/"
+                "geret1/plantuml-schemas/main/stride.puml\n"
             )
             output_file.write("\n")
 
@@ -514,12 +516,12 @@ if __name__ == "__main__":
                     "Do you have any more networks to add? (yes/no) "
                 ).lower()
                 if more_networks == "yes":
-                    network_name = input(
-                        "Please enter the name of your next network? "
-                    ).replace(" ", "_").lower()
-                    networks.append({
-                        "name": network_name
-                    })
+                    network_name = (
+                        input("Please enter the name of your next network? ")
+                        .replace(" ", "_")
+                        .lower()
+                    )
+                    networks.append({"name": network_name})
                 elif more_networks == "no":
                     print("Moving on then..")
                     break
@@ -528,26 +530,36 @@ if __name__ == "__main__":
                         "Please enter either yes or no. " + more_networks + " entered"
                     )
             else:
-                network_name = input(
-                    "Please enter the name of your first network? "
-                ).replace(" ", "_").lower()
-                networks.append({
-                    "name": network_name
-                })
+                network_name = (
+                    input("Please enter the name of your first network? ")
+                    .replace(" ", "_")
+                    .lower()
+                )
+                networks.append({"name": network_name})
 
         for network in networks:
             network = network["name"]
             # Add some users
             while True:
-                more_users = input("Do you have any more users to add on network " + network +  " ? (yes/no) ").lower()
+                more_users = input(
+                    "Do you have any more users to add on network "
+                    + network
+                    + " ? (yes/no) "
+                ).lower()
                 if more_users == "yes":
-                    user_name = input("Please enter the name of your user? ").replace(" ", "_").lower()
-                    user_description = input("Please enter a description for " + user_name + " ? ")
+                    user_name = (
+                        input("Please enter the name of your user? ")
+                        .replace(" ", "_")
+                        .lower()
+                    )
+                    user_description = input(
+                        "Please enter a description for " + user_name + " ? "
+                    )
                     users.append(
                         {
                             "name": user_name,
                             "description": user_description,
-                            "network": network
+                            "network": network,
                         }
                     )
                 elif more_users == "no":
@@ -557,33 +569,55 @@ if __name__ == "__main__":
 
             # Add some databases
             while True:
-                more_databases = input("Do you have any more databases to add on network " + network +  " ? (yes/no) ").lower()
+                more_databases = input(
+                    "Do you have any more databases to add on network "
+                    + network
+                    + " ? (yes/no) "
+                ).lower()
                 if more_databases == "yes":
-                    database_name = input("Please enter the name of your database? ").replace(" ", "_").lower()
-                    database_description = input("Please enter a description for " + database_name + " ? ")
+                    database_name = (
+                        input("Please enter the name of your database? ")
+                        .replace(" ", "_")
+                        .lower()
+                    )
+                    database_description = input(
+                        "Please enter a description for " + database_name + " ? "
+                    )
                     databases.append(
                         {
                             "name": database_name,
                             "description": database_name,
-                            "network": network
+                            "network": network,
                         }
                     )
                 elif more_databases == "no":
                     break
                 else:
-                    print("Please enter either yes or no. " + more_databases + " entered")
+                    print(
+                        "Please enter either yes or no. " + more_databases + " entered"
+                    )
 
             # Add some systems
             while True:
-                more_systems = input("Do you have any more systems to add on network " + network +  " ? (yes/no) ").lower()
+                more_systems = input(
+                    "Do you have any more systems to add on network "
+                    + network
+                    + " ? (yes/no) "
+                ).lower()
                 if more_systems == "yes":
-                    system_name = input("Please enter the name of your system? ").replace(" ", "_").lower()
-                    system_description = input("Please enter a description for " + system_name + " ? ")
+                    system_name = (
+                        input("Please enter the name of your system? ")
+                        .replace(" ", "_")
+                        .lower()
+                    )
+                    system_description = input(
+                        "Please enter a description for " + system_name + " ? "
+                    )
                     systems.append(
                         {
                             "name": system_name,
                             "description": system_description,
-                            "network": network
+                            "network": network,
                         }
                     )
                 elif more_systems == "no":
@@ -596,7 +630,7 @@ if __name__ == "__main__":
                 "networks": networks,
                 "users": users,
                 "databases": databases,
-                "systems": systems
+                "systems": systems,
             }
         }
 
@@ -606,7 +640,6 @@ if __name__ == "__main__":
             if key != "networks":
                 for resource in all_resources["resources"][key]:
                     all_resource_names.append(resource["name"])
-
 
         # Create some links between resources
         links = []
@@ -627,13 +660,21 @@ if __name__ == "__main__":
                 ]
                 answers = inquirer.prompt(questions)
 
-                link_desription = input("Please enter a description for the link between " + answers["source"] + " and " + answers["destination"] + " ? ")
+                link_desription = input(
+                    "Please enter a description for the link between "
+                    + answers["source"]
+                    + " and "
+                    + answers["destination"]
+                    + " ? "
+                )
 
-                links.append({
-                    "source": answers["source"],
-                    "destination": answers["destination"],
-                    "description": link_desription
-                })
+                links.append(
+                    {
+                        "source": answers["source"],
+                        "destination": answers["destination"],
+                        "description": link_desription,
+                    }
+                )
             elif more_links == "no":
                 break
             else:
@@ -646,7 +687,7 @@ if __name__ == "__main__":
                 "databases": databases,
                 "systems": systems,
                 "res_links": links,
-                "containers": []
+                "containers": [],
             }
         }
 
@@ -663,11 +704,23 @@ if __name__ == "__main__":
         # Create .pytmac file
         try:
             with open(".pytmac", "w", encoding="utf-8") as settings_file:
-                settings_file.write("resource_file: \"" + project_config["config_directory"] + "/resources.yaml\"")
+                settings_file.write(
+                    'resource_file: "'
+                    + project_config["config_directory"]
+                    + '/resources.yaml"'
+                )
                 settings_file.write("\n")
-                settings_file.write("config_file: \"" + project_config["config_directory"] + "/config.yaml\"")
+                settings_file.write(
+                    'config_file: "'
+                    + project_config["config_directory"]
+                    + '/config.yaml"'
+                )
                 settings_file.write("\n")
-                settings_file.write("defaults_file: \"" + project_config["config_directory"] + "/defaults.yaml\"")
+                settings_file.write(
+                    'defaults_file: "'
+                    + project_config["config_directory"]
+                    + '/defaults.yaml"'
+                )
                 settings_file.write("\n")
         except OSError:
             logging.error("Unable to write settings file")
