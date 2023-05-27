@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v3.5.0 (2023-05-27)
+### Feature
+* Removed all references to containers ([`c672499`](https://github.com/tjtharrison/pytmac/commit/c672499daf31d1065c6b1878e569a9ebed296820))
+
 ## v3.4.0 (2023-05-27)
 ### Feature
 * Moved init functions to init module ([`f94e415`](https://github.com/tjtharrison/pytmac/commit/f94e415ab69b63d98e06069b772f3c2a09abd8cb))
