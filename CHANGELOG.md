@@ -2,6 +2,23 @@
 
 <!--next-version-placeholder-->
 
+## v3.4.0 (2023-05-27)
+### Feature
+* Moved init functions to init module ([`f94e415`](https://github.com/tjtharrison/pytmac/commit/f94e415ab69b63d98e06069b772f3c2a09abd8cb))
+* Fixing description wrap ([`7134062`](https://github.com/tjtharrison/pytmac/commit/71340620730e0be9870864547d97899669d97b60))
+* Resource creation working and generating valid ([`85dfe2d`](https://github.com/tjtharrison/pytmac/commit/85dfe2dab8cf726f36120eb22af12665ec5643d0))
+* Spacing ([`552f466`](https://github.com/tjtharrison/pytmac/commit/552f466ca3475a96b23923f8fdfb98abb45ebe89))
+* Resource generation working ([`a8e6ee9`](https://github.com/tjtharrison/pytmac/commit/a8e6ee9c6223fb4579a3bee677b4692ff0667b20))
+* Started building out init form ([`b3a3612`](https://github.com/tjtharrison/pytmac/commit/b3a36122dc31e4ce45fcb153dbaee32c2944160d))
+* Started working on init script ([`d1a133f`](https://github.com/tjtharrison/pytmac/commit/d1a133f9eb7ca7bcf800e45a04419009ae3ae4d4))
+
+### Fix
+* Fixed docstring missing raises ([`b28e957`](https://github.com/tjtharrison/pytmac/commit/b28e9575fe41652b14d03fcaec20225d0d1facb7))
+* Fixed linting ([`a44bd87`](https://github.com/tjtharrison/pytmac/commit/a44bd8725b562a7378c405e7575530797e391524))
+
+### Documentation
+* Updated documentation for init mode ([`3af0d93`](https://github.com/tjtharrison/pytmac/commit/3af0d931e4ae95d402d9b75ef4fa05c9023960bd))
+
 ## v3.3.2 (2023-05-25)
 ### Fix
 * More manual linting ([`2882252`](https://github.com/tjtharrison/pytmac/commit/2882252f02360fb90a80e00504f475c70900cac0))
