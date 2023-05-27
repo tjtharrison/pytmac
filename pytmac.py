@@ -11,13 +11,12 @@ import subprocess
 import sys
 from copy import deepcopy
 from datetime import date
-from bin import init
 
 import inquirer
 import yaml
 
 from _version import __version__
-from bin import get_config, input_validator, resource_validator
+from bin import get_config, init, input_validator, resource_validator
 
 VERSION = __version__
 
