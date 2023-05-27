@@ -341,7 +341,7 @@ def get_links(all_resource_names):
     Gets links for project configuration
 
     :param all_resource_names: List of all resource names
-    :return:
+    :return: List of links
     """
     links = []
     # Create some links between resources
@@ -388,6 +388,7 @@ def create_settings_file(project_config):
     """
     Creates settings file for project
 
+    :raises OSError: If unable to create settings file
     :param project_config: Project configuration
     :return: True if successful, False otherwise
     """
