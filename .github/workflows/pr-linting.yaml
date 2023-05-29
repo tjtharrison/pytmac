@@ -23,7 +23,7 @@ jobs:
           find . -name "*.py" -not -path "./tests/*" -exec python3 -m isort {} \; -exec python3 -m black {} \;
       - name: "Docstring linting"
         run: |
-          darglint_results=$(find . -name "*.py" -not -path "./tests/*" -exec darglint --docstring-style sphinx {} \;)
+          darglint_results=$(find . -name "*.py" -not -path "./tests/*" -exec darglint {} \;)
           pydocstyle_results=$(find . -name "*.py" -not -path "./tests/*" -exec pydocstyle {} \;)
           
           if [[ -z "$darglint_results" ]] && [[ -z "$pydocstyle_results" ]]; then

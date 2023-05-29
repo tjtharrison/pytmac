@@ -8,12 +8,14 @@ from bin import get_config
 
 
 def get_inputs():
-    """
-    Get user input for project configuration.
+    """Get user input for project configuration.
 
-    :raises KeyboardInterrupt: if user cancels input
+    Returns:
+        Dictionary with user input
 
-    :return: Dictionary with user input
+    Raises:
+        KeyboardInterrupt: if user cancels input
+
     """
     try:
         print("Okay lets get your directory setup for pytmac!")
@@ -34,12 +36,17 @@ def get_inputs():
 
 
 def create_directory(name):
-    """
-    Create a directory if it does not exist.
+    """Create a directory if it does not exist.
 
-    :raises OSError: if directory cannot be created
-    :param name: Name of directory to create
-    :return: True if directory was created, False if it already exists
+    Args:
+        name: Name of directory to create
+
+    Returns:
+        True if directory was created, False if it already exists
+
+    Raises:
+        OSError: if directory cannot be created
+
     """
     try:
         if not os.path.exists(name):
@@ -54,15 +61,19 @@ def create_directory(name):
 
 
 def create_config_file(project_config):
-    """
-    Create a config file for the project with user provided values.
+    """Create a config file for the project with user provided values.
 
-    :raises OSError: if config file cannot be loaded
-    :raises YAMLError: if values cannot be updated
-    :raises KeyError: if config file cannot be created
+    Args:
+        project_config: User provided input for project.
 
-    :param project_config: User provided input for project.
-    :return: True if config file was created
+    Returns:
+        True if config file was created
+
+    Raises:
+        OSError: if config file cannot be loaded
+        YAMLError: if values cannot be updated
+        KeyError: if config file cannot be created
+
     """
     # Get default config file
     try:
@@ -90,14 +101,18 @@ def create_config_file(project_config):
 
 
 def create_defaults_file(project_config):
-    """
-    Create a defaults file for the project.
+    """Create a defaults file for the project.
 
-    :raises OSError: if defaults file cannot be loaded
-    :raises YAMLError: if values cannot be updated
+    Args:
+        project_config: User provided input for project.
 
-    :param project_config: User provided input for project.
-    :return: True if defaults file was created
+    Returns:
+        True if defaults file was created
+
+    Raises:
+        OSError: if defaults file cannot be loaded
+        YAMLError: if values cannot be updated
+
     """
     defaults_file = project_config["config_directory"] + "/defaults.yaml"
     try:
@@ -112,11 +127,14 @@ def create_defaults_file(project_config):
 
 
 def return_summary(project_config):
-    """
-    Return a summary of the project configuration.
+    """Return a summary of the project configuration.
 
-    :param project_config: User provided input for project.
-    :return: True if summary was returned
+    Args:
+        project_config: User provided input for project.
+
+    Returns:
+        True if summary was returned
+
     """
     print(
         "\n".join(
@@ -136,16 +154,19 @@ def return_summary(project_config):
 
 
 def create_resources_file(project_config, all_resources):
-    """
-    Create a resources file for the project.
+    """Create a resources file for the project.
 
-    :raises OSError: if resources file cannot be loaded
-    :raises YAMLError: if values cannot be updated
+    Args:
+        project_config: User provided input for project.
+        all_resources: json file with all resources
 
+    Returns:
+        True if resources file was created
 
-    :param project_config:  User provided input for project.
-    :param all_resources: json file with all resources
-    :return: True if resources file was created
+    Raises:
+        OSError: if resources file cannot be loaded
+        YAMLError: if values cannot be updated
+
     """
     resources_file = project_config["config_directory"] + "/resources.yaml"
     try:
@@ -160,10 +181,11 @@ def create_resources_file(project_config, all_resources):
 
 
 def get_networks():
-    """
-    Get networks for project configuration.
+    """Get networks for project configuration.
 
-    :return: List of networks
+    Returns:
+        List of networks
+
     """
     networks = []
 
@@ -196,12 +218,15 @@ def get_networks():
 
 
 def get_users(network, users):
-    """
-    Get users for project configuration.
+    """Get users for project configuration.
 
-    :param network: Name of network
-    :param users: List of users already added
-    :return: List of users
+    Args:
+        network: Name of network
+        users: List of users already added
+
+    Returns:
+        List of users
+
     """
     while True:
         more_users = input(
@@ -230,12 +255,15 @@ def get_users(network, users):
 
 
 def get_databases(network, databases):
-    """
-    Get databases for project configuration.
+    """Get databases for project configuration.
 
-    :param network: Name of network
-    :param databases: List of databases already added
-    :return: list of databases
+    Args:
+        network: Name of network
+        databases: List of databases already added
+
+    Returns:
+        list of databases
+
     """
     while True:
         more_databases = input(
@@ -268,12 +296,15 @@ def get_databases(network, databases):
 
 
 def get_systems(network, systems):
-    """
-    Get systems for project configuration.
+    """Get systems for project configuration.
 
-    :param network: Name of network
-    :param systems: List of systems already added
-    :return: list of systems
+    Args:
+        network: Name of network
+        systems: List of systems already added
+
+    Returns:
+        list of systems
+
     """
     while True:
         more_systems = input(
@@ -304,11 +335,14 @@ def get_systems(network, systems):
 
 
 def get_resource_names(all_resources):
-    """
-    Get all resource names from all_resources.
+    """Get all resource names from all_resources.
 
-    :param all_resources: json file with all resources
-    :return: List of resource names
+    Args:
+        all_resources: json file with all resources
+
+    Returns:
+        List of resource names
+
     """
     all_resource_names = []
     for key in all_resources["resources"]:
@@ -320,11 +354,14 @@ def get_resource_names(all_resources):
 
 
 def get_links(all_resource_names):
-    """
-    Get links for project configuration.
+    """Get links for project configuration.
 
-    :param all_resource_names: List of all resource names
-    :return: List of links
+    Args:
+        all_resource_names: List of all resource names
+
+    Returns:
+        List of links
+
     """
     links = []
     # Create some links between resources
@@ -369,12 +406,17 @@ def get_links(all_resource_names):
 
 
 def create_settings_file(project_config):
-    """
-    Create settings file for project.
+    """Create settings file for project.
 
-    :raises OSError: If unable to create settings file
-    :param project_config: Project configuration
-    :return: True if successful, False otherwise
+    Args:
+        project_config: Project configuration
+
+    Returns:
+        True if successful, False otherwise
+
+    Raises:
+        OSError: If unable to create settings file
+
     """
     try:
         with open(".pytmac", "w", encoding="utf-8") as settings_file:
