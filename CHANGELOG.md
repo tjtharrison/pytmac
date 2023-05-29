@@ -2,6 +2,15 @@
 
 <!--next-version-placeholder-->
 
+## v3.6.0 (2023-05-29)
+### Feature
+
+* Moved docs dir to conf to allow docs to house real documentation ([`515b859`](https://github.com/tjtharrison/pytmac/commit/515b859816b3be7e4205d834e0b9dc542dc8affa))
+
+### Documentation
+
+* Rewrote docstrings to google format ([`82df505`](https://github.com/tjtharrison/pytmac/commit/82df505df3dd118521240bf6ee76a290d008f3e4))
+
 ## v3.5.1 (2023-05-29)
 ### Fix
 
