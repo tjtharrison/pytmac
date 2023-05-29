@@ -8,7 +8,13 @@
 ```
 
 ---
-Get the mkgendocs configuration file
+Get the mkgendocs configuration file.
+
+
+**Raises**
+
+* **FileNotFoundError**  : If mkgendocs.yaml is not found
+* **YAMLError**  : If there is an error parsing mkgendocs.yaml
 
 
 **Returns**
@@ -19,7 +25,7 @@ mkgendocs configuration
 
 
 ### get_python_files
-[source](https://github.com/tjtharrison/pytmac/blob/main/./scripts/generate_docs.py/#L28)
+[source](https://github.com/tjtharrison/pytmac/blob/main/./scripts/generate_docs.py/#L31)
 ```python
 .get_python_files(
    directory
@@ -27,7 +33,7 @@ mkgendocs configuration
 ```
 
 ---
-Function to get a list of python files in a directory.
+Get a list of python files in a directory.
 
 
 **Args**
@@ -43,7 +49,7 @@ List of python files
 
 
 ### get_file_functions
-[source](https://github.com/tjtharrison/pytmac/blob/main/./scripts/generate_docs.py/#L50)
+[source](https://github.com/tjtharrison/pytmac/blob/main/./scripts/generate_docs.py/#L53)
 ```python
 .get_file_functions(
    filename
@@ -51,7 +57,7 @@ List of python files
 ```
 
 ---
-Get the functions in a file
+Get the functions in a file.
 
 
 **Args**
@@ -67,10 +73,10 @@ List of functions
 
 
 ### main
-[source](https://github.com/tjtharrison/pytmac/blob/main/./scripts/generate_docs.py/#L70)
+[source](https://github.com/tjtharrison/pytmac/blob/main/./scripts/generate_docs.py/#L73)
 ```python
 .main()
 ```
 
 ---
-Main function
+Generate configuration for mkgendocs to build documentation.
