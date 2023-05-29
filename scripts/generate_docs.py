@@ -2,6 +2,7 @@
 """Generate mkgendocs.yaml from python files by iterating over files and functions."""
 
 import os
+
 import yaml
 
 

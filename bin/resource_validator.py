@@ -33,9 +33,9 @@ def main(security_checks_yaml, output_json_report):
 
 def do_check(output_json_report, check_details):
     """Look up a check type in security_checks.json and checks resources using a given function.
-    
+
     Insecure resources are returned in the format:
-    
+
     [{
         "name": [The name of the check],
         "resource": [List of non-compliant resources],
