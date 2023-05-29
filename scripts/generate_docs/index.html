@@ -542,18 +542,23 @@
 <pre><code class="language-python">.get_mkgendocs_config()
 </code></pre>
 <hr />
-<p>Get the mkgendocs configuration file</p>
+<p>Get the mkgendocs configuration file.</p>
+<p><strong>Raises</strong></p>
+<ul>
+<li><strong>FileNotFoundError</strong>  : If mkgendocs.yaml is not found</li>
+<li><strong>YAMLError</strong>  : If there is an error parsing mkgendocs.yaml</li>
+</ul>
 <p><strong>Returns</strong></p>
 <p>mkgendocs configuration</p>
 <hr />
 <h3 id="get_python_files">get_python_files</h3>
-<p><a href="https://github.com/tjtharrison/pytmac/blob/main/./scripts/generate_docs.py/#L28">source</a></p>
+<p><a href="https://github.com/tjtharrison/pytmac/blob/main/./scripts/generate_docs.py/#L31">source</a></p>
 <pre><code class="language-python">.get_python_files(
    directory
 )
 </code></pre>
 <hr />
-<p>Function to get a list of python files in a directory.</p>
+<p>Get a list of python files in a directory.</p>
 <p><strong>Args</strong></p>
 <ul>
 <li><strong>directory</strong>  : Directory to search</li>
@@ -562,13 +567,13 @@
 <p>List of python files</p>
 <hr />
 <h3 id="get_file_functions">get_file_functions</h3>
-<p><a href="https://github.com/tjtharrison/pytmac/blob/main/./scripts/generate_docs.py/#L50">source</a></p>
+<p><a href="https://github.com/tjtharrison/pytmac/blob/main/./scripts/generate_docs.py/#L53">source</a></p>
 <pre><code class="language-python">.get_file_functions(
    filename
 )
 </code></pre>
 <hr />
-<p>Get the functions in a file</p>
+<p>Get the functions in a file.</p>
 <p><strong>Args</strong></p>
 <ul>
 <li><strong>filename</strong>  : The name of the file to parse for functions.</li>
@@ -577,11 +582,11 @@
 <p>List of functions</p>
 <hr />
 <h3 id="main">main</h3>
-<p><a href="https://github.com/tjtharrison/pytmac/blob/main/./scripts/generate_docs.py/#L70">source</a></p>
+<p><a href="https://github.com/tjtharrison/pytmac/blob/main/./scripts/generate_docs.py/#L73">source</a></p>
 <pre><code class="language-python">.main()
 </code></pre>
 <hr />
-<p>Main function</p>
+<p>Generate configuration for mkgendocs to build documentation.</p>
 
 
 
