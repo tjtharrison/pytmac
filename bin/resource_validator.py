@@ -1,20 +1,16 @@
-"""
-Module used to initiate and collate security findings from the json report generated in the main
-document function.
-"""
+"""Module used to initiate and collate security findings from the json report generated."""
 import logging
 
 
 def main(security_checks_yaml, output_json_report):
     """
-    Function to collect responses from required security scans and return to be written to the final
-    report.
+    Collect responses from required security scans and return.
+
     :param security_checks_yaml: A json document containing all security checks to be run.
     :param output_json_report: A json document containing all resources and configuration settings
 
     :return: List of insecure resources.
     """
-
     insecure_resources = []
 
     for security_check in security_checks_yaml:
@@ -35,8 +31,7 @@ def main(security_checks_yaml, output_json_report):
 
 def do_check(output_json_report, check_details):
     """
-    Function that looks up a check type in security_checks.json and checks resources using a given
-    function.
+    Look up a check type in security_checks.json and checks resources using a given function.
 
     Insecure resources are returned in the format:
 

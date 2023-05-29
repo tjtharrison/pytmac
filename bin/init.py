@@ -1,6 +1,4 @@
-"""
-This file contains functions for creating a new pytmac project
-"""
+"""This file contains functions for creating a new pytmac project."""
 import os
 
 import inquirer
@@ -11,7 +9,7 @@ from bin import get_config
 
 def get_inputs():
     """
-    Gets user input for project configuration
+    Get user input for project configuration.
 
     :raises KeyboardInterrupt: if user cancels input
 
@@ -37,7 +35,7 @@ def get_inputs():
 
 def create_directory(name):
     """
-    Creates a directory if it does not exist
+    Create a directory if it does not exist.
 
     :raises OSError: if directory cannot be created
     :param name: Name of directory to create
@@ -57,7 +55,7 @@ def create_directory(name):
 
 def create_config_file(project_config):
     """
-    Creates a config file for the project with user provided values
+    Create a config file for the project with user provided values.
 
     :raises OSError: if config file cannot be loaded
     :raises YAMLError: if values cannot be updated
@@ -66,7 +64,6 @@ def create_config_file(project_config):
     :param project_config: User provided input for project.
     :return: True if config file was created
     """
-
     # Get default config file
     try:
         config_input = get_config.config("demo")
@@ -94,7 +91,7 @@ def create_config_file(project_config):
 
 def create_defaults_file(project_config):
     """
-    Creates a defaults file for the project
+    Create a defaults file for the project.
 
     :raises OSError: if defaults file cannot be loaded
     :raises YAMLError: if values cannot be updated
@@ -102,7 +99,6 @@ def create_defaults_file(project_config):
     :param project_config: User provided input for project.
     :return: True if defaults file was created
     """
-
     defaults_file = project_config["config_directory"] + "/defaults.yaml"
     try:
         with open(defaults_file, "w", encoding="UTF-8") as defaults_file_update:
@@ -117,12 +113,11 @@ def create_defaults_file(project_config):
 
 def return_summary(project_config):
     """
-    Returns a summary of the project configuration
+    Return a summary of the project configuration.
 
     :param project_config: User provided input for project.
     :return: True if summary was returned
     """
-
     print(
         "\n".join(
             [
@@ -142,7 +137,7 @@ def return_summary(project_config):
 
 def create_resources_file(project_config, all_resources):
     """
-    Creates a resources file for the project
+    Create a resources file for the project.
 
     :raises OSError: if resources file cannot be loaded
     :raises YAMLError: if values cannot be updated
@@ -152,7 +147,6 @@ def create_resources_file(project_config, all_resources):
     :param all_resources: json file with all resources
     :return: True if resources file was created
     """
-
     resources_file = project_config["config_directory"] + "/resources.yaml"
     try:
         with open(resources_file, "w", encoding="UTF-8") as resources_file_update:
@@ -167,7 +161,7 @@ def create_resources_file(project_config, all_resources):
 
 def get_networks():
     """
-    Gets networks for project configuration
+    Get networks for project configuration.
 
     :return: List of networks
     """
@@ -203,13 +197,12 @@ def get_networks():
 
 def get_users(network, users):
     """
-    Gets users for project configuration
+    Get users for project configuration.
 
     :param network: Name of network
     :param users: List of users already added
     :return: List of users
     """
-
     while True:
         more_users = input(
             "Do you have any more users to add on network " + network + " ? (yes/no) "
@@ -238,13 +231,12 @@ def get_users(network, users):
 
 def get_databases(network, databases):
     """
-    Gets databases for project configuration
+    Get databases for project configuration.
 
     :param network: Name of network
     :param databases: List of databases already added
     :return: list of databases
     """
-
     while True:
         more_databases = input(
             "Do you have any more databases to add on network "
@@ -277,13 +269,12 @@ def get_databases(network, databases):
 
 def get_systems(network, systems):
     """
-    Gets systems for project configuration
+    Get systems for project configuration.
 
     :param network: Name of network
     :param systems: List of systems already added
     :return: list of systems
     """
-
     while True:
         more_systems = input(
             "Do you have any more systems to add on network " + network + " ? (yes/no) "
@@ -314,7 +305,7 @@ def get_systems(network, systems):
 
 def get_resource_names(all_resources):
     """
-    Gets all resource names from all_resources
+    Get all resource names from all_resources.
 
     :param all_resources: json file with all resources
     :return: List of resource names
@@ -330,7 +321,7 @@ def get_resource_names(all_resources):
 
 def get_links(all_resource_names):
     """
-    Gets links for project configuration
+    Get links for project configuration.
 
     :param all_resource_names: List of all resource names
     :return: List of links
@@ -379,7 +370,7 @@ def get_links(all_resource_names):
 
 def create_settings_file(project_config):
     """
-    Creates settings file for project
+    Create settings file for project.
 
     :raises OSError: If unable to create settings file
     :param project_config: Project configuration

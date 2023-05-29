@@ -1,6 +1,4 @@
-"""
-Setup file for pytmac
-"""
+"""Setup file for pytmac."""
 from setuptools import setup
 
 from _version import __version__
