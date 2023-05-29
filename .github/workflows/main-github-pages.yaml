@@ -2,7 +2,7 @@ name: Build Github Pages
 on:
   push:
     branches:
-      - "113-investigate-mkgendocs"
+      - "main"
     paths:
       - "docs/**"
   workflow_dispatch:
