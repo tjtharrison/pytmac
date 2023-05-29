@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v3.5.1 (2023-05-29)
+### Fix
+
+* Fixed documentation, patch to update pypi ([`9d4306d`](https://github.com/tjtharrison/pytmac/commit/9d4306d3cad8aef1746719c517415ae3c2fd08ce))
+
+### Documentation
+
+* Further fixing README ([`bcf077b`](https://github.com/tjtharrison/pytmac/commit/bcf077bf405bbc043b3e52797ca4ded3c6d3d5d5))
+* Started linting docstrings ([`b31a664`](https://github.com/tjtharrison/pytmac/commit/b31a664901a4b370c42137eb196cd49da300897f))
+
 ## v3.5.0 (2023-05-27)
 ### Feature
 * Removed all references to containers ([`c672499`](https://github.com/tjtharrison/pytmac/commit/c672499daf31d1065c6b1878e569a9ebed296820))
