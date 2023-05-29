@@ -20,11 +20,6 @@ pages:
   page: bin/init.md
   source: ./bin/init.py
 - functions:
-  - main
-  - do_check
-  page: bin/resource_validator.md
-  source: ./bin/resource_validator.py
-- functions:
   - resources
   - config
   - defaults
@@ -33,6 +28,11 @@ pages:
   - settings
   page: bin/get_config.md
   source: ./bin/get_config.py
+- functions:
+  - main
+  - do_check
+  page: bin/resource_validator.md
+  source: ./bin/resource_validator.py
 - functions:
   - config
   - resources
