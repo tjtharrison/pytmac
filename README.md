@@ -120,7 +120,7 @@ checks are iterated over and executed individually, all fields are required.
 
 Severity should be used as a combination of Risk vs Likelihood, any security findings are prioritised by severity in the report output. 
 
-```## Config file
+## Config file
 
 pytmac on launch will look for a file in the current directory named `.pytmac` as a source of settings. This file can be used to set the following settings:
 
