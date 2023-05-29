@@ -13,10 +13,10 @@ from bin import get_config as get_config
 
 RESOURCES_FILE = "tests/docs/test_resources.yaml"
 CONFIG_FILE = "tests/docs/test_config.yaml"
-DEFAULTS_FILE = "docs/defaults.yaml"
+DEFAULTS_FILE = "conf/defaults.yaml"
 OUTPUT_DIR = "tests/reports"
-SECURITY_CHECKS_FILE = "docs/security_checks.yaml"
-SWAGGER_FILE = "docs/swagger.json"
+SECURITY_CHECKS_FILE = "conf/security_checks.yaml"
+SWAGGER_FILE = "conf/swagger.json"
 
 OUTPUT_REPORT_FILE = OUTPUT_DIR + "/report-" + str(date.today()) + ".yaml"
 
@@ -31,7 +31,7 @@ defaults_input = get_config.defaults(DEFAULTS_FILE)
 swagger_input = get_config.swagger(SWAGGER_FILE)
 
 # Load swagger
-with open(os.environ.get("SWAGGER_FILE"), encoding="UTF-8") as swagger_file_contents:
+with open(SWAGGER_FILE, encoding="UTF-8") as swagger_file_contents:
     swagger_json = json.loads(swagger_file_contents.read())
 
 

@@ -1,0 +1,52 @@
+pages:
+- functions:
+  - main
+  page: pytmac.md
+  source: ./pytmac.py
+- functions:
+  - get_inputs
+  - create_directory
+  - create_config_file
+  - create_defaults_file
+  - return_summary
+  - create_resources_file
+  - get_networks
+  - get_users
+  - get_databases
+  - get_systems
+  - get_resource_names
+  - get_links
+  - create_settings_file
+  page: bin/init.md
+  source: ./bin/init.py
+- functions:
+  - main
+  - do_check
+  page: bin/resource_validator.md
+  source: ./bin/resource_validator.py
+- functions:
+  - resources
+  - config
+  - defaults
+  - security_checks
+  - swagger
+  - settings
+  page: bin/get_config.md
+  source: ./bin/get_config.py
+- functions:
+  - config
+  - resources
+  - defaults
+  - swagger
+  page: bin/input_validator.md
+  source: ./bin/input_validator.py
+- functions:
+  - get_mkgendocs_config
+  - get_python_files
+  - get_file_functions
+  - main
+  page: scripts/generate_docs.md
+  source: ./scripts/generate_docs.py
+repo: https://github.com/tjtharrison/pytmac
+sources_dir: docs
+version: main

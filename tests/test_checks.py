@@ -13,10 +13,10 @@ from bin import resource_validator as resource_validator
 
 RESOURCES_FILE = "tests/docs/test_resources.yaml"
 CONFIG_FILE = "tests/docs/test_config.yaml"
-DEFAULTS_FILE = "docs/defaults.yaml"
+DEFAULTS_FILE = "conf/defaults.yaml"
 OUTPUT_DIR = "tests/reports"
-SECURITY_CHECKS_FILE = "docs/security_checks.yaml"
-SWAGGER_FILE = "docs/swagger.json"
+SECURITY_CHECKS_FILE = "conf/security_checks.yaml"
+SWAGGER_FILE = "conf/swagger.json"
 
 OUTPUT_REPORT_FILE = OUTPUT_DIR + "/report-" + str(date.today()) + ".yaml"
 
@@ -32,7 +32,7 @@ swagger_input = get_config.swagger(SWAGGER_FILE)
 
 # Load security checks
 with open(
-    os.environ.get("SECURITY_CHECKS_FILE"), "r", encoding="UTF-8"
+    SECURITY_CHECKS_FILE, "r", encoding="UTF-8"
 ) as security_checks_file:
     try:
         security_checks_yaml = yaml.safe_load(security_checks_file)

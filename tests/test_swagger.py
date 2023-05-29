@@ -13,10 +13,10 @@ from bin import get_config as get_config
 
 RESOURCES_FILE = "tests/docs/test_resources.yaml"
 CONFIG_FILE = "tests/docs/test_config.yaml"
-DEFAULTS_FILE = "docs/defaults.yaml"
+DEFAULTS_FILE = "conf/defaults.yaml"
 OUTPUT_DIR = "tests/reports"
-SECURITY_CHECKS_FILE = "docs/security_checks.yaml"
-SWAGGER_FILE = "docs/swagger.json"
+SECURITY_CHECKS_FILE = "conf/security_checks.yaml"
+SWAGGER_FILE = "conf/swagger.json"
 
 OUTPUT_REPORT_FILE = OUTPUT_DIR + "/report-" + str(date.today()) + ".yaml"
 

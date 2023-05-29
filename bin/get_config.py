@@ -4,7 +4,7 @@ import os
 
 import yaml
 
-docs_dir = os.path.join(os.path.dirname(__file__), "../", "docs")
+docs_dir = os.path.join(os.path.dirname(__file__), "../", "conf")
 
 
 def resources(file):

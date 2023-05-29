@@ -16,10 +16,10 @@ OUTPUT_REPORT_FILE = OUTPUT_REPORT_DIRECTORY + "/report-" + str(date.today()) + 
 
 RESOURCES_FILE = "tests/docs/test_resources.yaml"
 CONFIG_FILE = "tests/docs/test_config.yaml"
-DEFAULTS_FILE = "docs/defaults.yaml"
+DEFAULTS_FILE = "conf/defaults.yaml"
 OUTPUT_DIR = "tests/reports"
-SECURITY_CHECKS_FILE = "docs/security_checks.yaml"
-SWAGGER_FILE = "docs/swagger.json"
+SECURITY_CHECKS_FILE = "conf/security_checks.yaml"
+SWAGGER_FILE = "conf/swagger.json"
 
 security_checks_input = get_config.security_checks(SECURITY_CHECKS_FILE)
 resources_input = get_config.resources(RESOURCES_FILE)
