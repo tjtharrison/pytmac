@@ -7,7 +7,11 @@ import yaml
 
 def get_mkgendocs_config():
     """
-    Get the mkgendocs configuration file
+    Get the mkgendocs configuration file.
+
+    Raises:
+        FileNotFoundError: If mkgendocs.yaml is not found
+        YAMLError: If there is an error parsing mkgendocs.yaml
 
     Returns:
         mkgendocs configuration
@@ -19,15 +23,14 @@ def get_mkgendocs_config():
     except FileNotFoundError:
         print("mkgendocs.yaml not found")
         raise FileNotFoundError
-    except yaml.YAMLError as exc:
-        print(exc)
-        raise exc
+    except yaml.YAMLError as error_message:
+        raise yaml.YAMLError() from error_message
 
 
 # Function to get a list of python files in a directory
 def get_python_files(directory):
     """
-    Function to get a list of python files in a directory.
+    Get a list of python files in a directory.
 
     Args:
         directory: Directory to search
@@ -49,7 +52,7 @@ def get_python_files(directory):
 
 def get_file_functions(filename):
     """
-    Get the functions in a file
+    Get the functions in a file.
 
     Args:
         filename: The name of the file to parse for functions.
@@ -68,9 +71,7 @@ def get_file_functions(filename):
 
 
 def main():
-    """
-    Main function
-    """
+    """Generate configuration for mkgendocs to build documentation."""
     print("Starting doc generation")
     mkgendocs_config = get_mkgendocs_config()
     new_pages = []
