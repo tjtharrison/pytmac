@@ -120,31 +120,7 @@ checks are iterated over and executed individually, all fields are required.
 
 Severity should be used as a combination of Risk vs Likelihood, any security findings are prioritised by severity in the report output. 
 
-## Config file
-
-pytmac on launch will look for a file in the current directory named `.pytmac` as a source of settings. This file can be used to set the following settings:
-
 ```
-resource_file: "docs/resources.yaml"
-config_file: "docs/config.yaml"
-defaults_file: "docs/defaults.yaml"
-```
-
-If both a config file value and a manual override is added via the command line, the command line value will take precedence.
-
-Eg if you have a .pytmac file with the following:
-
-```
-resource_file: "docs/resources.yaml"
-```
-
-and call pytmac with the following:
-
-```
-pytmac --resources-file resources.yaml
-```
-
-the resources.yaml file will be used over the one defined in the .pytmac file.
 user_owned_device:
   name: Non company device used
   description: Checks for users with company_user true and company_device false.
