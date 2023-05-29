@@ -21,7 +21,7 @@ jobs:
         run: |
           pip3 install -r requirements.docs.txt
           make gen-docs
-      - name: "Commit linted files"
+      - name: "Commit generated documentation"
         uses: "stefanzweifel/git-auto-commit-action@v4"
         with:
           commit_message: "Updating documentation"
