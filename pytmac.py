@@ -98,17 +98,19 @@ def main(
     output_dir,
     swagger_json="",
 ):
-    """
-    Primary function used to open up provided config and resource files, generating DFD and output.
+    """Primary function used to open up provided config and resource files, generating DFD and output.
 
-    :param resources_yaml: The resources yaml file
-    :param config_yaml: The config yaml file
-    :param defaults_yaml: The defaults yaml file
-    :param security_checks_yaml: The security checks yaml file
-    :param output_dir: The output directory
-    :param swagger_json: The swagger json file
+    Args:
+        resources_yaml: The resources yaml file.
+        config_yaml: The config yaml file.
+        defaults_yaml: The defaults yaml file.
+        security_checks_yaml: The security checks yaml file.
+        output_dir: The output directory.
+        swagger_json: The swagger json file (Default value = "").
 
-    :return: True
+    Returns:
+        bool: The return value. True for success, False otherwise.
+
     """
     # Validate configuration
     if not input_validator.config(config_yaml):

@@ -4,18 +4,22 @@ import os
 
 import yaml
 
-docs_dir = os.path.join(os.path.dirname(__file__), "../", "docs")
+docs_dir = os.path.join(os.path.dirname(__file__), "../", "conf")
 
 
 def resources(file):
-    """
-    Return a list of resources to be included in the package.
+    """Return a list of resources to be included in the package.
 
-    :param file: File to load resources from
-    :raises FileNotFoundError: If file is not found
-    :raises YAMLError: If file is not valid YAML
+    Args:
+        file: File to load resources from
 
-    :return: List of resources
+    Returns:
+        List of resources
+
+    Raises:
+        FileNotFoundError: If file is not found
+        YAMLError: If file is not valid YAML
+
     """
     if file == "demo":
         file = docs_dir + "/resources.yaml"
@@ -33,14 +37,18 @@ def resources(file):
 
 
 def config(file):
-    """
-    Return a list of config to be included in the package.
+    """Return a list of config to be included in the package.
 
-    :param file: File to load resources from
-    :raises FileNotFoundError: If file is not found
-    :raises YAMLError: If file is not valid YAML
+    Args:
+        file: File to load resources from
 
-    :return: List of resources
+    Returns:
+        List of resources
+
+    Raises:
+        FileNotFoundError: If file is not found
+        YAMLError: If file is not valid YAML
+
     """
     if file == "demo":
         file = docs_dir + "/config.yaml"
@@ -58,14 +66,18 @@ def config(file):
 
 
 def defaults(file):
-    """
-    Return a list of defaults to be included in the package.
+    """Return a list of defaults to be included in the package.
 
-    :param file: File to load resources from
-    :raises FileNotFoundError: If file is not found
-    :raises YAMLError: If file is not valid YAML
+    Args:
+        file: File to load resources from
 
-    :return: List of resources
+    Returns:
+        List of resources
+
+    Raises:
+        FileNotFoundError: If file is not found
+        YAMLError: If file is not valid YAML
+
     """
     if file == "demo":
         file = docs_dir + "/defaults.yaml"
@@ -83,14 +95,18 @@ def defaults(file):
 
 
 def security_checks(file):
-    """
-    Return a list of security_checks to be included in the package.
+    """Return a list of security_checks to be included in the package.
 
-    :param file: File to load resources from
-    :raises FileNotFoundError: If file is not found
-    :raises YAMLError: If file is not valid YAML
+    Args:
+        file: File to load resources from
 
-    :return: List of resources
+    Returns:
+        List of resources
+
+    Raises:
+        FileNotFoundError: If file is not found
+        YAMLError: If file is not valid YAML
+
     """
     if file == "default":
         file = docs_dir + "/security_checks.yaml"
@@ -113,14 +129,18 @@ def security_checks(file):
 
 
 def swagger(file):
-    """
-    Get and return swagger file contents.
+    """Get and return swagger file contents.
 
-    :param file: File to load resources from
-    :raises FileNotFoundError: If file is not found
-    :raises Exception: If file is not valid JSON
+    Args:
+        file: File to load resources from
 
-    :return: List of resources
+    Returns:
+        List of resources
+
+    Raises:
+        FileNotFoundError: If file is not found
+        Exception: If file is not valid JSON
+
     """
     if file == "demo":
         file = docs_dir + "/swagger.json"
@@ -142,13 +162,15 @@ def swagger(file):
 
 
 def settings():
-    """
-    Get and return settings file contents from .pytmac file.
+    """Get and return settings file contents from .pytmac file.
 
-    :raises FileNotFoundError: If file is not found
-    :raises YAMLError: If file is not valid YAML
+    Returns:
+        settings file contents
 
-    :return: settings file contents
+    Raises:
+        FileNotFoundError: If file is not found
+        YAMLError: If file is not valid YAML
+
     """
     try:
         with open(".pytmac", "r", encoding="UTF-8") as settings_file:

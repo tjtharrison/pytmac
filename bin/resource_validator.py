@@ -3,13 +3,15 @@ import logging
 
 
 def main(security_checks_yaml, output_json_report):
-    """
-    Collect responses from required security scans and return.
+    """Collect responses from required security scans and return.
 
-    :param security_checks_yaml: A json document containing all security checks to be run.
-    :param output_json_report: A json document containing all resources and configuration settings
+    Args:
+        security_checks_yaml: A json document containing all security checks to be run.
+        output_json_report: A json document containing all resources and configuration settings
 
-    :return: List of insecure resources.
+    Returns:
+        List of insecure resources.
+
     """
     insecure_resources = []
 
@@ -30,8 +32,7 @@ def main(security_checks_yaml, output_json_report):
 
 
 def do_check(output_json_report, check_details):
-    """
-    Look up a check type in security_checks.json and checks resources using a given function.
+    """Look up a check type in security_checks.json and checks resources using a given function.
 
     Insecure resources are returned in the format:
 
@@ -44,9 +45,13 @@ def do_check(output_json_report, check_details):
         "severity": [1-4 score on the impact of the insecurity]
     }]
 
-    :param output_json_report: The json report of resources and configuration
-    :param check_details: A json containing the details for the check to run.
-    :return: list(dict)
+    Args:
+        output_json_report: The json report of resources and configuration
+        check_details: A json containing the details for the check to run.
+
+    Returns:
+        list(dict)
+
     """
     resources = {}
     for resource_scope in check_details["resource_scope"]:

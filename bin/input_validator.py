@@ -5,11 +5,14 @@ import os
 
 
 def config(config_json):
-    """
-    Validate required fields in config.json.
+    """Validate required fields in config.json.
 
-    :param config_json: Json structure containing the app running config
-    :return: True/False
+    Args:
+        config_json: Json structure containing the app running config
+
+    Returns:
+        True/False
+
     """
     try:
         title = config_json["title"]
@@ -34,11 +37,14 @@ def config(config_json):
 
 
 def resources(resources_json):
-    """
-    Validate required fields in resources.json.
+    """Validate required fields in resources.json.
 
-    :param resources_json: Json structure containing the app resources
-    :return: True/False
+    Args:
+        resources_json: Json structure containing the app resources
+
+    Returns:
+        True/False
+
     """
     # Validate top level fields set
     resource_types = list(resources_json["resources"].keys())
@@ -137,11 +143,14 @@ def resources(resources_json):
 
 
 def defaults(defaults_json):
-    """
-    Validate required fields set in defaults.json.
+    """Validate required fields set in defaults.json.
 
-    :param defaults_json: Json structure containing resource defaults
-    :return: True/False
+    Args:
+        defaults_json: Json structure containing resource defaults
+
+    Returns:
+        bool: True/False
+
     """
     resource_types = defaults_json.keys()
 
@@ -155,11 +164,14 @@ def defaults(defaults_json):
 
 
 def swagger(swagger_json):
-    """
-    Validate required fields set in swagger.json (If ENABLE_SWAGGER is set to True).
+    """Validate required fields set in swagger.json (If ENABLE_SWAGGER is set to True).
 
-    :param swagger_json: Json structure containing swagger file contents
-    :return: True/False
+    Args:
+        swagger_json: Json structure containing swagger file contents
+
+    Returns:
+        True/False
+
     """
     swagger_json = json.loads(swagger_json)
     # Validate paths exist

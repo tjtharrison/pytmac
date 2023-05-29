@@ -8,7 +8,7 @@ from bin import get_config
 
 RESOURCES_FILE = "tests/docs/test_resources.yaml"
 CONFIG_FILE = "tests/docs/test_config.yaml"
-DEFAULTS_FILE = "docs/defaults.yaml"
+DEFAULTS_FILE = "conf/defaults.yaml"
 SECURITY_CHECKS_FILE = ""
 SWAGGER_FILE = os.environ.get("SWAGGER_FILE")
 
