@@ -122,7 +122,6 @@ def swagger(file):
 
     :return: List of resources
     """
-
     if file == "demo":
         file = docs_dir + "/swagger.json"
 
@@ -144,7 +143,7 @@ def swagger(file):
 
 def settings():
     """
-    Function to get and return settings file contents from .pytmac file
+    Get and return settings file contents from .pytmac file.
 
     :raises FileNotFoundError: If file is not found
     :raises YAMLError: If file is not valid YAML

@@ -1,6 +1,4 @@
-"""
-Functions that validate the input files provided by the pytmac user.
-"""
+"""Functions that validate the input files provided by the pytmac user."""
 import json
 import logging
 import os
@@ -8,7 +6,7 @@ import os
 
 def config(config_json):
     """
-    Validate required fields in config.json
+    Validate required fields in config.json.
 
     :param config_json: Json structure containing the app running config
     :return: True/False
@@ -37,12 +35,11 @@ def config(config_json):
 
 def resources(resources_json):
     """
-    Validate required fields in resources.json
+    Validate required fields in resources.json.
 
     :param resources_json: Json structure containing the app resources
     :return: True/False
     """
-
     # Validate top level fields set
     resource_types = list(resources_json["resources"].keys())
     required_network_types = ["networks", "databases", "users", "systems"]
@@ -141,7 +138,7 @@ def resources(resources_json):
 
 def defaults(defaults_json):
     """
-    Validate required fields set in defaults.json
+    Validate required fields set in defaults.json.
 
     :param defaults_json: Json structure containing resource defaults
     :return: True/False
@@ -159,7 +156,7 @@ def defaults(defaults_json):
 
 def swagger(swagger_json):
     """
-    Validate required fields set in swagger.json (If ENABLE_SWAGGER is set to True)
+    Validate required fields set in swagger.json (If ENABLE_SWAGGER is set to True).
 
     :param swagger_json: Json structure containing swagger file contents
     :return: True/False
