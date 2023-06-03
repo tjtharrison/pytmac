@@ -142,39 +142,17 @@ def main(
     if swagger_json != "None":
         swagger_json = json.loads(swagger_json)
         # Load swagger file
-        swagger_paths = list(swagger_json["paths"].keys())
-        for swagger_path in swagger_paths:
-            swagger_path_detail = {
-                "name": swagger_path,
-                "network": config_yaml["swagger_default_network"],
-                "description": swagger_json["paths"][swagger_path][
-                    str(list(swagger_json["paths"][swagger_path].keys())[0])
-                ]["description"],
-            }
-            # Append swagger endpoint to default swagger_resource_type resources
-            if (
-                resources_yaml["resources"][config_yaml["swagger_resource_type"]]
-                is None
-            ):
-                resources_yaml["resources"][config_yaml["swagger_resource_type"]] = []
-                resources_yaml["resources"][
-                    config_yaml["swagger_resource_type"]
-                ].append(swagger_path_detail)
-            else:
-                if isinstance(
-                    resources_yaml["resources"][config_yaml["swagger_resource_type"]],
-                    dict,
-                ):
-                    resources_yaml["resources"][
-                        config_yaml["swagger_resource_type"]
-                    ] | (swagger_path_detail)
-                elif isinstance(
-                    resources_yaml["resources"][config_yaml["swagger_resource_type"]],
-                    list,
-                ):
-                    resources_yaml["resources"][
-                        config_yaml["swagger_resource_type"]
-                    ].append(swagger_path_detail)
+        swagger_endpoints = get_config.process_swagger(config_yaml, swagger_json)
+
+        # Add swagger endpoints to resources
+        try:
+            resources_yaml["resources"][
+                config_yaml["swagger_resource_type"]
+            ].extend(swagger_endpoints)
+        except TypeError:
+            resources_yaml["resources"][
+                config_yaml["swagger_resource_type"]
+            ] = swagger_endpoints
 
     # Check if plantuml is callable
     try:

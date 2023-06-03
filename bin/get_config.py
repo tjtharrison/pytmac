@@ -186,3 +186,30 @@ def settings():
         ) from error_message
 
     return settings_yaml
+
+
+def process_swagger(config_yaml, swagger_json):
+    """Process swagger json file to return a list of endpoints.
+
+    Args:
+        config_yaml: config yaml file contents
+        swagger_json: swagger json file contents
+
+    Returns:
+        List of endpoints
+
+    """
+    endpoints = []
+
+    swagger_paths = list(swagger_json["paths"].keys())
+    for swagger_path in swagger_paths:
+        swagger_path_detail = {
+            "name": swagger_path,
+            "network": config_yaml["swagger_default_network"],
+            "description": swagger_json["paths"][swagger_path][
+                str(list(swagger_json["paths"][swagger_path].keys())[0])
+            ]["description"],
+        }
+        endpoints.append(swagger_path_detail)
+
+    return endpoints
