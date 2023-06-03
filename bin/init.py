@@ -1,11 +1,10 @@
 """This file contains functions for creating a new pytmac project."""
 import os
-
+import logging
 import inquirer
 import yaml
 
 from bin import get_config
-
 
 def get_inputs():
     """Get user input for project configuration.
@@ -436,5 +435,120 @@ def create_settings_file(project_config):
         settings_file.write("\n")
     except OSError as error_message:
         raise OSError(error_message)
+
+    return True
+
+
+def do_init():
+    """
+    Project initilisation wrapper.
+
+    Raises:
+        KeyboardInterrupt: If user exits
+        OSError: If unable to create config file
+        KeyError: If unable to read demo config file
+        yaml.YAMLError: If unable to create file contents from yaml
+
+    Returns:
+        True if successful, False otherwise
+    """
+    # Get inputs
+    try:
+        project_config = get_inputs()
+    except KeyboardInterrupt as error_message:
+        raise KeyboardInterrupt from error_message
+
+    # Create config file directory
+    try:
+        create_directory(project_config["config_directory"])
+    except OSError as error_message:
+        raise OSError("Unable to create %s: %s", project_config["config_directory"],  error_message) from error_message
+
+    # Create config file
+    try:
+        create_config_file(project_config)
+    except OSError as error_message:
+        raise OSError("Unable to get demo config file: %s", error_message) from error_message
+    except KeyError as error_message:
+        raise KeyError("Unable to get demo config file: %s", error_message) from error_message
+    except yaml.YAMLError as error_message:
+        raise yaml.YAMLError("Unable to get demo config file: %s", error_message) from error_message
+
+    # Set lists to blank
+    users = []
+    databases = []
+    systems = []
+
+    # Get networks
+    try:
+        networks = get_networks()
+    except KeyboardInterrupt as error_message:
+        raise KeyboardInterrupt from error_message
+
+    for network in networks:
+        network = network["name"]
+
+        # Add some users
+        try:
+            users = get_users(network, users)
+        except KeyboardInterrupt:
+            raise KeyboardInterrupt
+
+        # Add some databases
+        try:
+            databases = get_databases(network, databases)
+        except KeyboardInterrupt:
+            raise KeyboardInterrupt
+
+        # Add some systems
+        try:
+            systems = get_systems(network, systems)
+        except KeyboardInterrupt:
+            raise KeyboardInterrupt
+
+    all_resources = {
+        "resources": {
+            "networks": networks,
+            "users": users,
+            "databases": databases,
+            "systems": systems,
+        }
+    }
+
+    # Get all resources
+    all_resource_names = get_resource_names(all_resources)
+
+    # Create some links between resources
+    try:
+        links = get_links(all_resource_names)
+    except KeyboardInterrupt:
+        raise KeyboardInterrupt
+
+    final_resources = {
+        "resources": {
+            "networks": networks,
+            "users": users,
+            "databases": databases,
+            "systems": systems,
+            "res_links": links,
+        }
+    }
+
+    # Write resources to file
+    try:
+        create_resources_file(project_config, final_resources)
+    except OSError:
+       raise OSError("Unable to write resources file")
+    except yaml.YAMLError:
+        raise yaml.YAMLError("Unable to write resources file")
+
+    # Create .pytmac file
+    try:
+        create_settings_file(project_config)
+    except OSError:
+        raise OSError("Unable to create settings file")
+
+    # Return summary
+    return_summary(project_config)
 
     return True

@@ -10,7 +10,6 @@ import sys
 from copy import deepcopy
 from datetime import date
 
-import inquirer
 import yaml
 
 from _version import __version__
@@ -427,128 +426,21 @@ if __name__ == "__main__":
         print(VERSION)
         sys.exit(0)
     elif args.init:
-        # Get config inputs from user
         try:
-            project_config = init.get_inputs()
+            init.do_init()
+        except OSError:
+            logging.error("Unable to create config file")
+            sys.exit(1)
+        except KeyError:
+            logging.error("Unable to parse config file")
+            sys.exit(1)
         except KeyboardInterrupt:
-            print("\n\nOkay, maybe later!")
-            sys.exit(1)
-
-        # Create config file directory
-        try:
-            init.create_directory(project_config["config_directory"])
-        except OSError:
-            logging.error("Unable to create %s", project_config["config_directory"])
-            sys.exit(1)
-
-        # Create config file
-        try:
-            init.create_config_file(project_config)
-        except OSError as error_message:
-            print("Unable to get demo config file: " + str(error_message))
-            sys.exit(1)
-        except KeyError as error_message:
-            print("Values provided are not valid" + str(error_message))
-            sys.exit(1)
-        except yaml.YAMLError as error_message:
-            print("Unable to write config file: " + str(error_message))
-            sys.exit(1)
-
-        # Create defaults file
-        try:
-            init.create_defaults_file(project_config)
-        except OSError:
-            logging.error("Unable to write defaults file")
+            logging.error("Okay, exiting")
             sys.exit(1)
         except yaml.YAMLError:
-            logging.error("Unable to write defaults file")
+            logging.error("Unable to parse config file")
             sys.exit(1)
-
-        # Set lists to blank
-        users = []
-        databases = []
-        systems = []
-        # Get networks
-        try:
-            networks = init.get_networks()
-        except KeyboardInterrupt:
-            print("\n\nOkay, maybe later!")
-            sys.exit(1)
-
-        for network in networks:
-            network = network["name"]
-
-            # Add some users
-            try:
-                users = init.get_users(network, users)
-            except KeyboardInterrupt:
-                print("\n\nOkay, maybe later!")
-                sys.exit(1)
-
-            # Add some databases
-            try:
-                databases = init.get_databases(network, databases)
-            except KeyboardInterrupt:
-                print("\n\nOkay, maybe later!")
-                sys.exit(1)
-
-            # Add some systems
-            try:
-                systems = init.get_systems(network, systems)
-            except KeyboardInterrupt:
-                print("\n\nOkay, maybe later!")
-                sys.exit(1)
-
-        all_resources = {
-            "resources": {
-                "networks": networks,
-                "users": users,
-                "databases": databases,
-                "systems": systems,
-            }
-        }
-
-        # Get all resources
-        all_resource_names = init.get_resource_names(all_resources)
-
-        # Create some links between resources
-        try:
-            links = init.get_links(all_resource_names)
-        except KeyboardInterrupt:
-            print("\n\nOkay, maybe later!")
-            sys.exit(1)
-
-        final_resources = {
-            "resources": {
-                "networks": networks,
-                "users": users,
-                "databases": databases,
-                "systems": systems,
-                "res_links": links,
-            }
-        }
-
-        # Write resources to file
-        try:
-            init.create_resources_file(project_config, final_resources)
-        except OSError:
-            logging.error("Unable to write resources file")
-            sys.exit(1)
-        except yaml.YAMLError:
-            logging.error("Unable to write resources file")
-            sys.exit(1)
-
-        # Create .pytmac file
-        try:
-            init.create_settings_file(project_config)
-        except OSError:
-            logging.error("Unable to write settings file")
-            sys.exit(1)
-
-        # Return summary
-        init.return_summary(project_config)
         sys.exit(0)
-
     elif args.demo:
         logging.info("Running in demonstration mode")
         resources_input = get_config.resources("demo")
